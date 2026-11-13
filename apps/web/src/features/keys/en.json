@@ -1,0 +1,24 @@
+{
+  "title": "Keyboard shortcuts",
+  "close": "Close",
+  "group": {
+    "everywhere": "Everywhere",
+    "request": "On the request page",
+    "share": "Where “Share” is available",
+    "forms": "In forms"
+  },
+  "help": "Show this window",
+  "search": "Go to the search field",
+  "escape": "Close a window, a menu or the large code window",
+  "next": "Next step",
+  "prev": "Previous step",
+  "nextResult": "Next search result",
+  "prevResult": "Previous search result",
+  "link": "Copy the short link",
+  "linkHere": "Copy the address of this page",
+  "ticket": "Copy the ticket text",
+  "tab": "To the next field, with Shift to the previous one",
+  "enter": "Apply or save from a single-line field",
+  "save": "Save a form with multi-line text",
+  "note": "The keys work on any keyboard layout. While the cursor is in an input field or a window is open, letters type text and start nothing."
+}

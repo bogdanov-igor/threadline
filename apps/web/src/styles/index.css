@@ -1,0 +1,251 @@
+@import 'tailwindcss';
+@import 'tw-animate-css';
+@import './fonts.css';
+@import '@fontsource/jetbrains-mono/latin-400.css';
+@import '@fontsource/jetbrains-mono/cyrillic-400.css';
+@import '@fontsource/jetbrains-mono/latin-500.css';
+@import '@fontsource/jetbrains-mono/cyrillic-500.css';
+
+@custom-variant dark (&:where(.dark, .dark *));
+/* Два режима раскладки: рабочий от 1280×700, компактный при меньшей ширине или высоте. Переключает CSS: смена режима ничего не перемонтирует. */
+@custom-variant work (@media (min-width: 1280px) and (min-height: 700px));
+/* Точное дополнение work, одним запросом без запятой: запятую в @custom-variant Tailwind читает как список селекторов, и вторая часть условия терялась. */
+@custom-variant compact (@media not all and (min-width: 1280px) and (min-height: 700px));
+
+/* Визуальная система Threadline: цвета, размеры и контраст в обеих темах. */
+:root {
+  --background: #ffffff;
+  --card: #ffffff;
+  --foreground: #0b1b33;
+  --foreground-2: #2e3b4e;
+  --heading: #0b1b33;
+  --muted: #edf1f7;
+  --muted-foreground: #5c6573;
+  --border: #e2e8f1;
+  --input: #8291aa;
+  --primary: #0044ad;
+  --primary-foreground: #ffffff;
+  --accent: #e7f0fb;
+  --accent-foreground: #0044ad;
+  --accent-line: #a9c4e8;
+  --ring: #0044ad;
+  --success: #02691a;
+  --success-bg: #e4f0e4;
+  --danger: #b42318;
+  --danger-bg: #fdecea;
+  --danger-line: rgb(180 35 24 / 0.22);
+  --warning: #9a4a0b;
+  --warning-bg: #fdf0e3;
+  --hit-bg: #ffd84d;
+  --hit-fg: #0b1b33;
+  --bg-sub: #f6f8fb;
+  --bg-sunk: #edf1f7;
+  --code: #f8fafc;
+  --btn: #0044ad;
+  --btn-foreground: #ffffff;
+  --btn-hover: #00398f;
+  --group: rgb(0 68 173 / 0.035);
+  --dot: #d3dce8;
+  --hatch-err: rgb(180 35 24 / 0.13);
+  --hatch-neu: rgb(92 101 115 / 0.13);
+  --sx-tag: #0044ad;
+  --sx-attr: #6b3fa0;
+  --sx-str: #0b6680;
+  --sx-num: #8a4b14;
+  --sx-key: #1d3e6e;
+  --sx-p: #5a6c85;
+  --seg-on: #ffffff;
+  --seg-on-shadow: 0 1px 2px rgb(0 39 100 / 0.12), 0 0 0 1px #e2e8f1;
+  --shadow-card: none;
+  --shadow-pop: 0 12px 32px rgb(0 39 100 / 0.14), 0 2px 6px rgb(0 39 100 / 0.08);
+  /* Подсказка: тёмная плашка на светлой теме, рамка не нужна. */
+  --tooltip: #0b1b33;
+  --tooltip-foreground: #ffffff;
+  --tooltip-line: transparent;
+  /* Одно поле страницы: 16px уже 1024, шире 24px. Его же берёт шапка, поэтому края совпадают. */
+  --page-gutter: 16px;
+}
+
+@media (min-width: 1024px) {
+  :root {
+    --page-gutter: 24px;
+  }
+}
+
+.dark {
+  --background: #121417;
+  --card: #121417;
+  --foreground: #e6e8eb;
+  --foreground-2: #c7ccd3;
+  --heading: #e6e8eb;
+  --muted: #22262d;
+  --muted-foreground: #9ba3ae;
+  --border: #262a31;
+  --input: #646c79;
+  --primary: #4c8dff;
+  --primary-foreground: #0d0f12;
+  --accent: #1a2639;
+  --accent-foreground: #e6e8eb;
+  --accent-line: #35558c;
+  --ring: #4c8dff;
+  --success: #5fd47a;
+  --success-bg: #14241a;
+  --danger: #ff7b72;
+  --danger-bg: #2a1517;
+  --danger-line: rgb(255 123 114 / 0.28);
+  --warning: #f5a65b;
+  --warning-bg: #2a2014;
+  --hit-bg: #ffe58a;
+  --hit-fg: #00122f;
+  --bg-sub: #1a1d22;
+  --bg-sunk: #0d0f12;
+  --code: #0d0f12;
+  /* #3a7ae6 даёт белому тексту только 4,11:1, поэтому кнопка темнее. */
+  --btn: #2f6fdb;
+  --btn-foreground: #ffffff;
+  --btn-hover: #2a65c8;
+  --group: rgb(76 141 255 / 0.05);
+  --dot: #23272e;
+  --hatch-err: rgb(255 123 114 / 0.2);
+  --hatch-neu: rgb(155 163 174 / 0.16);
+  --sx-tag: #6cb6ff;
+  --sx-attr: #c9aeff;
+  --sx-str: #96d0e0;
+  --sx-num: #e0b98f;
+  --sx-key: #c7d2e0;
+  --sx-p: #8a939f;
+  --seg-on: #2a2f37;
+  --seg-on-shadow: none;
+  --shadow-card: none;
+  --shadow-pop: 0 16px 40px rgb(0 0 0 / 0.55), 0 2px 6px rgb(0 0 0 / 0.4);
+  /* Поверхность выше карточки и светлый текст, 11:1. Белая плашка на тёмной странице кричала. */
+  --tooltip: #2a2f37;
+  --tooltip-foreground: #e6e8eb;
+  --tooltip-line: #3d434d;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-card: var(--card);
+  --color-foreground: var(--foreground);
+  --color-foreground-2: var(--foreground-2);
+  --color-heading: var(--heading);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-accent-line: var(--accent-line);
+  --color-ring: var(--ring);
+  --color-success: var(--success);
+  --color-success-bg: var(--success-bg);
+  --color-danger: var(--danger);
+  --color-danger-bg: var(--danger-bg);
+  --color-danger-line: var(--danger-line);
+  --color-warning: var(--warning);
+  --color-warning-bg: var(--warning-bg);
+  --color-sub: var(--bg-sub);
+  --color-sunk: var(--bg-sunk);
+  --color-code: var(--code);
+  --color-btn: var(--btn);
+  --color-btn-foreground: var(--btn-foreground);
+  --color-btn-hover: var(--btn-hover);
+  --color-group: var(--group);
+  --color-dot: var(--dot);
+  --color-tooltip: var(--tooltip);
+  --color-tooltip-foreground: var(--tooltip-foreground);
+  --color-tooltip-line: var(--tooltip-line);
+  --font-sans: 'Inter Variable', ui-sans-serif, system-ui, -apple-system, 'Segoe UI', sans-serif;
+  /* Inter вторым: знаки, которых нет в JetBrains Mono (например, ʻ U+02BB), берутся из Inter и не пропадают. */
+  --font-mono: 'JetBrains Mono', 'Inter Variable', ui-monospace, 'SFMono-Regular', Menlo, monospace;
+  --text-title: 20px;
+  --text-title--line-height: 26px;
+  --text-section: 15px;
+  --text-section--line-height: 22px;
+  --radius-card: 12px;
+  --radius-control: 8px;
+  --radius-chip: 6px;
+  --shadow-card: var(--shadow-card);
+  --shadow-pop: var(--shadow-pop);
+}
+
+@layer base {
+  * {
+    border-color: var(--color-border);
+  }
+  html {
+    /* Элемент с фокусом не остаётся под закреплённой шапкой. */
+    scroll-padding-top: 72px;
+    -webkit-text-size-adjust: 100%;
+  }
+  /* Закреплённая часть всегда на экране. С полем 72 браузер считал кнопку шапки скрытой и при фокусе двигал страницу на сотни пикселей: закрытое меню уводило от места чтения. */
+  html:has(.sticky :focus) {
+    scroll-padding-top: 0;
+  }
+  /* Документация: место под полосу прокрутки занято всегда, короткая страница не сдвигает колонки и шапку. Окно поверх страницы это место не удваивает: блокировка прокрутки Radix иначе добавила бы поле справа. */
+  html:has([data-docs-shell]) {
+    scrollbar-gutter: stable;
+  }
+  html:has([data-docs-shell]) body[data-scroll-locked] {
+    margin-right: 0 !important;
+  }
+  body {
+    background: var(--color-background);
+    color: var(--color-foreground);
+    font-family: var(--font-sans);
+    font-size: 14px;
+    line-height: 20px;
+    font-feature-settings: 'cv11', 'ss01';
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  :focus-visible {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 2px;
+  }
+  .tabular {
+    font-variant-numeric: tabular-nums;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Действия строки списка — по наведению или фокусу; на сенсорных экранах видны всегда. */
+@layer components {
+  @media (hover: hover) {
+    .hover-reveal {
+      opacity: 0;
+      transition: opacity 120ms;
+    }
+    .hover-reveal-group:hover .hover-reveal,
+    .hover-reveal-group:focus-within .hover-reveal {
+      opacity: 1;
+    }
+  }
+}
+
+/* Найденное значение: плоский фон и постоянный цвет текста. Ни отступов, ни рамки, ни начертания: символы не двигаются. */
+@layer components {
+  .search-hit {
+    background-color: var(--hit-bg);
+    color: var(--hit-fg);
+  }
+  /* Текущее совпадение в окне тела: обводка снаружи, символы не двигаются. */
+  .search-hit[data-current] {
+    outline: 2px solid var(--color-ring);
+    outline-offset: 0;
+    border-radius: 2px;
+  }
+}

@@ -1,0 +1,161 @@
+{
+  "realm": "threadline",
+  "enabled": true,
+  "sslRequired": "none",
+  "accessTokenLifespan": 300,
+  "roles": {
+    "realm": [
+      {
+        "name": "threadline-business"
+      },
+      {
+        "name": "threadline-tech-support"
+      },
+      {
+        "name": "threadline-customer-support"
+      },
+      {
+        "name": "threadline-developer"
+      },
+      {
+        "name": "threadline-analyst"
+      },
+      {
+        "name": "threadline-admin"
+      }
+    ]
+  },
+  "clients": [
+    {
+      "clientId": "threadline",
+      "name": "Threadline (только для разработки)",
+      "enabled": true,
+      "protocol": "openid-connect",
+      "publicClient": false,
+      "clientAuthenticatorType": "client-secret",
+      "secret": "threadline-dev-client-secret",
+      "standardFlowEnabled": true,
+      "directAccessGrantsEnabled": false,
+      "implicitFlowEnabled": false,
+      "serviceAccountsEnabled": false,
+      "redirectUris": [
+        "http://localhost:5173/api/auth/callback",
+        "http://localhost:8080/api/auth/callback",
+        "http://localhost:8090/api/auth/callback"
+      ],
+      "webOrigins": [],
+      "attributes": {
+        "pkce.code.challenge.method": "S256",
+        "post.logout.redirect.uris": "http://localhost:5173/logged-out##http://localhost:8080/logged-out##http://localhost:8090/logged-out"
+      }
+    }
+  ],
+  "users": [
+    {
+      "username": "business",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Тест",
+      "lastName": "Business",
+      "email": "business@example.org",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "business",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "threadline-business"
+      ]
+    },
+    {
+      "username": "support",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Тест",
+      "lastName": "Support",
+      "email": "support@example.org",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "support",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "threadline-tech-support"
+      ]
+    },
+    {
+      "username": "developer",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Тест",
+      "lastName": "Developer",
+      "email": "developer@example.org",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "developer",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "threadline-developer"
+      ]
+    },
+    {
+      "username": "analyst",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Тест",
+      "lastName": "Analyst",
+      "email": "analyst@example.org",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "analyst",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "threadline-analyst"
+      ]
+    },
+    {
+      "username": "admin",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Тест",
+      "lastName": "Admin",
+      "email": "admin@example.org",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "admin",
+          "temporary": false
+        }
+      ],
+      "realmRoles": [
+        "threadline-admin"
+      ]
+    },
+    {
+      "username": "norole",
+      "enabled": true,
+      "emailVerified": true,
+      "firstName": "Тест",
+      "lastName": "Norole",
+      "email": "norole@example.org",
+      "credentials": [
+        {
+          "type": "password",
+          "value": "norole",
+          "temporary": false
+        }
+      ],
+      "realmRoles": []
+    }
+  ]
+}

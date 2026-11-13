@@ -1,0 +1,2783 @@
+{
+ "requests": [
+  {
+   "cid": "044af5bb-d25a-4116-b962-cd7dfa23eef3",
+   "summary": {
+    "correlationId": "044af5bb-d25a-4116-b962-cd7dfa23eef3",
+    "firstMs": 1793608141891,
+    "lastMs": 1793608142302,
+    "durationMs": 411,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a0bdee-d843-7e7b-8282-1bac200b66c8/cards/c0329dfc-3779-4261-b732-7826be42fee0"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "e5631044769b74525a3e787871ba52e5e24f42d7437f17bce5fa615e9b78b91a"
+  },
+  {
+   "cid": "0edd6213-c2d1-431b-977b-0cd73b411fb4",
+   "summary": {
+    "correlationId": "0edd6213-c2d1-431b-977b-0cd73b411fb4",
+    "firstMs": 1793559531751,
+    "lastMs": 1793559532679,
+    "durationMs": 928,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a0163d-9ce7-7166-b332-b7f8c44fe863/payments/01a1987a-2f3f-79d2-a577-c3ed929853f1/confirm"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "error 12: Insufficient funds on account · POST ledger.pay.example:8080/v1/payments/charge"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "069492ebb263b20770b8d4d2f355912cce098d92abc3add1eda761b2732e215d"
+  },
+  {
+   "cid": "17363a48-3616-4213-9601-ef7b06d18660",
+   "summary": {
+    "correlationId": "17363a48-3616-4213-9601-ef7b06d18660",
+    "firstMs": 1793601780000,
+    "lastMs": 1793601780556,
+    "durationMs": 556,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a041f5-2520-7e5a-8826-39c50111b705/cards/09953b2b-09d1-4625-933b-5d94b7da56d4"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "ef9e4899c7d68227f8f36fdc88953148116e82e0b009262aa8dad2e3d8150a87"
+  },
+  {
+   "cid": "20ef319f-7106-478b-a7f0-fc77499c16c8",
+   "summary": {
+    "correlationId": "20ef319f-7106-478b-a7f0-fc77499c16c8",
+    "firstMs": 1793583793496,
+    "lastMs": 1793583793874,
+    "durationMs": 378,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a10ee1-1158-7e49-8ec7-6f5c73622ea8/cards/50007e78-bd68-42f4-bbc2-d82d9e885966"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "e64b58eb2c089a7cc84a5dfd62a4444f8599b5391adf38d37fd8c8f19c8755b3"
+  },
+  {
+   "cid": "37407310-dde7-41c9-a128-33d89cd9fd01",
+   "summary": {
+    "correlationId": "37407310-dde7-41c9-a128-33d89cd9fd01",
+    "firstMs": 1793589687798,
+    "lastMs": 1793589707812,
+    "durationMs": 20014,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a12e21-29f6-795c-9c5f-bfbb1819470f/cards/04759ac1-e69f-422b-870d-8ec90fc19151/balance"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "no-response",
+      "text": "ответ не найден · POST fraud.pay.example:9090/"
+     },
+     {
+      "kind": "level",
+      "text": "cURL error 28: Operation timed out after 20001 milliseconds with 0 bytes received"
+     },
+     {
+      "kind": "level",
+      "text": "Circuit breaker opened"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "58478bff98a81211e329de2b131327736d7b5d39f969a7bb14d1500ca03082b4"
+  },
+  {
+   "cid": "39e4b126-746e-4269-a4cd-65b766093c2a",
+   "summary": {
+    "correlationId": "39e4b126-746e-4269-a4cd-65b766093c2a",
+    "firstMs": 1793607180000,
+    "lastMs": 1793607180892,
+    "durationMs": 892,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a162ab-aae0-72fb-aad8-ff9ea8b54c5b/verification"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "result_code: BAD · POST kyc.pay.example/v1/verify"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "45e4e8b346894229a7c2c4db239f833ddca887f0ada256458c1b3a2a56b9a70c"
+  },
+  {
+   "cid": "3d70a2e7-57f3-447e-b351-645c008b8d49",
+   "summary": {
+    "correlationId": "3d70a2e7-57f3-447e-b351-645c008b8d49",
+    "firstMs": 1793609985000,
+    "lastMs": 1793609985019,
+    "durationMs": 19,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a028b2-8be8-78ec-8424-bd1dd6073bda/cards/29f0547d-bd9f-4645-b048-69a881334d61/balance"
+    },
+    "component": "api",
+    "recordCount": 2,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "pending",
+      "text": "ответ ещё не пришёл · POST processor.pay.example:8443/soap/issuing"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "4b6e24ee918ef51cdad8c0d695d9ced0586afb2cdf42191fcc74f8a89e5fef72"
+  },
+  {
+   "cid": "4af5a7c8-3352-47f1-9839-57d4a1892322",
+   "summary": {
+    "correlationId": "4af5a7c8-3352-47f1-9839-57d4a1892322",
+    "firstMs": 1793538991147,
+    "lastMs": 1793538991536,
+    "durationMs": 389,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a16e0e-442b-72a7-be7b-2af78de08c00/cards/c2e79b4b-6a5e-4011-ae37-5a9aa1321e89"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "a9b6f45bebe8146e9e5a7ba9c4086cf4c8c2666eb80f278e8d312c4b295b39d1"
+  },
+  {
+   "cid": "4b0e9a31-a0d9-456d-bb49-89304b249363",
+   "summary": {
+    "correlationId": "4b0e9a31-a0d9-456d-bb49-89304b249363",
+    "firstMs": 1793605961576,
+    "lastMs": 1793605962014,
+    "durationMs": 438,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/019fd60f-6768-7a1d-94a6-c038bba85578/cards/519976f7-2280-40da-b225-d68eabc25984"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "d0f7d624e52612323e80e43ef3c4be373a37f629b42240a3273f4f9cea760641"
+  },
+  {
+   "cid": "503dde14-be23-46e4-b01a-c82ba4635173",
+   "summary": {
+    "correlationId": "503dde14-be23-46e4-b01a-c82ba4635173",
+    "firstMs": 1793605596623,
+    "lastMs": 1793605596788,
+    "durationMs": 165,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/019ff4ef-fdcf-79c8-83f4-e4696b6bba71/cards/84159290-2d01-451e-9b7f-aeff11049927"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "f3014c483dc160cacaa6cf2d290ad8d358f7e3e03ebda4b68e1d55d722750b56"
+  },
+  {
+   "cid": "506a5d66-cb88-4d82-b9ee-6ada1e9f1c20",
+   "summary": {
+    "correlationId": "506a5d66-cb88-4d82-b9ee-6ada1e9f1c20",
+    "firstMs": 1793549486365,
+    "lastMs": 1793549486762,
+    "durationMs": 397,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a178fb-211d-72d3-8e40-770c2965f5ba/cards/55780f56-42ba-466a-85ad-11aba19b7a61"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "1fe35cd5e3edc20eae053707604ca928b4c1710c562c7d50526a9ec1ea239d52"
+  },
+  {
+   "cid": "51b7b3da-460d-4c6c-a323-c969ac1edf48",
+   "summary": {
+    "correlationId": "51b7b3da-460d-4c6c-a323-c969ac1edf48",
+    "firstMs": 1793568956475,
+    "lastMs": 1793568976485,
+    "durationMs": 20010,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a0b14c-343b-7bb9-a90d-333a04745eee/cards/3665205e-6777-4c68-877a-0d1babccfadc/balance"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "no-response",
+      "text": "ответ не найден · POST fraud.pay.example:9090/"
+     },
+     {
+      "kind": "level",
+      "text": "cURL error 28: Operation timed out after 20001 milliseconds with 0 bytes received"
+     },
+     {
+      "kind": "level",
+      "text": "Circuit breaker opened"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "a26a48d0f6558dcabd900cf21f7b8ceec64ec29b3f4318b11c841989aa149b56"
+  },
+  {
+   "cid": "54bd52f6-630c-46ec-9094-abfc9018af24",
+   "summary": {
+    "correlationId": "54bd52f6-630c-46ec-9094-abfc9018af24",
+    "firstMs": 1793572304752,
+    "lastMs": 1793572307028,
+    "durationMs": 2276,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a04033-6370-7542-bf92-2d08179473e1/merchant-payments"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "http",
+      "text": "HTTP 500 · POST api.acquirer.example/api/payments"
+     },
+     {
+      "kind": "level",
+      "text": "acquirer payment failed"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "eace392bdd88b84aee77b7b70f0ecede7dbb625fc7b8fe5ad231c8457b6b1843"
+  },
+  {
+   "cid": "553fafb9-2279-4178-8ea4-dd4293224532",
+   "summary": {
+    "correlationId": "553fafb9-2279-4178-8ea4-dd4293224532",
+    "firstMs": 1793578283119,
+    "lastMs": 1793578283454,
+    "durationMs": 335,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a04adb-546f-79d1-a6f2-780de3a91948/cards/6ad36e26-793a-4d46-8ff3-2ea099a05a33"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "f2d49fffc21f318055db3506d5a7fe4072eff0a664e14eded978aa59303e7243"
+  },
+  {
+   "cid": "560cd561-4d57-41b6-9561-dd17060b217a",
+   "summary": {
+    "correlationId": "560cd561-4d57-41b6-9561-dd17060b217a",
+    "firstMs": 1793587191820,
+    "lastMs": 1793587192327,
+    "durationMs": 507,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a0cc22-400c-7193-9e56-6ee33526966f/cards/f34b9f3f-d2cb-4e2e-bde5-0bb66c3ac02d"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "27052eb6fda5ab421a41a43e9530a7fd8f1df5cc3cbe941180152ee981421873"
+  },
+  {
+   "cid": "614ac722-4f56-4b5d-882d-3b2c2f6d698e",
+   "summary": {
+    "correlationId": "614ac722-4f56-4b5d-882d-3b2c2f6d698e",
+    "firstMs": 1793580517222,
+    "lastMs": 1793580518679,
+    "durationMs": 1457,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a0cbbc-6766-7b16-b216-ef76a54d7c29/payments/01a199ba-84fe-7354-b56b-ce6620071eed/confirm"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "error 12: Insufficient funds on account · POST ledger.pay.example:8080/v1/payments/charge"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "694ccd1aa0d4c02fa374f39a0ff0952c16c6c1c890e3969efe8ff288aef631cc"
+  },
+  {
+   "cid": "6302865044260",
+   "summary": {
+    "correlationId": "6302865044260",
+    "firstMs": 1793580822743,
+    "lastMs": 1793580822743,
+    "durationMs": 0,
+    "incoming": null,
+    "component": "worker",
+    "recordCount": 1,
+    "status": "success",
+    "kind": "background",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "worker"
+    }
+   ],
+   "view": "80ace3ba8d0cff86006bb750d8bb3ee70afb0f99f73ed33c615d66ffb80cd3df"
+  },
+  {
+   "cid": "6321147537231",
+   "summary": {
+    "correlationId": "6321147537231",
+    "firstMs": 1793587412137,
+    "lastMs": 1793587412902,
+    "durationMs": 765,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "b4675133da3a16c92c6d35589936b14ff10ce993bdfaddc06371de1b9da6252d"
+  },
+  {
+   "cid": "6324027084698",
+   "summary": {
+    "correlationId": "6324027084698",
+    "firstMs": 1793599680000,
+    "lastMs": 1793599680852,
+    "durationMs": 852,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "c8175356057b111528a3c15b59dacd34ec5ac69b93ae753b3da55e321094e5cc"
+  },
+  {
+   "cid": "6325672861305",
+   "summary": {
+    "correlationId": "6325672861305",
+    "firstMs": 1793555434363,
+    "lastMs": 1793555435065,
+    "durationMs": 702,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 7,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "response_code 8: PRC-ERR-0027 Card not found · POST processor.pay.example:8443/soap/issuing"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": true,
+     "component": "cards"
+    }
+   ],
+   "view": "4db484fbd8c849daf6d234c7644896947d42f22c9b8335ce23d16776ecded60a"
+  },
+  {
+   "cid": "6332215258153",
+   "summary": {
+    "correlationId": "6332215258153",
+    "firstMs": 1793597506692,
+    "lastMs": 1793597507407,
+    "durationMs": 715,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 7,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "response_code 8: PRC-ERR-0027 Card not found · POST processor.pay.example:8443/soap/issuing"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": true,
+     "component": "cards"
+    }
+   ],
+   "view": "f513b8b393cbe9c0a2bdbe5d260ded46f1c848daa2dbb1a44b582e829a2d01f4"
+  },
+  {
+   "cid": "6340287252143",
+   "summary": {
+    "correlationId": "6340287252143",
+    "firstMs": 1793594787117,
+    "lastMs": 1793594787117,
+    "durationMs": 0,
+    "incoming": null,
+    "component": "worker",
+    "recordCount": 1,
+    "status": "success",
+    "kind": "background",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "worker"
+    }
+   ],
+   "view": "1bf7b502b2e645c6ba14dc8bb3532d8e9b4f67e3624260d6914640102ee8accf"
+  },
+  {
+   "cid": "6349207787844",
+   "summary": {
+    "correlationId": "6349207787844",
+    "firstMs": 1793566727513,
+    "lastMs": 1793566727513,
+    "durationMs": 0,
+    "incoming": null,
+    "component": "worker",
+    "recordCount": 1,
+    "status": "success",
+    "kind": "background",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "worker"
+    }
+   ],
+   "view": "cc2723baa96d5e7c7f2059060f6f508958252c095e09a0436c6eddd62e5e7d91"
+  },
+  {
+   "cid": "6352789827180",
+   "summary": {
+    "correlationId": "6352789827180",
+    "firstMs": 1793537911852,
+    "lastMs": 1793537911852,
+    "durationMs": 0,
+    "incoming": null,
+    "component": "worker",
+    "recordCount": 1,
+    "status": "success",
+    "kind": "background",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "worker"
+    }
+   ],
+   "view": "56b9c8c63f516483d67f4d3fb4e3471e5dd8c9dd4fdbc064c45220e37c4c3e52"
+  },
+  {
+   "cid": "6354168482497",
+   "summary": {
+    "correlationId": "6354168482497",
+    "firstMs": 1793591388968,
+    "lastMs": 1793591389464,
+    "durationMs": 496,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "2603d783643c680789301d74a6296183ddb21edbb8f7e5c77c07a484d9ce3329"
+  },
+  {
+   "cid": "6359555902937",
+   "summary": {
+    "correlationId": "6359555902937",
+    "firstMs": 1793608268684,
+    "lastMs": 1793608268684,
+    "durationMs": 0,
+    "incoming": null,
+    "component": "worker",
+    "recordCount": 1,
+    "status": "success",
+    "kind": "background",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "worker"
+    }
+   ],
+   "view": "f857a6754888c799d1819b44a222b82c83e1d443280ba468af8f45cf9be7be06"
+  },
+  {
+   "cid": "6368129564705",
+   "summary": {
+    "correlationId": "6368129564705",
+    "firstMs": 1793532981042,
+    "lastMs": 1793532981509,
+    "durationMs": 467,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 7,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "response_code 8: PRC-ERR-0027 Card not found · POST processor.pay.example:8443/soap/issuing"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": true,
+     "component": "cards"
+    }
+   ],
+   "view": "44c348fe4e58bd98650e6fb80d3dc443f579aee3fcc0ddcc25e9fdf8f3f6322f"
+  },
+  {
+   "cid": "6373407940566",
+   "summary": {
+    "correlationId": "6373407940566",
+    "firstMs": 1793604420000,
+    "lastMs": 1793604420847,
+    "durationMs": 847,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "e2d98141a6bb643977ccea8174d5b812da1a0a70e7635b4fcbd25b62da96d115"
+  },
+  {
+   "cid": "6381170565192",
+   "summary": {
+    "correlationId": "6381170565192",
+    "firstMs": 1793607992616,
+    "lastMs": 1793607993412,
+    "durationMs": 796,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "f31995c00a280c414a155f646b8215982fa96b4eaba9bad8d3658f33e2b96bfb"
+  },
+  {
+   "cid": "6385052040242",
+   "summary": {
+    "correlationId": "6385052040242",
+    "firstMs": 1793593140000,
+    "lastMs": 1793593140522,
+    "durationMs": 522,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 7,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "response_code 8: PRC-ERR-0027 Card not found · POST processor.pay.example:8443/soap/issuing"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": true,
+     "component": "cards"
+    }
+   ],
+   "view": "06ab75e3ffad178d5197a1c1ad913b5b8104bcb7e614a2fec902ec3fb140d6a7"
+  },
+  {
+   "cid": "6387531481008",
+   "summary": {
+    "correlationId": "6387531481008",
+    "firstMs": 1793574651844,
+    "lastMs": 1793574652358,
+    "durationMs": 514,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 7,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "response_code 8: PRC-ERR-0027 Card not found · POST processor.pay.example:8443/soap/issuing"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": true,
+     "component": "cards"
+    }
+   ],
+   "view": "305aaa2e39564a7bcaa16a0cfd58a2dabaf9e6a15808126afefb0e5a7454a58a"
+  },
+  {
+   "cid": "6387784784450",
+   "summary": {
+    "correlationId": "6387784784450",
+    "firstMs": 1793550393302,
+    "lastMs": 1793550393302,
+    "durationMs": 0,
+    "incoming": null,
+    "component": "worker",
+    "recordCount": 1,
+    "status": "success",
+    "kind": "background",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "worker"
+    }
+   ],
+   "view": "eb53890bac7927893275a1ca62ff935375e25e6d85ad81ec34840eaf603c9073"
+  },
+  {
+   "cid": "6396080673229",
+   "summary": {
+    "correlationId": "6396080673229",
+    "firstMs": 1793543035681,
+    "lastMs": 1793543036137,
+    "durationMs": 456,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "05e517c8d6341ea13d0a80fd57365f17685ff3596aeb59b8afda88a7bb579a71"
+  },
+  {
+   "cid": "6397063484811",
+   "summary": {
+    "correlationId": "6397063484811",
+    "firstMs": 1793566393033,
+    "lastMs": 1793566393748,
+    "durationMs": 715,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/cards/lookup"
+    },
+    "component": "cards",
+    "recordCount": 13,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 6,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 5,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 9,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 8,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "call",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 12,
+     "isError": false,
+     "component": "cards"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 11,
+     "isError": false,
+     "component": "cards"
+    }
+   ],
+   "view": "dd6242d25ed07f23f331642574492f5f8fe7529a415dba0e516ce86d24dc325f"
+  },
+  {
+   "cid": "7b8eb864-fbcf-40c9-9daf-16baa9762bc9",
+   "summary": {
+    "correlationId": "7b8eb864-fbcf-40c9-9daf-16baa9762bc9",
+    "firstMs": 1793537590281,
+    "lastMs": 1793537591013,
+    "durationMs": 732,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a0d8a0-7809-7467-a38a-ef658575b084/payments/01a1972b-8d59-7ba3-85e6-81bd0cb18d41/confirm"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "error 12: Insufficient funds on account · POST ledger.pay.example:8080/v1/payments/charge"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "a398e7f75087c59aec436a5feb3453338930df3e483d10d89c9761007882dbca"
+  },
+  {
+   "cid": "7b967662-4e8f-4b07-878d-ac47b50d4570",
+   "summary": {
+    "correlationId": "7b967662-4e8f-4b07-878d-ac47b50d4570",
+    "firstMs": 1793528300748,
+    "lastMs": 1793528301870,
+    "durationMs": 1122,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a14438-44cc-7ec1-9083-b58890fd8538/merchant-payments"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "http",
+      "text": "HTTP 500 · POST api.acquirer.example/api/payments"
+     },
+     {
+      "kind": "level",
+      "text": "acquirer payment failed"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "cec99e55f72d90b3ec56ae0f0acc2d1301e5cd4ddf7cfd175b57e34765166485"
+  },
+  {
+   "cid": "9a852715-852c-4158-8cc7-083290040177",
+   "summary": {
+    "correlationId": "9a852715-852c-4158-8cc7-083290040177",
+    "firstMs": 1793597640000,
+    "lastMs": 1793597640852,
+    "durationMs": 852,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a03c8f-9d40-7ad2-8dc1-a616832476ba/payments/01a19abf-3668-7a58-a71a-1af68adfa211/confirm"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "fcb63c20f9604a940e5189739cd640a9f7fd5bee3a2f71d56541a6073c690aa2"
+  },
+  {
+   "cid": "b5868b92-4086-4aed-8429-795ec88b53c9",
+   "summary": {
+    "correlationId": "b5868b92-4086-4aed-8429-795ec88b53c9",
+    "firstMs": 1793524554067,
+    "lastMs": 1793524574089,
+    "durationMs": 20022,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a01e74-9d53-7445-8403-f384bec63844/cards/07a9ad22-70cd-452e-b58a-07c36232aaa6/balance"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "no-response",
+      "text": "ответ не найден · POST fraud.pay.example:9090/"
+     },
+     {
+      "kind": "level",
+      "text": "cURL error 28: Operation timed out after 20001 milliseconds with 0 bytes received"
+     },
+     {
+      "kind": "level",
+      "text": "Circuit breaker opened"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "5eedbffc9a115676934c302009d8954554113f50df1679a845d16c6ba989fc36"
+  },
+  {
+   "cid": "bcf090a6-903d-4c5c-806b-4737f15ef9e6",
+   "summary": {
+    "correlationId": "bcf090a6-903d-4c5c-806b-4737f15ef9e6",
+    "firstMs": 1793561877768,
+    "lastMs": 1793561877944,
+    "durationMs": 176,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a14638-9d08-7734-b491-ba93344806ad/cards/ef766bfa-7ce8-4fa5-93d4-76cbfe2cfef9"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "d4f94982731457a0053901f4976ec3ccbd5f9b2e2b59999a4ec08f1c49e2349d"
+  },
+  {
+   "cid": "ca158809-bf68-417c-b1cf-92626d76de55",
+   "summary": {
+    "correlationId": "ca158809-bf68-417c-b1cf-92626d76de55",
+    "firstMs": 1793602385026,
+    "lastMs": 1793602385952,
+    "durationMs": 926,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a18148-a882-7faf-a164-fa1b371c5725/payments/01a19b07-8a22-75bd-b818-e8ff3fd0356b/confirm"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "business",
+      "text": "error 12: Insufficient funds on account · POST ledger.pay.example:8080/v1/payments/charge"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "5120055e6f23ab0ee13b6fc513dd25c8fe4b3ab67ed1a01fbae707ada6908f0e"
+  },
+  {
+   "cid": "e3a9ed4f-323f-4c87-a96b-a6130ad7d3ba",
+   "summary": {
+    "correlationId": "e3a9ed4f-323f-4c87-a96b-a6130ad7d3ba",
+    "firstMs": 1793593458814,
+    "lastMs": 1793593460260,
+    "durationMs": 1446,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a074f5-c47e-78d2-be75-74cfe8f4673f/merchant-payments"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "http",
+      "text": "HTTP 500 · POST api.acquirer.example/api/payments"
+     },
+     {
+      "kind": "level",
+      "text": "acquirer payment failed"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "daa5262b5ac3e3309d84ebc203089c9a9c0e3cef1d3dfef5f4b337f69867fdfe"
+  },
+  {
+   "cid": "e56307c3-43bf-4a09-ad18-e4349684c330",
+   "summary": {
+    "correlationId": "e56307c3-43bf-4a09-ad18-e4349684c330",
+    "firstMs": 1793549407233,
+    "lastMs": 1793549407861,
+    "durationMs": 628,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/01a14053-f801-7412-9a36-08dc77c942d9/merchant-payments"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "http",
+      "text": "HTTP 500 · POST api.acquirer.example/api/payments"
+     },
+     {
+      "kind": "level",
+      "text": "acquirer payment failed"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "308a240917f590d4f201e52a82abbc3c1b7f04778f40fbfd70c2909912de5260"
+  },
+  {
+   "cid": "ec08848d-bc42-453d-b87f-c24f1f34c77d",
+   "summary": {
+    "correlationId": "ec08848d-bc42-453d-b87f-c24f1f34c77d",
+    "firstMs": 1793605680000,
+    "lastMs": 1793605680453,
+    "durationMs": 453,
+    "incoming": {
+     "method": "POST",
+     "path": "/v1/users/0192f0a1-7b2c-7d3e-8f40-5a6b7c8d9e0f/transfers/01a19b3a-9c40-74f6-8589-d382418e9350/fee"
+    },
+    "component": "api",
+    "recordCount": 3,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 1,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "ea6f4ac7a2139a4732bdb6160ddd8a752489b40cf9f978bd0583e27ff5cb73b8"
+  },
+  {
+   "cid": "fb453b29-96e8-42ad-b170-7c48c91136d8",
+   "summary": {
+    "correlationId": "fb453b29-96e8-42ad-b170-7c48c91136d8",
+    "firstMs": 1793546987863,
+    "lastMs": 1793547007879,
+    "durationMs": 20016,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a0de56-3957-7cb0-a0e1-52acbb400177/cards/96b7ee50-541e-47c1-b5cc-7e87aa8d7515/balance"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "error",
+    "kind": "incoming",
+    "reasons": [
+     {
+      "kind": "no-response",
+      "text": "ответ не найден · POST fraud.pay.example:9090/"
+     },
+     {
+      "kind": "level",
+      "text": "cURL error 28: Operation timed out after 20001 milliseconds with 0 bytes received"
+     },
+     {
+      "kind": "level",
+      "text": "Circuit breaker opened"
+     }
+    ],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": true,
+     "component": "api"
+    }
+   ],
+   "view": "6d6f3540555fa8e3a1ec5558c9b146885f7c0df8eb2a8eed299d7e826a907588"
+  },
+  {
+   "cid": "fef3a4a9-404a-4e00-8a38-34ef428ba977",
+   "summary": {
+    "correlationId": "fef3a4a9-404a-4e00-8a38-34ef428ba977",
+    "firstMs": 1793597010822,
+    "lastMs": 1793597011122,
+    "durationMs": 300,
+    "incoming": {
+     "method": "GET",
+     "path": "/v1/users/01a1296a-8b86-764f-883b-c524661da4d8/cards/6c152251-bfd1-4780-8b6e-4d269e6b2cd0"
+    },
+    "component": "api",
+    "recordCount": 4,
+    "status": "success",
+    "kind": "incoming",
+    "reasons": [],
+    "match": "exact",
+    "incomplete": false
+   },
+   "shape": [
+    {
+     "kind": "incoming",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "gateway"
+    },
+    {
+     "kind": "log",
+     "cid": true,
+     "pair": null,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "send",
+     "cid": true,
+     "pair": 3,
+     "isError": false,
+     "component": "api"
+    },
+    {
+     "kind": "response",
+     "cid": true,
+     "pair": 2,
+     "isError": false,
+     "component": "api"
+    }
+   ],
+   "view": "3482c601a041169e385620fa728fdd562c77ef7c08ed04d41bda95dfc8a50ec2"
+  }
+ ],
+ "flat": "8678d4e8b255c4c589bf4499b35506de3dad9245eaa9040cf65ad0c30cac4882",
+ "kinds": "incoming,send,log,log,text,incoming,send,response,log,text,incoming,call,send,response,call,send,response,incoming,send,text,response,log,incoming,log,send,text,response,incoming,call,send,call,response,send,response,call,send,response,call,send,response,incoming,send,log,text,log,incoming,send,log,response,text,incoming,log,send,response,text,log,incoming,call,send,response,send,call,response,incoming,send,text,response,incoming,log,send,response,text,incoming,send,call,response,send,call,response,call,send,response,call,send,response,log,incoming,send,text,log,log,incoming,send,log,response,text,incoming,call,send,response,send,call,response,incoming,log,send,response,text,incoming,send,response,text,log,log,incoming,send,text,response,incoming,log,send,response,text,incoming,call,send,response,call,send,response,call,send,response,call,send,response,incoming,send,log,log,text,incoming,call,send,call,response,send,response,call,send,send,call,response,response,incoming,call,send,response,call,send,response,incoming,send,response,log,text,log,incoming,log,send,text,response,incoming,call,send,response,send,call,response,incoming,send,response,text,incoming,call,send,response,send,call,response,send,call,response,send,call,response,text,text,incoming,log,send,response,text,incoming,send,response,text,incoming,call,send,response,call,send,response,send,call,response,call,send,response,incoming,log,send,response,text,incoming,send,response,text,incoming,log,send,response,text,incoming,send,response,text,incoming,call,send,response,call,send,response,call,send,response,call,send,response,incoming,send,log,response,text,log,incoming,send"
+}

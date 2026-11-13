@@ -1,0 +1,40 @@
+{
+  "name": "@threadline/server",
+  "version": "0.1.0",
+  "license": "MIT",
+  "private": true,
+  "type": "module",
+  "bin": {
+    "threadline": "./src/cli/local.ts"
+  },
+  "scripts": {
+    "dev": "node --watch --enable-experimental-regexp-engine --enable-experimental-regexp-engine-on-excessive-backtracks --regexp-backtracks-before-fallback=1000 --disable-warning=ExperimentalWarning src/main.ts",
+    "start": "NODE_ENV=production node --enable-experimental-regexp-engine --enable-experimental-regexp-engine-on-excessive-backtracks --regexp-backtracks-before-fallback=1000 --disable-warning=ExperimentalWarning src/main.ts",
+    "local": "node --enable-experimental-regexp-engine --enable-experimental-regexp-engine-on-excessive-backtracks --regexp-backtracks-before-fallback=1000 --disable-warning=ExperimentalWarning src/cli/local.ts",
+    "check": "node --enable-experimental-regexp-engine --enable-experimental-regexp-engine-on-excessive-backtracks --regexp-backtracks-before-fallback=1000 --disable-warning=ExperimentalWarning src/cli/check.ts",
+    "catalog": "node --enable-experimental-regexp-engine --enable-experimental-regexp-engine-on-excessive-backtracks --regexp-backtracks-before-fallback=1000 --disable-warning=ExperimentalWarning src/cli/catalog.ts",
+    "sample": "node --enable-experimental-regexp-engine --enable-experimental-regexp-engine-on-excessive-backtracks --regexp-backtracks-before-fallback=1000 --disable-warning=ExperimentalWarning src/cli/sample.ts",
+    "migrate": "node --disable-warning=ExperimentalWarning src/cli/migrate.ts",
+    "demo-logs": "node --disable-warning=ExperimentalWarning src/cli/demo-logs.ts",
+    "test": "vitest run --passWithNoTests",
+    "typecheck": "tsc -p tsconfig.json"
+  },
+  "dependencies": {
+    "@electric-sql/pglite": "^0.5.14",
+    "@fastify/cookie": "^11.1.5",
+    "@fastify/session": "^11.1.6",
+    "@fastify/static": "^10.1.10",
+    "@threadline/core": "workspace:*",
+    "fastify": "^5.12.7",
+    "openid-client": "^6.8.9",
+    "pg": "^8.23.1",
+    "prom-client": "^15.1.3",
+    "undici": "^7.30.1",
+    "yaml": "^2.9.1"
+  },
+  "devDependencies": {
+    "@types/pg": "^8.23.1",
+    "ajv": "8.20.0",
+    "jose": "^6.2.15"
+  }
+}

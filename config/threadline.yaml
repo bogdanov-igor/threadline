@@ -1,0 +1,98 @@
+# Настройка Threadline: хранилища логов, проекты и среды.
+# Формат описан в config/README.md. Изменения применяются после перезапуска сервера.
+# При подключённой базе проекты правятся в настройках проекта (список на /admin/projects): здесь их начальный набор, а хранилища и профили только здесь.
+
+# Вход через OIDC (например, Keycloak): настройки и подключение описаны в config/README.md, раздел «Вход и роли».
+# off выключает вход: у каждого запроса права администратора. Сервер запустится так только с THREADLINE_ALLOW_NO_LOGIN=1, для локальной работы.
+# Замените разделом auth, когда будут значения от администратора провайдера входа.
+# Все три переменные THREADLINE_PUBLIC_URL, THREADLINE_OIDC_ISSUER, THREADLINE_OIDC_CLIENT_ID важнее этой строки и включают вход.
+auth: off
+
+defaults:
+  project: pay
+  environment: demo
+
+backends:
+  # Loki через Grafana. Адрес только в переменной THREADLINE_GRAFANA_URL: без неё сервер и команды не запускаются и называют её.
+  # Токен задаётся переменной окружения из tokenEnv. Значения в .env в корне или в окружении пода, образец в .env.example.
+  grafana:
+    type: loki-grafana
+    datasource: { name: Loki } # источник Loki: { name: ... }, { uid: ... } или { id: ... }
+    tokenEnv: THREADLINE_GRAFANA_TOKEN
+    # Что форма проекта вправе читать: новый namespace дописывается сюда. Среды этого файла граница не ограничивает.
+    formScope:
+      label: namespace
+      values: [pay, pay-test, 'pay-pr-*']
+    # caFile: ./certs/root-ca.pem       # свой корневой сертификат, путь от этого файла; без него действует THREADLINE_CA_FILE
+    maxConcurrent: 4
+    queueTimeoutSeconds: 60
+    timeoutSeconds: 30
+
+  # Синтетические записи демо-проекта Demo Pay для показа и разработки. Наружу не ходит.
+  demo:
+    type: mock
+    dataset: pay
+    latencyMs: 300
+    # fail: unauthorized                 # показать состояние ошибки
+
+# Региональные правила демо-проекта: номера телефонов без кода страны и образцы документов в тексте записей.
+# Без раздела телефон узнаётся только с «+» и кодом страны, паспорт и личный номер — только по именам полей (config/README.md).
+regional:
+  phone: { countryCode: '44', nationalDigits: 10, trunkPrefix: '0' }
+  patterns:
+    passport: ['[A-Z]{2}\d{7}']
+    national_id: ['[A-Z]{2}\d{6}[A-D]']
+
+# Demo Pay — выдуманный платёжный шлюз: его записи пишет имитация (среда «Demo»), остальные среды показывают,
+# как описать свои среды в Loki. Формат записей — встроенный json (config/README.md, «Формат записей»).
+projects:
+  pay:
+    name: Demo Pay
+    logo: # заглушка: свой файл заменяет её без правок кода
+      light: logos/demo-pay-light.png
+      dark: logos/demo-pay-dark.png
+    timezone: UTC
+    format: json
+    environments:
+      prod:
+        name: Prod
+        backend: grafana
+        selector:
+          - { label: cluster, op: '=', value: demo }
+          - { label: namespace, op: '=', value: pay }
+      test:
+        name: Test
+        backend: grafana
+        selector:
+          - { label: namespace, op: '=', value: pay-test }
+          - { label: container, op: '!=', value: pgadmin }
+          - { label: app_kubernetes_io_sub_service, op: '!=', value: cron, searchOnly: true } # кроны входят в поиск операции
+      pr:
+        name: PR stands
+        kind: pr-stands
+        backend: grafana
+        stand: { label: namespace, template: 'pay-pr-{number}' }
+        selector:
+          - { label: container, op: '!=', value: pgadmin }
+          - { label: app_kubernetes_io_sub_service, op: '!=', value: cron, searchOnly: true } # кроны входят в поиск операции
+      demo:
+        name: Demo
+        backend: demo
+        selector:
+          - { label: namespace, op: '=', value: pay }
+        # Примеры поиска на стартовой странице: значения синтетического набора Demo Pay. Без периода — 6 ч, как в строке поиска.
+        # Сутки — у выплаты и запроса с отказом: они лежат дальше 6 ч или есть только в истории набора.
+        # Подпись одной строкой видна на всех языках интерфейса; своя на каждом языке задаётся так: { ru: '…', en: '…' }.
+        examples:
+          - label: 'User: successful and failed requests'
+            values: ['0192f0a1-7b2c-7d3e-8f40-5a6b7c8d9e0f']
+          - label: 'Card: successful requests and a failure'
+            values: ['4111111234557893']
+          - label: 'Phone number in national format'
+            values: ['07700 900001']
+          - label: 'Transfer with a payout: every request of the operation'
+            values: ['5b0e6c3a-2f4d-4a71-9c8e-1d2f3a4b5c6d']
+            period: 24h
+          - label: 'Request failed at the identity check'
+            values: ['39e4b126-746e-4269-a4cd-65b766093c2a']
+            period: 24h

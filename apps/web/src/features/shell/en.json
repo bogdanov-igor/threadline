@@ -1,0 +1,18 @@
+{
+  "project": {
+    "current": "current",
+    "search": "Search",
+    "catalog": "Catalog",
+    "settings": "Project settings",
+    "others": "Other projects",
+    "all": "All projects"
+  },
+  "help": {
+    "docs": "Documentation",
+    "learn": "Training",
+    "about": "About Threadline",
+    "keys": "Keyboard shortcuts",
+    "report": "Report a problem",
+    "version": "version {{version}}"
+  }
+}

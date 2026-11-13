@@ -1,0 +1,99 @@
+{
+  "subtitle": "Settings, masking and catalog as one text: checked as you type, applied with a separate button",
+  "editorLabel": "Project file text",
+  "reportLabel": "Check report",
+  "format": "File format",
+  "searchButton": "Search the text",
+  "download": "Download",
+  "upload": "Upload file",
+  "unsaved": "You have edits, the file is not applied",
+  "clean": "No edits",
+  "applying": "Applying…",
+  "removal": "Removing an entry or an environment from the text does not delete it: it stays in the project and comes back in the file. Hide an entry with hidden: true, remove an environment on the Environments form.",
+  "readOnlyRole": "The file is read-only for your role: you can search, copy and download it.",
+  "readOnlyClosed": "Editing is closed: the database is read-only or updating. Your text stays and can be downloaded; upload and apply return when editing reopens.",
+  "refreshed": "The project changed: the text was replaced with a fresh export.",
+  "tooLarge": "The text is {{size}} MB, over the {{max}} MB limit: such a file cannot be applied. Viewing, editing and downloading work; checks resume once the text is within the limit.",
+  "appliedNoText": "The changes were applied, but the fresh text could not be loaded. This text is read-only, there is no need to apply it again.",
+  "syntax": {
+    "at": "Syntax error: line {{line}}, column {{col}}. Such text is not checked on the server.",
+    "noPosition": "Syntax error: the text cannot be parsed, for example too deep nesting or too many aliases. Such text is not checked on the server.",
+    "mark": "Syntax error"
+  },
+  "check": {
+    "waiting": "Waiting for a pause to check",
+    "running": "Checking…",
+    "done": "Checked",
+    "unavailable": "Check unavailable: the database is not responding. Your text stays, the check repeats at the next pause.",
+    "timeout": "The server did not respond. Your text stays, the check runs on the next edit or button press.",
+    "forbidden": "The server refused: your role does not allow checking the file. Your text stays and can be downloaded.",
+    "unreachable": "The Threadline server is not responding. Your text stays.",
+    "failed": "The check failed. Your text stays.",
+    "session": "The session expired: sign in in a new tab, your text stays."
+  },
+  "conflict": {
+    "title": "The project changed while you were editing",
+    "help": "Your text stays and can be downloaded. “Keep my edits” checks it again and shows what will change, including undoing other people's edits. “Load fresh file” replaces the text.",
+    "keep": "Keep my edits",
+    "fresh": "Load fresh file"
+  },
+  "confirm": {
+    "comments": "Comments will be lost: the other format has none. Change the format?",
+    "replace": "Replace your edits with the text of this file?",
+    "fresh": "Replace your text with a fresh export? Your edits will be lost."
+  },
+  "load": {
+    "title": "The project file did not open",
+    "unavailable": "The catalog database is unavailable. Try again later.",
+    "forbidden": "The server refused: your role does not allow this action.",
+    "unreachable": "The Threadline server is not responding.",
+    "failed": "Could not export the file. {{code}}",
+    "session": "The session expired: sign in again.",
+    "blocked": "Export refused: masking would hide values in these fields, so there is no text.",
+    "blockedShort": "export refused by masking",
+    "blockedHelp": "Fix the values in the catalog or project settings sections with these fields. You can upload a file with corrected values."
+  },
+  "problem": {
+    "formatBroken": "Format not changed: syntax error on line {{line}}. Your text stays.",
+    "formatBrokenNoLine": "Format not changed: the text cannot be parsed. Your text stays.",
+    "formatTooLarge": "Format not changed: the text is over {{max}} MB. Your text stays.",
+    "formatFailed": "Format not changed: {{reason}}",
+    "freshFailed": "Fresh file not received, your text stays: {{reason}}",
+    "fileType": "This file does not fit: .yaml, .yml or .json is needed. The text in the editor did not change.",
+    "fileTooBig": "The file is over {{max}} MB and cannot be uploaded. The text in the editor did not change.",
+    "fileEncoding": "The file is not in UTF-8. The text in the editor did not change.",
+    "overLimit": "Paste refused: the text would exceed 8 million characters. Your text and undo history stay.",
+    "applyFailed": "The file was not applied, the text and report stay, you can apply again: {{reason}}"
+  },
+  "report": {
+    "empty": "The report appears after an edit: it shows what will be added, changed and hidden.",
+    "stale": "The report is out of date: the text changed. A new check is running.",
+    "more": "and {{count}} more",
+    "stopsSearches": "Running searches of this project will stop, as when saving the form.",
+    "comments": "The file is built from the database: comments are not kept and disappear after applying.",
+    "onlyComments": "Comments are not kept: the file is built from the database. You can download the text with them.",
+    "orderNotKept": "The order of entries and keys in the file is not kept.",
+    "missingStay": "Entries missing from the text stay in the project. To hide an entry, set hidden: true on it.",
+    "keyChange": "If you changed the method, address, rpc or conditions, this is a new entry and the old one stays. Hide the old one with hidden: true, otherwise the catalog will have both.",
+    "envRemoval": "Environments missing from the text stay in the project. Remove an environment on the form",
+    "notApplied": "Edits to these entries were not applied, the text now has their values from the database:",
+    "warnings": "The file will apply, but these fields do not work the way you might think. Each line says what to do:"
+  },
+  "search": {
+    "find": "Find",
+    "replace": "Replace",
+    "next": "next",
+    "previous": "previous",
+    "all": "all",
+    "matchCase": "match case",
+    "regexp": "regexp",
+    "byWord": "whole word",
+    "replaceOne": "replace",
+    "replaceAll": "replace all",
+    "close": "close",
+    "currentMatch": "current match",
+    "onLine": "on line",
+    "goToLine": "Go to line",
+    "go": "go"
+  }
+}

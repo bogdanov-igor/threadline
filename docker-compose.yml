@@ -1,0 +1,80 @@
+# База справочника рядом с Threadline: отдельный контейнер, не общий кластер баз.
+# Разработка:  docker compose up -d db
+# ВМ:          docker compose --profile app up -d
+# Профиль app: база, шаг миграций, затем Threadline. Не даёт случайно поднять второй Threadline на занятом порту 8080.
+# Профиль keycloak — локальный Keycloak, config/README.md, раздел «Вход и роли».
+# Быстрый старт с Loki и демо-логами — отдельный файл deploy/quickstart/compose.yaml, README.ru.md, «Быстрый старт».
+
+services:
+  db:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_DB: threadline
+      POSTGRES_USER: threadline
+      POSTGRES_PASSWORD: ${THREADLINE_DB_PASSWORD:?задайте THREADLINE_DB_PASSWORD в .env}
+    volumes:
+      - threadline-db:/var/lib/postgresql/data
+    # Порт базы — только на этой машине.
+    ports:
+      - '127.0.0.1:${THREADLINE_DB_PORT:-5432}:5432'
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U threadline -d threadline']
+      interval: 5s
+      timeout: 3s
+      retries: 10
+    restart: unless-stopped
+
+  # Схема базы: выполняется один раз и завершается, сервер стартует только после неё.
+  migrate:
+    profiles: [app]
+    build: .
+    image: threadline:local
+    # THREADLINE_DATABASE_URL=postgres://threadline:<пароль>@db:5432/threadline
+    env_file: .env
+    command: ['node', '--disable-warning=ExperimentalWarning', 'apps/server/src/cli/migrate.ts']
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+
+  threadline:
+    profiles: [app]
+    build: .
+    image: threadline:local
+    # THREADLINE_DATABASE_URL=postgres://threadline:<пароль>@db:5432/threadline
+    env_file: .env
+    # Настройки среды и секреты входа из окружения запуска или .env, config/README.md, «Развёртывание: переменные».
+    # Пустое значение сервер считает незаданным, тогда действует файл настроек. HOST, PORT и LOG_LEVEL так передавать не нужно.
+    environment:
+      THREADLINE_GRAFANA_URL: ${THREADLINE_GRAFANA_URL:-}
+      THREADLINE_PUBLIC_URL: ${THREADLINE_PUBLIC_URL:-}
+      THREADLINE_OIDC_ISSUER: ${THREADLINE_OIDC_ISSUER:-}
+      THREADLINE_OIDC_CLIENT_ID: ${THREADLINE_OIDC_CLIENT_ID:-}
+      THREADLINE_CA_FILE: ${THREADLINE_CA_FILE:-}
+      THREADLINE_OIDC_CLIENT_SECRET: ${THREADLINE_OIDC_CLIENT_SECRET:-}
+      THREADLINE_SESSION_SECRET: ${THREADLINE_SESSION_SECRET:-}
+    ports:
+      - '127.0.0.1:8080:8080'
+    volumes:
+      - ./config:/app/config:ro
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+    restart: unless-stopped
+
+  # Локальный Keycloak для проверки входа: не входит в обычный запуск.
+  # docker compose -p threadline-keycloak --profile keycloak up -d keycloak
+  keycloak:
+    profiles: [keycloak]
+    image: quay.io/keycloak/keycloak:26.0.8
+    command: ['start-dev', '--import-realm']
+    environment:
+      KC_BOOTSTRAP_ADMIN_USERNAME: admin
+      KC_BOOTSTRAP_ADMIN_PASSWORD: ${THREADLINE_KEYCLOAK_ADMIN_PASSWORD:-admin}
+    volumes:
+      - ./dev/keycloak/threadline-realm.json:/opt/keycloak/data/import/threadline-realm.json:ro
+    ports:
+      - '127.0.0.1:${THREADLINE_KEYCLOAK_PORT:-8180}:8080'
+
+volumes:
+  threadline-db:

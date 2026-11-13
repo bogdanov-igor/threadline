@@ -1,0 +1,105 @@
+# Настройка для сквозных тестов: только имитации и ненастроенная Grafana, наружу ничего не ходит.
+auth: off
+# Общие шутки и шутки по времени не должны попасть в прогон случайно: их проверяет extras.spec.ts на своём сервере.
+extras: { publicEggs: false }
+defaults: { project: pay, environment: demo }
+
+backends:
+  demo: { type: mock, latencyMs: 80 }
+  slow: { type: mock, latencyMs: 1500 }
+  grafana:
+    type: loki-grafana
+    url: https://grafana.example.internal
+    tokenEnv: THREADLINE_E2E_TOKEN_NOT_SET
+  f-unauthorized: { type: mock, fail: unauthorized }
+  f-network: { type: mock, fail: network }
+  f-certificate: { type: mock, fail: certificate }
+  f-overloaded: { type: mock, fail: overloaded }
+  f-not-found: { type: mock, fail: not-found }
+
+# Региональные правила демо-проекта, как в config/threadline.yaml: телефоны без кода страны, паспорт и личный номер в тексте.
+regional:
+  phone: { countryCode: '44', nationalDigits: 10, trunkPrefix: '0' }
+  patterns:
+    passport: ['[A-Z]{2}\d{7}']
+    national_id: ['[A-Z]{2}\d{6}[A-D]']
+projects:
+  pay:
+    name: Demo Pay
+    logo: { light: logos/demo-pay-light.png, dark: logos/demo-pay-dark.png }
+    timezone: Asia/Karachi
+    environments:
+      demo:
+        name: Demo
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]
+        # Примеры поиска на стартовой странице, как в config/threadline.yaml.
+        examples:
+          - label: 'User: successful and failed requests'
+            values: ['0192f0a1-7b2c-7d3e-8f40-5a6b7c8d9e0f']
+          - label: 'Card: successful requests and a failure'
+            values: ['4111111234557893']
+          - label: 'Phone number in national format'
+            values: ['07700 900001']
+          - label: 'Transfer with a payout: every request of the operation'
+            values: ['5b0e6c3a-2f4d-4a71-9c8e-1d2f3a4b5c6d']
+            period: 24h
+          - label: 'Request failed at the identity check'
+            values: ['39e4b126-746e-4269-a4cd-65b766093c2a']
+            period: 24h
+      pr:
+        name: PR stands
+        kind: pr-stands
+        backend: demo
+        stand: { label: namespace, template: 'pay-pr-{number}' }
+      pr-empty:
+        name: PR stands, none running
+        kind: pr-stands
+        backend: demo
+        stand: { label: namespace, template: 'none-{number}' }
+      pr-broken:
+        name: PR stands, no network
+        kind: pr-stands
+        backend: f-network
+        stand: { label: namespace, template: 'pay-pr-{number}' }
+      prod:
+        name: Prod
+        backend: grafana
+        selector: [{ label: namespace, op: '=', value: pay }]
+      slow:
+        name: Slow
+        backend: slow
+        selector: [{ label: namespace, op: '=', value: pay }]
+      long:
+        name: A very long environment name to check truncation with an ellipsis
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]
+      unauthorized:
+        name: Token revoked
+        backend: f-unauthorized
+        selector: [{ label: namespace, op: '=', value: pay }]
+      network:
+        name: No network
+        backend: f-network
+        selector: [{ label: namespace, op: '=', value: pay }]
+      certificate:
+        name: Certificate
+        backend: f-certificate
+        selector: [{ label: namespace, op: '=', value: pay }]
+      overloaded:
+        name: Overloaded
+        backend: f-overloaded
+        selector: [{ label: namespace, op: '=', value: pay }]
+      not-found:
+        name: No data source
+        backend: f-not-found
+        selector: [{ label: namespace, op: '=', value: pay }]
+  cards:
+    name: Card processing, payment gateways and payouts of the demo group of companies
+    logo: { light: logos/wide.svg }
+    timezone: Asia/Karachi
+    environments:
+      demo:
+        name: Demo
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]

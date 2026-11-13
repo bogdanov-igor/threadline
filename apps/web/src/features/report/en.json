@@ -1,0 +1,29 @@
+{
+  "title": "Report a problem",
+  "subtitle": "An error in Threadline, a wrong diagram or inaccurate text",
+  "close": "Close",
+  "description": "Description",
+  "placeholder": "What you expected to see and what you saw",
+  "warning": "Do not paste personal data: card numbers, phone numbers, client names.",
+  "counter": "{{count}} of {{max}}",
+  "link": {
+    "will": "We will attach a short link to this page. It opens without signing in, everything masked.",
+    "none": "This page has no short link: only the description will be sent.",
+    "down": "A short link cannot be created now, the database is unavailable: only the description will be sent."
+  },
+  "cancel": "Cancel",
+  "send": "Send",
+  "sending": "Sending",
+  "sent": {
+    "title": "Message sent",
+    "withLink": "The description and the short link were sent to support.",
+    "noLink": "The description was sent to support, without a short link.",
+    "closeButton": "Close"
+  },
+  "failure": {
+    "notConfigured": "Sending messages is not configured here.",
+    "failed": "The message could not be sent.",
+    "rateLimited": "Too many messages. Try again in {{minutes}} min.",
+    "keep": "Your text stays in the form: you can copy it and pass it to support."
+  }
+}

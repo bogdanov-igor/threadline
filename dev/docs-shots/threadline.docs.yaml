@@ -1,0 +1,52 @@
+# Настройка для снимков документации: только имитация, наружу ничего не ходит. Все записи синтетические.
+# Запускает dev/docs-shots/run.mjs: файл копируется во временную папку рядом с логотипами и справочником из e2e.
+auth: off
+defaults: { project: pay, environment: prod }
+
+backends:
+  demo: { type: mock, latencyMs: 20 }
+
+# Региональные правила демо-проекта, как в config/threadline.yaml: телефоны без кода страны, паспорт и личный номер в тексте.
+regional:
+  phone: { countryCode: '44', nationalDigits: 10, trunkPrefix: '0' }
+  patterns:
+    passport: ['[A-Z]{2}\d{7}']
+    national_id: ['[A-Z]{2}\d{6}[A-D]']
+
+projects:
+  pay:
+    name: Demo Pay
+    logo: { light: logos/demo-pay-light.png, dark: logos/demo-pay-dark.png }
+    timezone: UTC
+    environments:
+      prod:
+        name: Prod
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]
+      test:
+        name: Test
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]
+      pr:
+        name: PR stands
+        kind: pr-stands
+        backend: demo
+        stand: { label: namespace, template: 'pay-pr-{number}' }
+      demo:
+        name: Demo
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]
+        # Примеры поиска на стартовой странице, как в config/threadline.yaml.
+        examples:
+          - label: 'User: successful and failed requests'
+            values: ['0192f0a1-7b2c-7d3e-8f40-5a6b7c8d9e0f']
+          - label: 'Card: successful requests and a failure'
+            values: ['4111111234557893']
+          - label: 'Phone number in national format'
+            values: ['07700 900001']
+          - label: 'Transfer with a payout: every request of the operation'
+            values: ['5b0e6c3a-2f4d-4a71-9c8e-1d2f3a4b5c6d']
+            period: 24h
+          - label: 'Request failed at the identity check'
+            values: ['39e4b126-746e-4269-a4cd-65b766093c2a']
+            period: 24h

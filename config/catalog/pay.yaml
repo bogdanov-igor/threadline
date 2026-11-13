@@ -1,0 +1,724 @@
+# yaml-language-server: $schema=./catalog.schema.json
+# Начальный набор справочника демо-проекта Demo Pay: выдуманный платёжный шлюз и его выдуманные партнёры.
+# Набор загружается при первом подключении базы. Правки аналитиков в редакторе импорт не затирает.
+# Адреса — домены *.example и адреса для документации (RFC 5737). Формат файла: README.md рядом.
+version: 1
+project: pay
+idTypes:
+  - key: user
+    kind: entity
+    name: User
+  - key: card
+    kind: entity
+    name: Card
+  - key: account
+    kind: entity
+    name: Account
+  - key: payment
+    kind: operation
+    name: Payment
+    statuses:
+      - &new
+        value: new
+        name: Created
+        outcome: pending
+      - &held
+        value: held
+        name: Amount on hold
+        outcome: pending
+      - &hold_error
+        value: hold_error
+        name: Hold failed
+        outcome: failure
+      - &confirming
+        value: confirming
+        name: Charging
+        outcome: pending
+      - &confirmed
+        value: confirmed
+        name: Confirmed
+        outcome: success
+      - &canceled
+        value: canceled
+        name: Canceled, not charged
+        outcome: failure
+      - value: refunded
+        name: Refunded
+        outcome: success
+  - key: merchant_payment
+    kind: operation
+    name: Merchant payment
+    statuses:
+      - *new
+      - *held
+      - *hold_error
+      - *confirming
+      - *confirmed
+      - *canceled
+  - key: transfer
+    kind: operation
+    name: Transfer
+    statuses:
+      - value: new
+        name: Created
+        outcome: pending
+      - value: awaiting
+        name: Awaiting response
+        outcome: pending
+      - value: completed
+        name: Completed
+        outcome: success
+      - value: failed
+        name: Declined
+        outcome: failure
+  - key: payout
+    kind: operation
+    name: Payout
+    statuses:
+      - value: created
+        name: Created
+        outcome: pending
+      - value: processing
+        name: Processing
+        outcome: pending
+      - value: completed
+        name: Completed
+        outcome: success
+      - value: failed
+        name: Rejected
+        outcome: failure
+  - key: acquirer_payment
+    kind: operation
+    name: Acquirer payment
+    statuses:
+      - value: created
+        name: Not charged
+        outcome: failure
+      - value: pending
+        name: Processing
+        outcome: pending
+      - value: performed
+        name: Completed
+        outcome: success
+      - value: waiting_cancel
+        name: Queued for cancellation
+        outcome: pending
+      - value: cancelled
+        name: Canceled
+        outcome: failure
+      - value: error
+        name: Acquirer error
+        outcome: failure
+  - key: installment
+    kind: operation
+    name: Installment
+    statuses:
+      - value: active
+        name: Active
+        outcome: success
+      - value: charged
+        name: Payment charged
+        outcome: success
+      - value: overdue
+        name: Overdue
+        outcome: failure
+  - key: verification
+    kind: operation
+    name: Identity check
+    statuses:
+      - value: processing
+        name: Processing
+        outcome: pending
+      - value: completed
+        name: Passed
+        outcome: success
+      - value: failed
+        name: Declined
+        outcome: failure
+systems:
+  - key: pay
+    kind: project
+    name: Demo Pay
+    description: "Payment gateway: partners call it through the gateway service; the cards service takes calls directly"
+    methods:
+      - http: GET
+        path: /v1/users/{user_id}
+        name: User details
+        domain: Users
+      - http: GET
+        path: /v1/users/{user_id}/cards/{card_id}
+        name: Card details
+        domain: Cards
+      - http: GET
+        path: /v1/users/{user_id}/cards/{card_id}/balance
+        name: Card balance
+        domain: Cards
+      - http: POST
+        path: /v1/cards/lookup
+        name: Cards by tokens
+        domain: Cards
+      - http: POST
+        path: /v1/cards/withdrawals
+        name: Card withdrawal
+        domain: Cards
+      - http: POST
+        path: /v1/users/{user_id}/payments
+        name: New payment
+        domain: Payments
+        kind: start
+        op: payment
+        fields:
+          - in: response
+            path: data.payment_id
+            type: payment
+        status:
+          in: response
+          path: data.status
+      - http: GET
+        path: /v1/users/{user_id}/payments/{payment_id}
+        name: Payment status
+        domain: Payments
+        kind: status
+        op: payment
+        status:
+          in: response
+          path: data.status
+      - http: POST
+        path: /v1/users/{user_id}/payments/{payment_id}/confirm
+        name: Payment confirmation
+        domain: Payments
+        op: payment
+      - http: POST
+        path: /v1/users/{user_id}/merchant-payments
+        name: QR payment at a merchant
+        domain: Payments
+        kind: start
+        op: merchant_payment
+        fields:
+          - in: response
+            path: data.payment_id
+            type: merchant_payment
+      - http: POST
+        path: /v1/users/{user_id}/transfers
+        name: New transfer
+        domain: Transfers
+        kind: start
+        op: transfer
+        fields:
+          - in: response
+            path: data.transfer_id
+            type: transfer
+      - http: GET
+        path: /v1/users/{user_id}/transfers/{transfer_id}
+        name: Transfer status
+        domain: Transfers
+        kind: status
+        op: transfer
+        status:
+          in: response
+          path: data.status
+      - http: POST
+        path: /v1/users/{user_id}/transfers/{transfer_id}/fee
+        name: Transfer fee
+        domain: Transfers
+      - http: POST
+        path: /v1/users/{user_id}/verification
+        name: Identity check
+        domain: Users
+        kind: start
+        op: verification
+        fields:
+          - in: response
+            path: data.verification_id
+            type: verification
+      - http: POST
+        path: /v1/customers/contacts
+        name: Customer contacts
+        domain: Users
+      - http: POST
+        path: /internal/callbacks/payout
+        name: Payout network callback
+        domain: Transfers
+        kind: callback
+        op: transfer
+        fields:
+          - in: request
+            path: ext_transfer_id
+            type: transfer
+        status:
+          in: request
+          path: state
+          map:
+            complete: completed
+            error: failed
+    errors:
+      - code: "1001"
+        title: Card not found
+        action: Check the card token with the partner
+      - code: "1002"
+        title: Not enough money on the card
+        action: Offer the customer another card
+      - code: "1050"
+        title: Operation already in progress
+        action: Wait for the response to the first request
+  - key: processor
+    name: Card processor
+    hosts:
+      - processor.pay.example:8443
+      - processor-2.pay.example:8443
+    description: "SOAP. Success: ResponseInfo with response_code = 0. Error: response_code other than 0 and error_description with a PRC-ERR-… code"
+    methods:
+      - http: "*"
+        path: /soap/issuing
+        rpc: getCard
+        name: Card number by token
+      - http: "*"
+        path: /soap/issuing
+        rpc: getCardholder
+        name: Cardholder
+      - http: "*"
+        path: /soap/issuing
+        rpc: queryCardInfo
+        name: Card information
+      - http: "*"
+        path: /soap/issuing
+        rpc: blockCard
+        name: Card blocking
+    errors:
+      - code: "8"
+        text: PRC-ERR-0027
+        title: Card not found at the processor
+        action: "Check the card token: the card may have been reissued"
+      - code: "8"
+        text: PRC-ERR-0031
+        title: Card is blocked
+      - code: "8"
+        title: Processor rejected the request
+    outcomes:
+      - when:
+          fields:
+            - path: response_code
+              regex: ^[1-9][0-9]*$
+        outcome: error
+  - key: processor-balance
+    name: Processor balances
+    hosts:
+      - processor-balance.pay.example:8443
+    description: "SOAP. The response has no response_code: the balance is in availableAmount"
+    methods:
+      - http: "*"
+        path: /
+        rpc: getBalance
+        name: Card balance
+  - key: switch
+    name: Card switch
+    hosts:
+      - switch.pay.example:11101
+      - 192.0.2.41:11101
+    description: "JSON. Success: HTTP 200 and a non-empty result. Card status is in result.card.statuses.item with type = card, success is actionCode = 000"
+    methods:
+      - http: POST
+        path: /v3/cards/info
+        name: Card details in the switch
+      - http: POST
+        path: /v3/cards/token
+        name: Card number by token
+    errors:
+      - code: "200"
+        title: Card not found in the switch
+        partnerCode: "176"
+      - code: "711"
+        title: Internal switch error
+    outcomes:
+      - when:
+          http: 200
+          fields:
+            - path: id
+              exists: true
+            - path: result
+              exists: false
+            - path: error
+              exists: false
+        outcome: error
+        text: Switch answered HTTP 200 without a result
+  - key: ledger
+    name: Payment core
+    hosts:
+      - ledger.pay.example:8080
+    description: "JSON. Success: result = ok or success. Error: result = error, the code is in error.code"
+    methods:
+      - http: POST
+        path: /v1/payments/charge
+        name: Payment charge
+        op: payment
+        fields:
+          - in: request
+            path: request_id
+            type: payment
+      - http: POST
+        path: /v1/payments/hold
+        name: Payment hold
+        op: payment
+        fields:
+          - in: request
+            path: request_id
+            type: payment
+        status:
+          in: response
+          path: data.status
+      - http: POST
+        path: /v1/payments/confirm
+        name: Hold confirmation
+        op: payment
+        fields:
+          - in: request
+            path: request_id
+            type: payment
+        status:
+          in: response
+          path: data.status
+      - http: POST
+        path: /v1/payments/status
+        name: Payment status in the payment core
+        kind: status
+        op: payment
+        fields:
+          - in: request
+            path: request_id
+            type: payment
+        status:
+          in: response
+          path: data.status
+      - http: POST
+        path: /v1/transfers/hold
+        name: Transfer hold
+        op: transfer
+        fields:
+          - in: request
+            path: request_id
+            type: transfer
+      - http: POST
+        path: /v1/installments/charge
+        name: Installment charge
+        op: installment
+        fields:
+          - in: request
+            path: request_id
+            type: installment
+        status:
+          in: response
+          path: data.status
+      - http: POST
+        path: /v1/cards/limits
+        name: Card limits
+      - http: GET
+        path: /v1/operday/{branch}
+        name: Operating day status
+    errors:
+      - code: "12"
+        title: Not enough money in the customer's account
+        action: Offer the customer another card
+        partnerCode: "1002"
+      - code: "51"
+        title: Not enough money for the installment payment
+      - code: "99"
+        title: Payment core temporarily unavailable
+        action: The platform will retry on its own
+      - text: Duplicate request_id
+        title: Request already processed
+        severity: ok
+    outcomes:
+      - when:
+          fields:
+            - path: result
+              equals: error
+        outcome: error
+      - method:
+          http: GET
+          path: /v1/operday/{branch}
+        when:
+          fields:
+            - path: data.isOpened
+              equals: false
+        outcome: pending
+        text: Operating day is closed
+        action: The platform will retry the payment once the day opens
+  - key: acquirer
+    name: Partner acquirer
+    hosts:
+      - api.acquirer.example
+      - "*.acquirer.example"
+    description: "REST. HTTP 200 does not mean success: the payment result is in the status field (performed means done, cancelled and error mean a decline)"
+    methods:
+      - http: POST
+        path: /api/payments
+        name: Acquirer payment
+        kind: start
+        op: acquirer_payment
+        fields:
+          - in: response
+            path: transactionId
+            type: acquirer_payment
+        status:
+          in: response
+          path: status
+      - http: GET
+        path: /api/payments/{acquirer_payment_id}
+        name: Acquirer payment status
+        kind: status
+        op: acquirer_payment
+        status:
+          in: response
+          path: status
+      - http: GET
+        path: /api/payments/by-partner-transaction-id/{merchant_payment_id}
+        name: Payment by our id
+        kind: status
+        op: acquirer_payment
+        status:
+          in: response
+          path: status
+      - http: POST
+        path: /api/payments/{acquirer_payment_id}/cancel
+        name: Acquirer payment cancellation
+      - http: POST
+        path: /api/payments/details
+        name: Partner availability
+    errors:
+      - http: 500
+        text: Internal Server Error
+        title: Acquirer could not process the payment
+        action: Check the payment status at the acquirer before retrying
+    outcomes:
+      - priority: 50
+        when:
+          fields:
+            - path: code
+              equals: card.insufficient_funds
+        outcome: error
+        text: Deposit at the acquirer is less than the payment amount
+        action: Top up the deposit at the acquirer, then release the customer hold or retry the payment
+      - method:
+          http: POST
+          path: /api/payments
+        when:
+          fields:
+            - path: status
+              oneOf:
+                - cancelled
+                - error
+        outcome: error
+      - method:
+          http: GET
+          path: /api/payments/{acquirer_payment_id}
+        when:
+          fields:
+            - path: status
+              oneOf:
+                - cancelled
+                - error
+                - created
+        outcome: error
+      - method:
+          http: GET
+          path: /api/payments/by-partner-transaction-id/{merchant_payment_id}
+        when:
+          fields:
+            - path: status
+              equals: cancelled
+        outcome: error
+      - method:
+          http: POST
+          path: /api/payments/{acquirer_payment_id}/cancel
+        when:
+          fields:
+            - path: status
+              equals: cancelled
+        outcome: success
+  - key: fraud
+    name: Fraud check
+    hosts:
+      - fraud.pay.example:9090
+    description: "JSON-RPC. Success: result is present and error is not. For risk.check, also result.decision = allow"
+    methods:
+      - http: POST
+        path: /
+        rpc: risk.check
+        name: Risk assessment
+      - http: POST
+        path: /
+        rpc: risk.report
+        name: Fraud report
+    errors:
+      - code: "-100"
+        title: Invalid check parameters
+      - code: "-200"
+        title: Card is on the stop list
+        partnerCode: "176"
+      - code: "00"
+        title: Check passed
+        severity: ok
+    outcomes:
+      - method:
+          http: POST
+          path: /
+          rpc: risk.check
+        when:
+          fields:
+            - path: result.decision
+              equals: deny
+        outcome: error
+        text: "Fraud check denied: {result.reason}"
+  - key: kyc
+    name: KYC provider
+    hosts:
+      - kyc.pay.example
+    description: "Success: result_code = GOOD, any other value is a decline"
+    methods:
+      - http: POST
+        path: /v1/verify
+        name: Document and face check
+    errors:
+      - code: BAD
+        title: Identity check not passed
+    outcomes:
+      - priority: 10
+        when:
+          http:
+            from: 200
+            to: 299
+          fields:
+            - path: result_code
+              equals: GOOD
+        outcome: success
+      - priority: 20
+        when:
+          fields:
+            - path: result_code
+              exists: true
+        outcome: error
+  - key: payout
+    name: Payout network
+    hosts:
+      - payout.pay.example:9443
+    description: "Success: status = ok. Payout state in transfer_info: completed is success, failed is a decline, created and processing mean keep waiting"
+    methods:
+      - http: POST
+        path: /v3/transfer
+        name: Card payout
+        kind: start
+        op: payout
+        fields:
+          - in: request
+            path: document_id
+            type: transfer
+          - in: response
+            path: data.transfer_id
+            type: payout
+      - http: POST
+        path: /v1/transfer_info
+        name: Payout status
+        kind: status
+        op: payout
+        fields:
+          - in: request
+            path: transfer_id
+            type: payout
+        status:
+          in: response
+          path: data.transfer_data.state
+      - http: POST
+        path: /v3/quote
+        name: Payout fee and rate
+    errors:
+      - code: "55"
+        title: Payout network temporarily unavailable
+        action: Polling retries automatically
+      - code: "400"
+        text: This transfer already exists
+        title: Payout already created
+        partnerCode: "1050"
+    outcomes:
+      - method:
+          http: POST
+          path: /v1/transfer_info
+        when:
+          fields:
+            - path: data.transfer_data.state
+              equals: failed
+        outcome: error
+        text: "Payout network rejected the payout: {data.transfer_data.resolution}"
+      - method:
+          http: POST
+          path: /v1/transfer_info
+        when:
+          fields:
+            - path: data.transfer_data.state
+              oneOf:
+                - created
+                - processing
+        outcome: pending
+        text: "Payout is processing"
+  - key: core
+    name: Core banking
+    hosts:
+      - core.pay.example:8080
+    description: "Customers and accounts. Success: HTTP 200"
+    methods:
+      - http: POST
+        path: /createCustomer
+        name: Customer registration
+      - http: POST
+        path: /form
+        name: Customer questionnaire
+      - http: POST
+        path: /soap
+        name: Customer details
+      - http: POST
+        path: /v1/accounts/{account}/{branch}
+        name: Customer account
+  - key: esb
+    name: Service bus
+    hosts:
+      - esb.pay.example:8280
+    methods:
+      - http: POST
+        path: /soap-proxy/FeeService
+        rpc: checkFee
+        name: Fee check via the bus
+    outcomes:
+      - when:
+          fields:
+            - path: result_code
+              regex: ^[1-9][0-9]*$
+        outcome: error
+  - key: db
+    type: database
+    name: Demo Pay database
+    hosts:
+      - db.pay.example:5432
+general:
+  errors:
+    - http: 401
+      title: System rejected our credentials
+      action: Check the integration credentials
+    - http: 403
+      title: Access denied
+    - http: 429
+      title: Too many requests
+      action: Try again later
+    - http: 500
+      title: Internal system error
+    - http: 502
+      title: No response from the system (gateway)
+    - http: 503
+      title: System unavailable
+    - http: 504
+      title: System did not respond in time
+  outcomes:
+    - when:
+        http: 404
+        fields:
+          - path: error.code
+            equals: not_found
+      outcome: ignore

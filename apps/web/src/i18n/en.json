@@ -1,0 +1,951 @@
+{
+  "app": {
+    "name": "Threadline"
+  },
+  "header": {
+    "home": "Threadline, go to the home page",
+    "project": "Project",
+    "environment": "Environment",
+    "stand": "Stand",
+    "standNumber": "Stand {{number}}",
+    "theme": "Theme",
+    "language": "Language",
+    "languageFailed": "The language did not load. Try again.",
+    "unknown": "Unknown: {{n}}",
+    "projects": "Projects",
+    "envMark": "Environment: {{name}}. Search in this environment",
+    "help": "Help",
+    "service": "Service",
+    "themeShort": "Theme",
+    "environments": "Environments"
+  },
+  "theme": {
+    "light": "Light",
+    "dark": "Dark",
+    "system": "System"
+  },
+  "stands": {
+    "title": "Live stands in the last 7 days",
+    "empty": "No live stands in the last 7 days. Enter a number manually.",
+    "failed": "The stand list did not load",
+    "manual": "Stand number",
+    "manualPlaceholder": "For example, 92",
+    "open": "Open",
+    "invalid": "A stand number has one to six digits",
+    "notLive": "Stand {{number}} is not among the live stands of the last 7 days. There may be no records for this period.",
+    "pickTitle": "Choose a stand",
+    "pickText": "A stand is a separate copy of the service for one pull request: it lives while the pull request is open. The list is built from the logs of the last 7 days.",
+    "count_one": "{{count}} stand",
+    "count_other": "{{count}} stands"
+  },
+  "connection": {
+    "label": "Environment connection",
+    "checking": "Checking…",
+    "recheck": "Check again",
+    "checkedAt": "Checked",
+    "details": "Technical details",
+    "retryIn": "Try again in {{seconds}} s.",
+    "status": {
+      "connected": {
+        "title": "Connected",
+        "text": "Threadline can see the log storage of this environment."
+      },
+      "demo": {
+        "title": "Demo",
+        "text": "Synthetic records in the real format. Threadline does not contact Grafana; card numbers and names are made up."
+      },
+      "not-configured": {
+        "title": "Not configured",
+        "text": "Log storage credentials are missing. Set the environment variable {{name}} in the .env file in the Threadline root and restart the server.",
+        "closed": "The environment is not configured. Contact support."
+      },
+      "unauthorized": {
+        "title": "Invalid token",
+        "text": "Log storage did not accept the credentials. Check the token or the user name and password in .env."
+      },
+      "forbidden": {
+        "title": "No permission",
+        "text": "The credentials have no access to the logs, or the address does not point to the API. Check the permissions and the log storage address in config/threadline.yaml."
+      },
+      "not-found": {
+        "title": "Source not found",
+        "text": "The log source from the settings was not found. Check the log storage address and source in config/threadline.yaml."
+      },
+      "network": {
+        "title": "No connection to log storage",
+        "text": "Threadline could not reach log storage. Check the address in config/threadline.yaml, the network and the proxy."
+      },
+      "certificate": {
+        "title": "Certificate not trusted",
+        "text": "The log storage certificate is signed by an authority Threadline does not trust. Put your root certificate in the caFile field in config/threadline.yaml."
+      },
+      "timeout": {
+        "title": "Timeout",
+        "text": "Log storage did not respond in time. Check again a little later."
+      },
+      "overloaded": {
+        "title": "Log storage overloaded",
+        "text": "Log storage is asking to wait. Threadline does not retry requests by itself, so as not to add to the load."
+      },
+      "limit": {
+        "title": "Log storage limit",
+        "text": "The request hit a Loki limit. Narrow the period."
+      },
+      "too-large": {
+        "title": "Response too large",
+        "text": "Log storage returned more than 50 MB. Narrow the period."
+      },
+      "busy": {
+        "title": "Threadline is busy",
+        "text": "Many requests to log storage are running right now. Try again in a few seconds."
+      },
+      "bad-response": {
+        "title": "Unexpected response",
+        "text": "Log storage returned a response in an unknown format."
+      },
+      "unknown": {
+        "title": "Log storage error",
+        "text": "Log storage returned an error that Threadline did not recognize."
+      },
+      "server-unreachable": {
+        "title": "Threadline server unavailable",
+        "text": "The interface cannot reach its server."
+      }
+    },
+    "grafana": {
+      "connected": "Threadline can see Grafana and the Loki source of this environment.",
+      "not-configured": "There is no Grafana token. Set the environment variable {{name}} in the .env file in the Threadline root and restart the server.",
+      "unauthorized": "Grafana did not accept the token. Issue a new API key or service account token with the Viewer role and put it in .env.",
+      "forbidden": "The token has no access to the Loki source, or the address does not point to the Grafana API. Check the token role (Viewer is needed) and the address in config/threadline.yaml.",
+      "not-found": "Grafana has no Loki source named in the settings ({{datasource}}). Check the datasource field in config/threadline.yaml.",
+      "network": "Threadline could not reach Grafana. Check the address in config/threadline.yaml, the network and the proxy.",
+      "certificate": "The Grafana certificate is signed by an authority Threadline does not trust. Put your root certificate in the caFile field in config/threadline.yaml.",
+      "timeout": "Grafana did not respond in time. Check again a little later.",
+      "overloaded": "Grafana or Loki is asking to wait. Threadline does not retry requests by itself, so as not to add to the load."
+    },
+    "loki": {
+      "connected": "Threadline can see the Loki of this environment.",
+      "not-configured": "Loki credentials are missing. Set the environment variable {{name}} in the .env file in the Threadline root and restart the server.",
+      "unauthorized": "Loki did not accept the credentials. Check the token or the user name and password in .env. A multi-tenant Loki also needs the tenant field of the log storage.",
+      "forbidden": "The credentials have no access to Loki, or the address does not point to the Loki API. Check the permissions and the url field of the log storage in config/threadline.yaml.",
+      "not-found": "There is no Loki API at the address from the settings. Check the url field of the log storage in config/threadline.yaml: it is the Loki address without /loki/api/v1 at the end.",
+      "network": "Threadline could not reach Loki. Check the url field of the log storage in config/threadline.yaml, the network and the proxy.",
+      "certificate": "The Loki certificate is signed by an authority Threadline does not trust. Put your root certificate in the caFile field in config/threadline.yaml.",
+      "timeout": "Loki did not respond in time. Check again a little later.",
+      "overloaded": "Loki is asking to wait. Threadline does not retry requests by itself, so as not to add to the load."
+    }
+  },
+  "states": {
+    "retry": "Retry",
+    "serverDown": {
+      "title": "Threadline server unavailable",
+      "text": "Search and open requests are unavailable. Check your network connection and try again in a minute."
+    },
+    "fatal": {
+      "title": "Something went wrong",
+      "text": "An unexpected error occurred in the interface. Reloading returns you to the same project and environment.",
+      "action": "Reload"
+    },
+    "unknownEnv": {
+      "title": "No such environment",
+      "text": "The Threadline settings have no project “{{project}}” or no environment “{{env}}” in it.",
+      "action": "Open {{target}}"
+    },
+    "hiddenProject": {
+      "title": "Project hidden",
+      "text": "Project “{{name}}” is hidden on the projects page, so its records are not shown here.",
+      "action": "Open project page"
+    },
+    "incompleteList": {
+      "title": "Project list incomplete",
+      "text": "Project “{{project}}” is not in the settings file and the database is not loaded yet. It may have been created on the page. Try again later."
+    },
+    "unknownPage": {
+      "title": "No such page",
+      "text": "The link may be outdated or contain a typo.",
+      "action": "To home page"
+    }
+  },
+  "time": {
+    "zone": "{{zone}}, {{offset}}"
+  },
+  "common": {
+    "requests_one": "{{count}} request",
+    "requests_other": "{{count}} requests"
+  },
+  "search": {
+    "title": "Log search",
+    "connection": {
+      "more": "Details"
+    },
+    "field": {
+      "label": "Search values",
+      "placeholder": "user_id, card_id, token, card number, phone, correlation_id…",
+      "hint": "Enter or a comma adds a value. A record must contain all values; case matters.",
+      "remove": "Remove value {{value}}"
+    },
+    "kind": {
+      "pan": "card number",
+      "number_one": "{{count}} digit",
+      "number_other": "{{count}} digits",
+      "pan-mask": "card mask",
+      "uuid": "UUID",
+      "phone": "phone",
+      "text": "text"
+    },
+    "error": {
+      "too-short": "The value is too short: at least 2 characters are needed.",
+      "too-long": "The value is too long: no more than 1000 characters.",
+      "forbidden-char": "Quotes and backslashes are not allowed: they are escaped in logs, so the search would not find them.",
+      "too-many": "No more than 5 values. Remove one to add a new one.",
+      "empty": "Enter a value to search for.",
+      "need-long": "At least one value of 6 or more characters is needed: short values occur too often.",
+      "pan-hidden": "The card number is not kept after a page reload. Remove it and enter it again.",
+      "server": "The server rejected the search: {{reason}}"
+    },
+    "find": "Find",
+    "stop": "Stop",
+    "refresh": "Refresh",
+    "refreshHint": "Search again without using the result from memory",
+    "cached": "Result from memory: the same search ran less than a minute ago. “Refresh” searches again.",
+    "notConfigured": "Search is unavailable: the environment is not configured.",
+    "start": {
+      "title": "Find a request by any value from a support ticket",
+      "text": "Paste a user_id, card number, phone or correlation_id into the search bar: Threadline finds the log records, stitches them into requests and shows each one step by step.",
+      "examples": "Try an example",
+      "examplesHint": "A click fills in the search bar and runs the search",
+      "local": {
+        "title": "This is the demo project",
+        "text": "Its records are made up. Connect your own Grafana or Loki, then create a project and an environment on that storage.",
+        "action": "Connect a storage",
+        "hide": "Hide: this browser will not show the notice again"
+      }
+    },
+    "examples": {
+      "title": "What you can search for",
+      "note": "Enter or a comma adds a value, up to 5 values. Records are kept for {{days}} days. Times are in the project time zone: {{zone}}.",
+      "text": "Any value that gets into the logs. If there are several values, a record must contain all of them.",
+      "userId": {
+        "name": "user_id",
+        "text": "Requests for this user"
+      },
+      "cardId": {
+        "name": "card_id",
+        "text": "Requests for this card"
+      },
+      "cardToken": {
+        "name": "card token",
+        "text": "Requests and external system calls with this token"
+      },
+      "pan": {
+        "name": "PAN or its mask",
+        "text": "External system calls with this card. The full number is not sent to log storage"
+      },
+      "correlationId": {
+        "name": "correlation_id",
+        "text": "All records of one request"
+      },
+      "operationId": {
+        "name": "operation ID",
+        "text": "payment_id, transfer_id: the operation request and external system calls"
+      }
+    },
+    "errorAdvice": {
+      "timeout": "Log storage did not respond in time. Narrow the period or try again later.",
+      "limit": "The request hit a Loki limit. Narrow the period.",
+      "busy": "Many requests to log storage are running right now. Try again in a few seconds.",
+      "overloaded": "Grafana or Loki is asking to wait. Try again later."
+    }
+  },
+  "explore": {
+    "open": "Open in Grafana",
+    "hint": "Opens in a new tab. Access to Grafana is required.",
+    "wider": "The value is not in the address, a pattern is used instead: Grafana may show more lines.",
+    "narrower": "A pattern is in the address instead of the excluded value: Grafana may hide more lines.",
+    "typed": "The value will appear in the address and browser history.",
+    "reason": {
+      "unsafe": "Link unavailable: the search value cannot be passed in an address.",
+      "too-long": "Link unavailable: the request is too long, shorten the values."
+    }
+  },
+  "period": {
+    "label": "Period",
+    "preset": {
+      "15m": "15 min",
+      "1h": "1 h",
+      "6h": "6 h",
+      "24h": "24 h"
+    },
+    "custom": "Custom",
+    "customRange": "{{from}} – {{to}}",
+    "during": {
+      "15m": "in the last 15 minutes",
+      "1h": "in the last hour",
+      "6h": "in the last 6 hours",
+      "24h": "in the last 24 hours",
+      "custom": "for {{from}} – {{to}}"
+    },
+    "customTitle": "Custom period",
+    "modeLabel": "How to set the period",
+    "mode": {
+      "range": "Range",
+      "around": "Around a time"
+    },
+    "at": "Time",
+    "atPlaceholder": "2026-11-02 16:20:29",
+    "margin": "Margin",
+    "marginValue": "±{{minutes}}",
+    "aroundLabel": "{{at}} ±{{minutes}} min",
+    "aroundResult": "{{at}} → {{from}} – {{to}}.",
+    "aroundToNow": "The end is the current moment.",
+    "from": "Start",
+    "to": "End",
+    "zone": "Time in the project time zone: {{zone}}",
+    "calendar": "Open calendar",
+    "apply": "Apply",
+    "cancel": "Cancel",
+    "error": {
+      "incomplete": "Enter the date and time of the start and end.",
+      "year": "The year must be from 2000 to 2099.",
+      "reversed": "The start is later than the end. Swap them.",
+      "future": "The start of the period has not come yet.",
+      "too-long": "The period is longer than 24 hours. Choose 24 hours or less.",
+      "not-yet": "This time has not come yet. Check the date and time zone.",
+      "empty": "Enter a date and time.",
+      "date-only": "Add the time too, for example 2026-11-02 16:20.",
+      "format": "Time not recognized. These work: 2026-11-02 16:20:29, 02.11 16:20 or 16:20.",
+      "too-old_one": "The start is earlier than the log retention period: records are kept for {{count}} day.",
+      "too-old_other": "The start is earlier than the log retention period: records are kept for {{count}} days."
+    }
+  },
+  "results": {
+    "label": "Search results",
+    "found_one": "{{count}} request found",
+    "found_other": "{{count}} requests found",
+    "foundSoFar": "{{found}} so far",
+    "withErrors": "with errors: {{count}}",
+    "noErrors": "no errors",
+    "searching": "Searching…",
+    "notRun": "Search not run",
+    "legend": {
+      "button": "How the status is determined",
+      "error": "Error means at least one of these: a WARNING or higher record, an HTTP 400 or higher response from an external system, an error sign in the response body, an outgoing call with no response for over 30 seconds.",
+      "notYet": "The catalog may decide otherwise: an outcome rule sets the response outcome, and a “not an error” mark removes the red status.",
+      "partner": "The project's response to the partner is visible only if it is written to the logs."
+    },
+    "tabs": {
+      "requests": "Requests",
+      "lines": "All records"
+    },
+    "filter": "Filter",
+    "onlyErrors": "Errors only",
+    "progress": {
+      "label": "Search progress",
+      "count": "Counting by hour: {{done}} of {{total}}",
+      "fetch": "Loading records: batch {{done}} of {{total}}"
+    },
+    "pollFailed": "Could not get the search status.",
+    "pollRetrying": "Retrying: the results will update by themselves once the connection is back.",
+    "notice": {
+      "tooMany": {
+        "title": "Too many requests",
+        "text": "{{found}} found in the last {{span}} of the period, more than the list can hold. Narrow the period or add another value.",
+        "textNoCount": "Log storage refused: too many requests. Narrow the period or add another value.",
+        "card": "The edges of the number, the first 6 and last 4 digits, are the same on several cards, so there are many matches.",
+        "lines": "The found lines are on the “All records” tab."
+      },
+      "truncated": {
+        "title": "Not all records are shown",
+        "text": "The search hit the line limit. Requests marked “incomplete records” were not read to the end. Narrow the period.",
+        "textExclude": "The search hit the line limit. Requests marked “incomplete records” were not read to the end: the unread part may contain a value from “Does not contain”. Narrow the period.",
+        "memory": "The search hit the server memory limit: the records are too large or many other searches are running. Requests marked “incomplete records” were not read to the end. Narrow the period or search again later.",
+        "memoryExclude": "The search hit the server memory limit: the records are too large or many other searches are running. Requests marked “incomplete records” were not read to the end: the unread part may contain a value from “Does not contain”. Narrow the period or search again later."
+      },
+      "error": {
+        "count": "Counting was interrupted. The period was scanned from {{from}} to {{to}}; what was found in that time is below.",
+        "countNone": "Counting was interrupted at the very start: the period was not scanned.",
+        "fetch": "Not all records were loaded: below are the requests from the loaded batches.",
+        "details": "Technical details"
+      },
+      "cancelled": {
+        "title": "Search stopped",
+        "text": "Showing what was found before the stop."
+      },
+      "expired": {
+        "title": "The result has expired",
+        "text": "The server keeps a search result for 15 minutes after the last access. When space runs out, the oldest results go earlier.",
+        "repeat": "Search again",
+        "new": "New search"
+      },
+      "empty": {
+        "title": "Nothing found {{period}}",
+        "text": "Check the value or widen the period.",
+        "action": "Search the last 24 hours"
+      },
+      "onlyLines": {
+        "title": "No requests with correlation_id",
+        "text": "But there are lines without correlation_id: they are on the “All records” tab.",
+        "briefTitle": "No requests found",
+        "briefText": "Only records not linked to a request were found: they are in “Detailed” mode.",
+        "businessText": "Only records not linked to a request were found. Support can see the details.",
+        "excludedTitle": "No requests left",
+        "excludedText": "Every request found has a record with a value from “Does not contain”. Lines without that value are on the “All records” tab.",
+        "excludedBriefText": "Every request found has a record with a value from “Does not contain”. Lines without that value are visible in “Detailed” mode.",
+        "excludedBusinessText": "Every request found has a record with a value from “Does not contain”. Remove that value to see the requests."
+      }
+    }
+  },
+  "requests": {
+    "label": "Found requests",
+    "col": {
+      "status": "Status",
+      "time": "Time",
+      "request": "Request",
+      "component": "Component",
+      "records": "Records",
+      "duration": "Duration",
+      "cid": "Request ID",
+      "outcome": "Outcome",
+      "system": "System",
+      "cidHint": "correlation_id"
+    },
+    "status": {
+      "error": "Error",
+      "success": "Success"
+    },
+    "day": {
+      "today": "Today · {{date}}",
+      "yesterday": "Yesterday · {{date}}"
+    },
+    "background": "background",
+    "backgroundHint": "There is no incoming request record: this is how background tasks, retries and callback processing look.",
+    "maybeCached": "possibly a cached response",
+    "maybeCachedHint": "There is an incoming request but no external system calls: an earlier response may have come from cache.",
+    "inexact": "inexact match",
+    "inexactHint": "Found by mask or number edges: the full number is not in the records. Several cards may fit the mask.",
+    "incomplete": "incomplete records",
+    "incompleteHint": "The search hit the line or memory limit: some records of the request were not read.",
+    "pending": "no response yet, click “Refresh” a little later",
+    "records_one": "{{count}} record",
+    "records_other": "{{count}} records",
+    "copyCid": "Copy correlation_id {{cid}}",
+    "copied": "Copied",
+    "copyFailed": "Could not copy",
+    "waiting": "Requests will appear as the search runs."
+  },
+  "request": {
+    "hitsFound_one": "Value found in {{count}} record of {{total}}",
+    "hitsFound_other": "Value found in {{count}} records of {{total}}",
+    "hitsNone": "The value is not in the visible text: it may be hidden by a mask",
+    "whatMore": "more",
+    "whatLess": "collapse",
+    "toFirstHit": "To first match",
+    "back": "To results",
+    "resultStep": {
+      "label": "Move between search results",
+      "position": "{{index}} of {{total}}",
+      "prev": "Previous result",
+      "next": "Next result"
+    },
+    "toSearch": "Search in environment",
+    "backgroundTitle": "Background request",
+    "start": "Start",
+    "cid": "Request ID",
+    "nocid": "records without correlation_id",
+    "share": "Share",
+    "reasons": "Error reasons",
+    "notes": "Notes",
+    "recordsTitle": "Request records",
+    "notFound": {
+      "title": "No records of this request for this period",
+      "text_one": "Logs are kept for {{count}} day: the records may have expired, or the link has inexact bounds.",
+      "text_other": "Logs are kept for {{count}} days: the records may have expired, or the link has inexact bounds."
+    },
+    "badLink": {
+      "title": "The request link is invalid",
+      "text": "The link is missing the request details. Copy the link again from the request page."
+    },
+    "failedPlain": "The records cannot be read right now. Try again a little later.",
+    "failed": "Request records did not load",
+    "total": "Total",
+    "external": "In external systems",
+    "chain": "Request path",
+    "tabs": {
+      "label": "Request view",
+      "scheme": "Diagram",
+      "timeline": "Timeline",
+      "records": "Records"
+    },
+    "source": {
+      "external": "External system error",
+      "project": "{{name}} error",
+      "unknown": "System not described",
+      "pending": "Awaiting response"
+    },
+    "undescribed": "This error is not described yet: pass the link to support",
+    "moreReasons_one": "and {{count}} more error",
+    "moreReasons_other": "and {{count}} more errors",
+    "operationId": "Operation ID",
+    "reveal": {
+      "show": "Show hidden",
+      "hide": "Hide",
+      "failed": "Could not show",
+      "hint": "Reveals in record details what you are allowed to see. A value the application hid before writing to the log cannot be brought back.",
+      "stays": "Stay masked: {{kinds}}.",
+      "kind": {
+        "card_number": "card number",
+        "secrets": "secrets"
+      },
+      "partial": "Some records have changed and stay masked. Open the request again.",
+      "expired": "The search has expired: run it again to show the values.",
+      "gone": "There are no records of this request for this period."
+    },
+    "moreErrors_one": "{{count}} more error",
+    "moreErrors_other": "{{count}} more errors",
+    "whatToDo": "what to do",
+    "more": "More actions",
+    "externalShort": "External"
+  },
+  "trace": {
+    "kind": {
+      "incoming": "entry",
+      "call": "call",
+      "exchange": "exchange",
+      "log": "log"
+    },
+    "noResponse": "response not found in logs",
+    "pending": "no response yet",
+    "noSend": "outgoing call not found in logs",
+    "empty": "There are no steps in the request records.",
+    "scheme": {
+      "app": "Application",
+      "gateway": "gateway"
+    },
+    "timeline": {
+      "label": "Request steps",
+      "step": "Step"
+    },
+    "attempts": {
+      "title": "Attempts",
+      "titleParallel": "Parallel calls",
+      "number": "No.",
+      "start": "Start",
+      "pause": "Pause before",
+      "duration": "Duration",
+      "result": "Outcome",
+      "system": "System",
+      "show": "Show {{count}}",
+      "pauseNote": "pause {{duration}}",
+      "same_one": "{{count}} attempt with the same outcome",
+      "same_other": "{{count}} attempts with the same outcome"
+    },
+    "details": {
+      "label": "Step details",
+      "tabs": {
+        "request": "Request",
+        "response": "Response",
+        "headers": "Headers",
+        "context": "Context",
+        "raw": "Raw records"
+      },
+      "address": "Address",
+      "body": "Body",
+      "context": "Context",
+      "appLogs": "Application logs",
+      "noLogs": "The application wrote no logs other than the entry and exchanges.",
+      "fromStart": "{{offset}} from start",
+      "stepLogs": "Step logs",
+      "data": "Step data"
+    },
+    "panel": {
+      "collapse": "Collapse the step panel",
+      "open": "Show the step panel",
+      "resize": "Step panel width. Double-click restores the usual width"
+    },
+    "ok": "OK"
+  },
+  "code": {
+    "view": "View",
+    "pretty": "Formatted",
+    "asLogged": "As logged",
+    "asPage": "As a page",
+    "tooBig": "Over 300 KB: shown without highlighting.",
+    "longLine": "The text has very long lines: shown without wrapping, scroll sideways to read them.",
+    "hits_one": "{{count}} match",
+    "hits_other": "{{count}} matches",
+    "hitsHint": "A masked value is highlighted by its visible part.",
+    "hitsCapped": "The first {{max}} are highlighted.",
+    "window": {
+      "open": "Open in a large window",
+      "close": "Close the window",
+      "step": "Step {{index}}",
+      "toStep": "To step {{index}}",
+      "toThisStep": "To this step",
+      "toAppLogs": "To application logs"
+    },
+    "page": {
+      "frame": "Page from the log",
+      "tooBig": "This page is too large to show here: {{size}} KB, the limit is {{limit}} KB. You can read its code in the “Formatted” view.",
+      "tooComplex": "This page has too many tags to show here: over {{limit}}. You can read its code in the “Formatted” view.",
+      "caption": "A page from the log, its content is not verified. Links and fields in it do not work; copy its text with the Copy button.",
+      "failed": "The page could not be shown. You can read its code in the “Formatted” view.",
+      "hidden": "Hidden on this page: {{list}}.",
+      "hiddenCards_one": "{{count}} card number",
+      "hiddenCards_other": "{{count}} card numbers",
+      "hiddenPhones_one": "{{count}} phone number",
+      "hiddenPhones_other": "{{count}} phone numbers",
+      "more_one": "This body has {{count}} more page. You can read its code in the “Formatted” view.",
+      "more_other": "This body has {{count}} more pages. You can read their code in the “Formatted” view."
+    }
+  },
+  "record": {
+    "kind": {
+      "incoming": "entry",
+      "call": "call",
+      "send": "outgoing",
+      "response": "response",
+      "log": "log",
+      "text": "text",
+      "raw": "not parsed"
+    },
+    "titleCode": {
+      "raw": "not parsed",
+      "mask-failed": "record hidden: masking error",
+      "record": "Record"
+    },
+    "noResponse": "response not found in logs",
+    "pending": "no response yet",
+    "exchange": "Exchange duration: from sending to the response",
+    "toResponse": "To response",
+    "toSend": "To outgoing call",
+    "openRequest": "To request",
+    "section": {
+      "request": "Request",
+      "headers": "Headers",
+      "body": "Body",
+      "payload": "Payload",
+      "response": "Response",
+      "context": "Other context",
+      "raw": "Raw record"
+    },
+    "responseStatus": "HTTP {{status}}",
+    "empty": "empty",
+    "copy": "Copy",
+    "copied": "Copied",
+    "copyFailed": "Failed",
+    "wrap": "Wrap lines",
+    "nested": {
+      "label": "Nested bodies",
+      "title": "{{path}} · {{lang}}",
+      "truncated": "The first {{limit}} nested bodies are shown.",
+      "lang": {
+        "json": "JSON",
+        "xml": "XML",
+        "http": "HTTP",
+        "form": "form"
+      }
+    }
+  },
+  "lines": {
+    "label": "All found lines",
+    "more": "Show more",
+    "end": "These are all the records for the period.",
+    "empty": "No lines for the period.",
+    "failed": "Records did not load",
+    "env": "Lines environment"
+  },
+  "units": {
+    "ms": "{{value}} ms",
+    "s": "{{value}} s",
+    "m": "{{value}} m",
+    "d": "{{value}} d",
+    "h": "{{value}} h",
+    "spanHours_one": "{{count}} hour",
+    "spanHours_other": "{{count}} hours",
+    "spanMinutes_one": "{{count}} minute",
+    "spanMinutes_other": "{{count}} minutes",
+    "b": "{{value}} B",
+    "kb": "{{value}} KB",
+    "mb": "{{value}} MB"
+  },
+  "params": {
+    "label": "Path parameters",
+    "copy": "Copy {{name}}: {{value}}"
+  },
+  "httpStatus": {
+    "400": "bad request",
+    "401": "unauthorized",
+    "403": "forbidden",
+    "404": "not found",
+    "405": "method not allowed",
+    "408": "request timeout",
+    "409": "conflict",
+    "422": "data not accepted",
+    "429": "too many requests",
+    "500": "internal server error",
+    "502": "bad gateway",
+    "503": "service unavailable",
+    "504": "gateway timeout",
+    "4xx": "request error",
+    "5xx": "system-side error"
+  },
+  "reason": {
+    "noResponse": "response not found",
+    "code": "code {{code}}"
+  },
+  "flow": {
+    "kind": {
+      "entry": "Entry",
+      "exchange": "External system",
+      "fn": "Project function",
+      "db": "DB",
+      "async": "Async step"
+    },
+    "moreRight_one": "{{count}} more step to the right",
+    "moreRight_other": "{{count}} more steps to the right",
+    "panHint": "drag to pan, Ctrl/⌘ + wheel to zoom",
+    "label": "Request diagram",
+    "labelHint": "The same steps as a list are on the “Timeline” tab",
+    "loading": "The diagram is loading",
+    "loadFailed": {
+      "title": "The diagram could not be loaded",
+      "text": "The request steps are also on the timeline."
+    },
+    "noExternal": "No external calls: the response came from a database or cache",
+    "logs": {
+      "title": "Application logs",
+      "none": "no logs",
+      "level": "{{count}} {{level}}"
+    },
+    "node": {
+      "entry": "Entry",
+      "entryGateway": "Entry through a gateway",
+      "background": "Background run",
+      "db": "Database",
+      "wait": "Wait",
+      "parallel_one": "{{count}} more in parallel",
+      "parallel_other": "{{count}} more in parallel",
+      "pause": "Pause {{duration}}",
+      "pauseBare": "Pause",
+      "more_one": "{{count}} more step",
+      "more_other": "{{count}} more steps",
+      "moreFlows_one": "{{count}} more operation request",
+      "moreFlows_other": "{{count}} more operation requests"
+    },
+    "mark": {
+      "retry": "×{{count}}",
+      "failed_one": "{{count}} failed",
+      "failed_other": "{{count}} failed",
+      "calls_one": "{{count}} exchange",
+      "calls_other": "{{count}} exchanges",
+      "errors_one": "{{count}} error",
+      "errors_other": "{{count}} errors",
+      "attempts_one": "{{count}} attempt",
+      "attempts_other": "{{count}} attempts",
+      "allFailed": "all failed",
+      "step": "step {{index}} of {{of}}",
+      "issued": "ID issued …{{short}}",
+      "poll": "polling ×{{count}}",
+      "unread": "further records not read",
+      "callbackEarly": "callback before the creation response",
+      "openOperation": "open operation"
+    },
+    "outcome": {
+      "success": "Success",
+      "error": "Error",
+      "entryOk": "Outcome: success",
+      "entryError": "Outcome: error",
+      "allOk": "all successful",
+      "claimed": "claimed in callback"
+    },
+    "edge": {
+      "pause": "after {{duration}}",
+      "byKey": "link: {{key}}",
+      "together": "simultaneously"
+    },
+    "aria": {
+      "step": "Step {{order}} of {{total}}",
+      "error": "Step with an error",
+      "start": "start {{offset}}",
+      "parallel": "parallel, branch {{branch}}",
+      "logs": "logs: {{count}}",
+      "warnings": "has WARNING",
+      "errors": "has ERROR",
+      "group": "group {{mark}}",
+      "status": "operation status: {{status}}"
+    },
+    "group": {
+      "expand": "Expand: {{name}}",
+      "collapse": "Collapse: {{name}}",
+      "toTimeline": "Open on the timeline: there are more steps than fit on the diagram"
+    },
+    "rf": {
+      "node": "Select nodes with the arrow keys; Enter opens step details.",
+      "edge": "Link between steps.",
+      "controls": "Control panel",
+      "zoomIn": "Zoom in",
+      "zoomOut": "Zoom out",
+      "fitView": "Fit to view",
+      "interactive": "Toggle interaction",
+      "minimap": "Mini map",
+      "handle": "Connection point"
+    },
+    "via": {
+      "gateway": "via gateway"
+    },
+    "external": "external"
+  },
+  "operation": {
+    "kicker": "Operation",
+    "open": "Open operation",
+    "openOne": "Open operation · {{name}} …{{short}}",
+    "masked": "ID hidden by masking",
+    "choose": "Which operation to open",
+    "copyId": "Copy operation ID {{value}}",
+    "back": "To operation",
+    "position": "Request {{index}} of {{total}}",
+    "prev": "Previous operation request",
+    "next": "Next operation request",
+    "reopen": "The operation search has expired: open the operation again",
+    "role": {
+      "start": "creation",
+      "call": "call",
+      "status": "status poll",
+      "callback": "callback",
+      "worker": "background processing",
+      "mention": "ID in record text"
+    },
+    "flowTitle": {
+      "background": "Background processing",
+      "nocid": "Records without correlation_id"
+    },
+    "openManyOf": "Open operation · {{name}}: {{count}}",
+    "openPrefix": "Open operation · ",
+    "manyShort": "{{name}}: {{count}}",
+    "short": "Operation"
+  },
+  "catalog": {
+    "editInCatalog": "Edit in catalog",
+    "addToCatalog": "Add to catalog",
+    "banner": {
+      "unavailable": "Catalog unavailable: names are not shown",
+      "stale": "Catalog unavailable, data as of {{time}}"
+    },
+    "methodKind": {
+      "project": {
+        "call": "Regular",
+        "start": "Operation creation",
+        "status": "Operation status",
+        "callback": "Callback"
+      },
+      "external": {
+        "call": "Synchronous",
+        "start": "Asynchronous send",
+        "status": "Status",
+        "callback": "Callback"
+      }
+    },
+    "sourceLabel": "Source: {{source}}",
+    "source": {
+      "project": "project",
+      "external": "external system",
+      "unknown": "unknown"
+    },
+    "verdict": {
+      "success": "success",
+      "error": "error",
+      "pending": "processing",
+      "unknown": "outcome unknown",
+      "ignored": "not an error per catalog",
+      "byRule": {
+        "method": "by method outcome rule",
+        "system": "by system outcome rule",
+        "general": "by project outcome rule"
+      }
+    },
+    "step": {
+      "title": "Outcome",
+      "action": "What to do",
+      "raw": "Original",
+      "partner": "the partner will get code {{code}} per the registry",
+      "addRule": "Add outcome rule",
+      "editRule": "Edit outcome rule"
+    },
+    "form": {
+      "close": "Close",
+      "optional": "optional",
+      "sheetFailed": "Could not load the form. Try reloading the page."
+    }
+  },
+  "view": {
+    "switch": {
+      "label": "Display mode",
+      "hint": "“Brief” only removes details from the screen, the data is not protected"
+    },
+    "mode": {
+      "full": "Detailed",
+      "brief": "Brief"
+    },
+    "brief": {
+      "external": "External system",
+      "exchange": "Exchange",
+      "noName": "No name in the catalog",
+      "reason": {
+        "external": "The external system returned an error",
+        "internal": "Error inside the service"
+      }
+    },
+    "steps_one": "{{count}} step",
+    "steps_other": "{{count}} steps",
+    "moreDetails": "Some details are in “Detailed” mode",
+    "toFull": "Detailed",
+    "recordHidden": "Record details are in “Detailed” mode"
+  },
+  "envPicker": {
+    "also": "Also search in {{name}}",
+    "alsoHint": "Also search here",
+    "alsoGroup": "Also search in these environments",
+    "stands": "PR stands are searched separately from other environments",
+    "notConfigured": "The environment is not configured",
+    "only": "At least one environment stays selected",
+    "limit_one": "No more than {{count}} environment",
+    "limit_other": "No more than {{count}} environments"
+  },
+  "multi": {
+    "parts": "Search environments",
+    "notice": "{{env}}: {{title}}",
+    "part": {
+      "running": "running",
+      "failed": "not run",
+      "error": "error",
+      "tooMany": "too many"
+    }
+  },
+  "viewer": {
+    "label": "Step data: {{step}}",
+    "tabs": "Step data",
+    "partsLabel": "Parts",
+    "open": "Open",
+    "line": "line {{n}}",
+    "parts_one": "{{count}} record",
+    "parts_other": "{{count}} records",
+    "stepPosition": "Step {{index}} of {{total}}",
+    "prevStep": "Previous step",
+    "nextStep": "Next step",
+    "close": "Close",
+    "search": "Find in text",
+    "searchPosition": "{{index}} of {{total}}",
+    "noMatches": "no matches",
+    "prevMatch": "Previous match",
+    "nextMatch": "Next match",
+    "lines_one": "{{count}} line",
+    "lines_other": "{{count}} lines",
+    "at": "logged at {{time}}",
+    "empty": "This step has no data for this window. Move between steps with the buttons or the J and K keys.",
+    "keys": {
+      "close": "close",
+      "search": "search",
+      "step": "next or previous step"
+    }
+  }
+}

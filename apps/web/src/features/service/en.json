@@ -1,0 +1,54 @@
+{
+  "title": "Service settings",
+  "loadFailed": "Service status did not load",
+  "loadFailedText": "The Threadline server did not return the page data (code: {{code}}). The header and other pages still work.",
+  "settingsClosed": "Service settings are available to administrators only.",
+  "noSettings": "The database is not connected: service settings are not saved and the defaults apply. Set the database address in the THREADLINE_DATABASE_URL variable.",
+  "summary": {
+    "dbOk": "Working",
+    "dbOff": "Not connected",
+    "dbConnecting": "Connecting",
+    "dbDown": "Unavailable"
+  },
+  "stores": {
+    "token": "Token",
+    "scopeNone": "not set",
+    "check": "Check",
+    "checking": "Checking",
+    "working": "Working",
+    "noToken": "No token",
+    "failed": "Check not run",
+    "empty": "No log storages. They are set in the settings file, in the backends section.",
+    "notChecked": "Not checked",
+    "checkedAt": "checked at {{time}}",
+    "startedAt": "started at {{time}}",
+    "tokenMissing": "Token not set",
+    "tokenHint": "Set the {{env}} variable and restart the service"
+  },
+  "verdict": {
+    "ok": "Threadline and the checked log storages are working.",
+    "ours": "Threadline is working, the connection is set up wrongly: {{list}}. This is fixed on our side, not in the log storage.",
+    "remote": "Threadline is working, the failure is in the log storage or the network: {{list}}. Until it recovers, search results may be incomplete.",
+    "self": "The Threadline server did not answer the check: the problem is on our side or in the network to it."
+  },
+  "state": {
+    "title": "Status",
+    "lead": "Checks run only when you press the button, so the log storages get no extra load.",
+    "checkAll": "Check all",
+    "storages": "Connect a storage",
+    "storagesHint": "Your own Grafana or Loki: the token stays on this computer"
+  },
+  "db": {
+    "name": "Database",
+    "kind": "PostgreSQL · catalog and settings",
+    "loadedAt": "data read at {{time}}"
+  },
+  "login": {
+    "name": "Sign-in",
+    "oidc": "OIDC · roles come from the sign-in service",
+    "offKind": "Turned off by the auth: off setting",
+    "on": "On",
+    "off": "Off"
+  },
+  "docs": "How to connect a new log storage"
+}

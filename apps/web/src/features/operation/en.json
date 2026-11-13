@@ -1,0 +1,158 @@
+{
+  "pageTitle": "{{name}} …{{short}}",
+  "unknownType": "ID type “{{type}}” is not described in the catalog: requests were found by text only.",
+  "window": {
+    "label": "Search window",
+    "6h": "±3 h",
+    "24h": "±12 h"
+  },
+  "refresh": "Refresh",
+  "outcome": {
+    "label": "Outcome",
+    "pending": "In progress",
+    "unknown": "Outcome not read",
+    "notRead": "Search not finished: outcome unknown",
+    "claimed": "per callback, the logs do not confirm processing",
+    "partial": "based on incomplete data",
+    "pendingHint": "The operation is still running: click “Refresh” later.",
+    "errors_one": "{{count}} request with errors",
+    "errors_other": "{{count}} requests with errors",
+    "searching": "Searching…"
+  },
+  "trail": {
+    "title": "Operation progress",
+    "empty": "No operation statuses in the logs",
+    "notRead": "Not read: search stopped",
+    "claimed": "claimed in callback",
+    "stale": "stale",
+    "from": "from request {{letter}}",
+    "current": "current"
+  },
+  "flows": {
+    "title": "Operation requests",
+    "empty": "No requests in the window",
+    "notRead": "Not read: search stopped"
+  },
+  "foundPlace": {
+    "entry-path": "entry path",
+    "entry-body": "entry body",
+    "send-url": "outgoing call address",
+    "send-body": "outgoing call body",
+    "response-body": "response body",
+    "log-body": "log record body",
+    "record-text": "record text"
+  },
+  "row": {
+    "nocid": "records without correlation_id",
+    "ops_one": "processes {{count}} operation",
+    "ops_other": "processes {{count}} operations",
+    "noStatus": "status is not logged",
+    "callbackEarly": "callback before the creation response",
+    "group": "×{{count}}",
+    "failed": "with errors: {{count}}",
+    "expand": "Show group requests: {{title}}",
+    "collapse": "Collapse group requests: {{title}}",
+    "exchangeOk": "exchange without errors",
+    "open": "Show request steps: {{title}}",
+    "close": "Hide request steps: {{title}}"
+  },
+  "gap": {
+    "after": "after {{duration}}",
+    "together": "simultaneously",
+    "by": "link: {{key}}"
+  },
+  "polls": {
+    "title": "Partner polls ×{{count}}",
+    "hint": "The partner polled the status by ID. These requests were not read, so their time is only approximate. The project's response to the partner is visible only if it is written to the logs.",
+    "notRead": "requests were not read"
+  },
+  "unread": {
+    "title_one": "{{count}} request in {{from}}–{{to}} not read",
+    "title_other": "{{count}} requests in {{from}}–{{to}} not read",
+    "limit": "Narrow the window to read them.",
+    "segments": "More than 50 record groups without correlation_id: the rest were not read."
+  },
+  "notice": {
+    "running": "Searching for operation requests",
+    "excluded": "Records not searched: {{list}}",
+    "long": "Operations longer than 24 hours are assembled only within a ±12 hour window.",
+    "single": "No other requests found in the window.",
+    "wider": "Search in a ±12 h window",
+    "supplement": "Also search by ID “{{name}}”",
+    "error": "Search stopped: {{reason}}. The window was scanned up to {{time}}.",
+    "errorNoTime": "Search stopped: {{reason}}.",
+    "finished": "Search finished.",
+    "unsearched": "More operation IDs were found, the search limit is three values:"
+  },
+  "error": {
+    "expired": {
+      "title": "The operation records are gone",
+      "text_one": "Logs are kept for {{count}} day: the operation window is older than the retention period.",
+      "text_other": "Logs are kept for {{count}} days: the operation window is older than the retention period."
+    },
+    "badValue": {
+      "title": "This value cannot be an operation ID",
+      "text": "The link has a card number, phone or another value that operations are not searched by."
+    },
+    "short": {
+      "title": "The operation ID is too short",
+      "text": "At least 6 characters are needed: short values find unrelated records."
+    },
+    "badLink": {
+      "title": "The operation link is invalid",
+      "text": "The link has no operation ID or request time. Open the operation again from the request page."
+    },
+    "failed": "Could not assemble the operation"
+  },
+  "facts": {
+    "start": "Started {{date}} · {{time}}",
+    "requests_one": "{{count}} request",
+    "requests_other": "{{count}} requests",
+    "linked": "Linked by: {{list}}"
+  },
+  "table": {
+    "request": "Request",
+    "caller": "Called by",
+    "start": "Start",
+    "duration": "Duration",
+    "outcome": "Outcome",
+    "note": "Scale: from the first request to the last, {{span}}. A pause shows as distance, duration as a number.",
+    "showAll": "Show all: {{count}}",
+    "scale": "Request {{letter}} on the operation scale",
+    "scaleNoLetter": "Row on the operation scale"
+  },
+  "caller": {
+    "partner": "Partner",
+    "external": "External system",
+    "worker": "Background task"
+  },
+  "preview": {
+    "open": "Open request",
+    "failed": "Request records did not load",
+    "expired": "The operation search has expired: open the request on its own page"
+  },
+  "summary": {
+    "title": "What happened",
+    "loading": "Looking for the error reason…",
+    "lead": {
+      "failure": "Operation “{{name}}” did not go through.",
+      "claimed": "Operation “{{name}}” went through only according to the callback.",
+      "success": "Operation “{{name}}” went through.",
+      "pending": "Operation “{{name}}” is still in progress.",
+      "unknown": "The result of operation “{{name}}” was not read.",
+      "notRead": "The search did not finish, the result of operation “{{name}}” is unknown."
+    },
+    "at": "request {{index}} of {{total}}",
+    "step": "Step “{{step}}” in",
+    "noStep": "Error in",
+    "details": "Details in",
+    "status": "Status “{{status}}” in",
+    "statusOnly": "Status “{{status}}”",
+    "calm": "Requests with errors: {{count}}, the first error is in",
+    "sharedNote": "the reason may belong to another one"
+  },
+  "strip": {
+    "text_one": "Operation “{{name}}” · {{count}} request",
+    "text_other": "Operation “{{name}}” · {{count}} requests"
+  }
+}

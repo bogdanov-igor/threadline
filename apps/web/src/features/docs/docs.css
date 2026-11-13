@@ -1,0 +1,228 @@
+/* Текст страницы документации: размер, ритм, списки, шаги. Блоки со своей разметкой (код, снимок, врезка, таблица, карточки)
+   рисуют себя сами, здесь только отступы между ними. Слой components: классы Tailwind на элементе важнее этих правил. */
+@layer components {
+  .docs-prose {
+    color: var(--foreground-2);
+    font-size: 16px;
+    line-height: 28px;
+  }
+
+  /* Ритм: обычный шаг между блоками, крупные блоки с воздухом, после заголовка ближе. */
+  .docs-prose > * {
+    margin-top: 20px;
+  }
+  .docs-prose li > * + * {
+    margin-top: 12px;
+  }
+  .docs-prose > :is(figure, [data-code], [data-callout], [data-table], [data-cards]),
+  .docs-prose > :is(figure, [data-code], [data-callout], [data-table], [data-cards]) + :not(h2, h3, h4) {
+    margin-top: 32px;
+  }
+  .docs-prose li > :is(figure, [data-code], [data-callout], [data-table]) {
+    margin-top: 16px;
+  }
+  .docs-prose > :first-child {
+    margin-top: 0;
+  }
+
+  .docs-prose > h2 {
+    margin-top: 48px;
+    padding-top: 36px;
+    border-top: 1px solid var(--border);
+    color: var(--heading);
+    font-size: 24px;
+    line-height: 32px;
+    font-weight: 600;
+    letter-spacing: -0.016em;
+  }
+  .docs-prose > h3 {
+    margin-top: 44px;
+    color: var(--heading);
+    font-size: 19px;
+    line-height: 28px;
+    font-weight: 600;
+    letter-spacing: -0.01em;
+  }
+  .docs-prose > h4 {
+    margin-top: 32px;
+    color: var(--heading);
+    font-size: 16px;
+    line-height: 24px;
+    font-weight: 600;
+  }
+  .docs-prose > :is(h2, h3, h4) + :not(h2, h3, h4) {
+    margin-top: 12px;
+  }
+  .docs-prose > :is(h2, h3) + :is(h3, h4) {
+    margin-top: 24px;
+  }
+  .docs-prose > h2:first-child {
+    padding-top: 0;
+    border-top: 0;
+  }
+  .docs-prose > :is(h2, h3, h4) + :is(figure, [data-code], [data-callout], [data-table], [data-cards]) {
+    margin-top: 20px;
+  }
+
+  .docs-prose > p[data-lead] {
+    color: var(--muted-foreground);
+    font-size: 18px;
+    line-height: 30px;
+    letter-spacing: -0.003em;
+  }
+
+  .docs-prose :is(p, li) {
+    max-width: 72ch;
+  }
+  .docs-prose :is(td, th, [data-callout]) :is(p, li) {
+    max-width: none;
+  }
+  .docs-prose strong {
+    color: var(--foreground);
+    font-weight: 600;
+  }
+
+  .docs-prose a:not([data-card]) {
+    color: var(--primary);
+    font-weight: 500;
+    text-decoration-line: underline;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--primary) 35%, transparent);
+    text-underline-offset: 3px;
+    transition: text-decoration-color 120ms;
+  }
+  .docs-prose a:not([data-card]):hover {
+    text-decoration-color: var(--primary);
+  }
+
+  /* Маркированный список: точка цвета акцента вместо стандартной. */
+  .docs-prose ul > li {
+    position: relative;
+    padding-left: 24px;
+  }
+  .docs-prose ul > li::before {
+    content: '';
+    position: absolute;
+    left: 7px;
+    top: 11px;
+    width: 6px;
+    height: 6px;
+    border-radius: 999px;
+    background: color-mix(in srgb, var(--primary) 55%, transparent);
+  }
+  .docs-prose :is(ul, ol) > li + li {
+    margin-top: 8px;
+  }
+
+  /* Нумерованный список — шаги: номер в кружке и линия к следующему шагу. */
+  .docs-prose ol {
+    counter-reset: doc-step;
+  }
+  .docs-prose ol > li {
+    position: relative;
+    counter-increment: doc-step;
+    padding-left: 44px;
+  }
+  .docs-prose ol > li + li {
+    margin-top: 16px;
+  }
+  .docs-prose ol > li::before {
+    content: counter(doc-step);
+    position: absolute;
+    left: 0;
+    top: 0;
+    display: grid;
+    place-items: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 999px;
+    background: var(--accent);
+    box-shadow: inset 0 0 0 1px var(--accent-line);
+    color: var(--primary);
+    font-size: 13px;
+    font-weight: 600;
+    line-height: 1;
+    font-variant-numeric: tabular-nums;
+  }
+  .docs-prose ol:not([data-legend]) > li:not(:last-child)::after {
+    content: '';
+    position: absolute;
+    left: 13.5px;
+    top: 34px;
+    bottom: -12px;
+    width: 1px;
+    background: var(--border);
+  }
+
+  /* Подписи к цифрам снимка: цифры того же цвета, что метки на снимке. Список стоит в рамке снимка, под подписью. */
+  .docs-prose > figure[data-joined] + ol[data-legend] {
+    margin-top: 0;
+  }
+  .docs-prose ol[data-legend] > li {
+    padding-left: 36px;
+  }
+  .docs-prose ol[data-legend] > li + li {
+    margin-top: 10px;
+  }
+  .docs-prose ol[data-legend] > li::before {
+    top: 2px;
+    width: 24px;
+    height: 24px;
+    background: #7c3aed;
+    box-shadow: none;
+    color: #ffffff;
+    font-size: 12px;
+    font-weight: 700;
+  }
+}
+
+/* Колонки со своей прокруткой: тонкая полоса. Выше окна (data-overflow, reading.ts) прокрутка колеса не уходит на страницу. */
+.docs-scroll {
+  scrollbar-width: thin;
+  scrollbar-color: var(--border) transparent;
+}
+.docs-scroll[data-overflow] {
+  overscroll-behavior: contain;
+}
+
+/* Высота закреплённой части над текстом: шапка 56 и, уже 1280, полоса над текстом 48. По ней встают раздел под якорем и отметка «На странице». */
+[data-docs-shell] {
+  --docs-top: 104px;
+}
+@media (min-width: 1280px) {
+  [data-docs-shell] {
+    --docs-top: 56px;
+  }
+}
+[data-docs-home] {
+  --docs-top: 56px;
+}
+
+/* У документации поля прокрутки страницы нет: к разделу прокручивает reading.ts, и общее поле из index.css здесь снято.
+   С полем браузер при открытии окна поверх страницы (меню профиля, «?», выбор проекта, выдвижное меню) уводил страницу
+   на сотни пикселей вверх и не возвращал. Чтобы раздел под якорем и элемент с фокусом не уходили под шапку и полосу над текстом,
+   отступ задан самим элементам текста и главной: --docs-top и 24, как у прокрутки к разделу. Закреплённые колонки отступа
+   не получают: они всегда на экране, и отступ заставил бы браузер прокручивать страницу к ним. */
+@layer base {
+  html:has([data-docs-shell]) {
+    scroll-padding-top: 0;
+  }
+}
+[data-docs-shell] :is(article, [data-docs-home-body]) * {
+  scroll-margin-top: calc(var(--docs-top) + 24px);
+}
+
+/* Код читают и набирают с экрана: лигатуры JetBrains Mono превратили бы |=, !=, >=, -> и => в один знак. */
+[data-docs-shell] :is(code, pre, kbd, samp, .font-mono) {
+  font-variant-ligatures: none;
+  font-feature-settings:
+    'calt' 0,
+    'liga' 0;
+}
+
+/* Точки на подложке главной: тот же узор, что у холста графа, гаснет к краю. */
+.docs-hero-dots {
+  background-image: radial-gradient(var(--dot) 1.2px, transparent 1.2px);
+  background-size: 18px 18px;
+  mask-image: radial-gradient(ellipse 70% 90% at 85% 10%, #000 20%, transparent 75%);
+}

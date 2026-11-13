@@ -1,0 +1,5 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Report a vulnerability
+    url: https://github.com/bogdanov-igor/threadline/security/advisories/new
+    about: Security problems are reported privately, not in issues.

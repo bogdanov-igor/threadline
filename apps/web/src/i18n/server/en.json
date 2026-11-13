@@ -1,0 +1,128 @@
+{
+  "field": {
+    "unknown": "Unknown field “{{field}}”",
+    "required": "Required field: add it"
+  },
+  "name": {
+    "empty": "The name cannot be empty",
+    "tooLong": "The name is longer than {{max}} characters",
+    "control": "The name has control characters",
+    "masked": "The name looks like hidden data, for example a card number: such a value is not saved"
+  },
+  "id": {
+    "format": "ID: lowercase Latin letters, digits and hyphens, up to 32 characters",
+    "digitsProject": "A project ID cannot be digits only: the order of such a record would not be preserved",
+    "digitsEnvironment": "An environment ID cannot be digits only: the order of such a record would not be preserved",
+    "reservedProject": "ID “{{id}}” is taken by a page address: choose another",
+    "duplicateEnvironment": "Environment ID “{{id}}” is repeated"
+  },
+  "label": {
+    "format": "Label name: Latin letters, digits and underscores",
+    "reserved": "Labels starting with two underscores are internal: the form does not accept them"
+  },
+  "value": {
+    "tooLong": "The value is longer than {{max}} characters",
+    "control": "The value has control characters",
+    "edgeSpace": "Space at the edge of the value: this is almost always a typo and gives an empty result",
+    "regex": "The regular expression does not suit the log storage: check brackets, escapes and that it has no lookahead or back-references"
+  },
+  "store": {
+    "unknown": "Log storage “{{store}}” is not in the settings file. Known: {{known}}"
+  },
+  "example": {
+    "tooMany": "An environment has at most {{max}} search examples",
+    "labelEmpty": "The example caption cannot be empty",
+    "labelTooLong": "The example caption is longer than {{max}} characters",
+    "labelControl": "The example caption has control characters",
+    "labelMasked": "The caption looks like hidden data, for example a card number: put the value in values",
+    "noValues": "The example has no values",
+    "tooManyValues": "An example has at most {{max}} values, like the search bar",
+    "needLong": "At least one value of the example must be {{min}} characters or longer, like in the search bar",
+    "valueSeparator": "A comma, tab or line break splits values in the search bar: write each value as its own list item",
+    "valueShort": "The value is shorter than {{min}} characters",
+    "valueLong": "The value is longer than {{max}} characters",
+    "valueChar": "The value has a quotation mark or a backslash: the search bar does not accept them"
+  },
+  "selector": {
+    "tooMany": "No more than {{max}} conditions in an environment",
+    "twoEqualities": "Two different equalities on label {{label}}: such an environment is always empty",
+    "missing": "Environment “{{id}}” has no conditions",
+    "noEquality": "Environment “{{id}}” needs at least one equality condition (op: \"=\") with a non-empty value, so that logs outside the project are not read"
+  },
+  "stand": {
+    "missing": "Stands environment “{{id}}” has no stand field with a label and template",
+    "placeholder": "A stand template must have exactly one place for the number {number}, for example pr-{number}",
+    "templateChars": "A stand template may contain Latin letters, digits, dots, hyphens and underscores",
+    "onlyForStands": "The stand field exists only in a stands environment (kind: pr-stands)",
+    "noConstant": "The stand template has no constant part: it would read any numeric value of the label"
+  },
+  "scope": {
+    "none": "The form does not save conditions for log storage “{{store}}” until a boundary is set in the settings file: an administrator adds backends.{{store}}.formScope, for example formScope: { label: namespace, values: [acme, 'acme-*'] }",
+    "value": "Value outside the log storage boundary: allowed {{values}} ({{where}})",
+    "template": "Stand template outside the log storage boundary: allowed {{values}} ({{where}})",
+    "equality": "An equality condition on label {{label}} is needed: allowed {{values}} ({{where}})"
+  },
+  "project": {
+    "timezone": "Unknown time zone: a name from the time zone database is needed, for example Europe/Berlin",
+    "retention": "Retention: a whole number of days from 1 to 400",
+    "format": "Log format “{{format}}” does not exist. Known formats: {{known}}",
+    "noEnvironments": "At least one environment is needed",
+    "noEnvironmentsStored": "Project “{{id}}” has no environments",
+    "tooManyEnvironments": "No more than {{max}} environments in a project",
+    "idRequired": "A project ID is required",
+    "idImmutable": "A project ID cannot change",
+    "noVersion": "No version stamp",
+    "notInFile": "The project is not in the settings file",
+    "confirmMismatch": "The confirmation does not match the project ID"
+  },
+  "logo": {
+    "notBase64": "A logo is accepted only as file contents in base64, not as an address",
+    "tooBig": "The file is over the {{max}} KB limit",
+    "lightRequired": "The light version of the logo is required",
+    "noPrevious": "There is no previous version of the logo",
+    "empty": "The file is empty",
+    "fileTooBig": "The file is {{size}} KB, over the {{max}} KB limit",
+    "pngSignature": "The file does not start with a PNG signature",
+    "pngNoHeader": "The PNG file has no block with the image size",
+    "pngZeroSize": "The PNG file has a zero image size",
+    "pngTooLarge": "The PNG file size {{width}}×{{height}} is over the {{max}} pixel limit",
+    "svgEncoding": "The SVG file is not in UTF-8 encoding",
+    "svgRoot": "The root element of the file is not <svg",
+    "svgNotClosed": "The SVG file has no closing </svg>",
+    "svgActive": "The SVG file has active content: {{name}}",
+    "svgHandler": "The SVG file has active content: event handler on…=",
+    "svgDoctype": "The SVG file has active content: <!DOCTYPE with an internal subset",
+    "svgEntity": "The SVG file has active content: numeric entity in an attribute",
+    "svgHref": "The SVG file has an external href link",
+    "svgUrl": "The SVG file has an external url() link",
+    "svgNoSize": "The root of the SVG file has no numeric width and height or viewBox, or they are zero: the proportions cannot be determined"
+  },
+  "masking": {
+    "fieldFormat": "Field name: 1 to 64 characters, Latin letters, digits, “_”, “.”, “:” and “-”",
+    "fieldDuplicate": "This field is already in the list",
+    "fieldTaken": "This field already belongs to the type “{{type}}”",
+    "kindLocked": "This type has no switch: it cannot be turned off"
+  },
+  "view": {
+    "alwaysOn": "This element cannot be turned off",
+    "rawOnly": "An unrecognized record is visible only in raw records",
+    "defaultTabOff": "The default tab is off in both modes"
+  },
+  "catalog": {
+    "systemHidden": "The system is hidden: restore it to add and edit its entries",
+    "methodHidden": "The method is hidden: restore it to add and edit its entries",
+    "maskingAdminOnly": "Only an administrator can change the masking section: the file was not applied",
+    "settingsNoRight": "Only an analyst or an administrator can change the settings section: the file was not applied",
+    "settingsNoRecord": "The project has no record in the database yet: the settings section has nothing to apply to",
+    "settingsInSeed": "The initial set does not change settings: the settings section was skipped, the rest was applied. Settings are changed on the “Project file” page",
+    "maskingInSeed": "The initial set does not change masking: the masking section was skipped, the rest was applied. An administrator changes masking on the “Project file” page",
+    "rpcOnEntry": "Actions are not read on a request into the project: this method will not match there. Keep one method without rpc on this address",
+    "queueNoSteps": "Threadline finds no separate message bus steps in the logs: the system shows in the catalog and on HTTP calls to its host. If this is an HTTP service, remove type",
+    "outcomeNoResponse": "Outcome rules are checked only on HTTP responses: database and message bus records have no response, so this rule will not match. Remove it",
+    "errorHttpOnDatabase": "A database record has no HTTP status: a rule with this condition will not match. Remove http",
+    "generalHttpOnly": "One HTTP status is not enough for a general rule: every such error in the project would get this text. Add text or code",
+    "textHidden": "The substring has a hidden part, “…” or asterisks: the error text does not have it, so the rule will not match. Keep only the constant part",
+    "entityNotShown": "Types of kind entity ({{types}}) are not shown on the request and operation pages: they are visible only in the “Identifiers” section. If you need the “Open operation” button, set kind: operation. Otherwise nothing needs doing",
+    "duplicateField": "The field is repeated: the last value applies. Keep one"
+  }
+}

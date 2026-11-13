@@ -1,0 +1,48 @@
+{
+  "title": "General",
+  "loadFailed": "Settings did not load",
+  "retry": "Retry",
+  "noDatabase": "The database is not connected: settings show default values and are not saved. Set the database address in the THREADLINE_DATABASE_URL variable.",
+  "databaseDown": "The database is unavailable: the last read values are shown, editing is closed. Saving reopens by itself when the database responds.",
+  "invalidStored": "The stored record of this setting did not pass validation: the default value applies. Saving replaces the record.",
+  "default": "default {{value}}",
+  "items": {
+    "share": {
+      "lifetimeDays": {
+        "label": "Short link lifetime",
+        "hint": "A whole number from {{min}} to {{max}}. Shortening applies to existing links at once, lengthening only to new ones.",
+        "shorten": "The lifetime goes down from {{from}} to {{to}}: links older than {{to}} days stop opening and are deleted at the next cleanup.",
+        "invalid": "Enter a whole number from {{min}} to {{max}}."
+      }
+    },
+    "support": {
+      "contactText": {
+        "label": "Support contact",
+        "hint": "One line, up to {{max}} characters. Shown on the “No access” screen and to Business on the undescribed error line. Empty means no contact is shown.",
+        "invalid": "One line, no more than {{max}} characters."
+      },
+      "contactUrl": {
+        "label": "Contact link",
+        "hint": "Optional. https only, without a login and password, up to {{max}} characters.",
+        "invalid": "An https link without a login and password is needed, no more than {{max}} characters."
+      }
+    }
+  },
+  "actions": {
+    "save": "Save",
+    "saved": "Saved",
+    "reset": "Restore default",
+    "reload": "Load latest version",
+    "cancel": "Discard changes"
+  },
+  "problems": {
+    "conflict": "The setting was changed while you were editing it.",
+    "unavailable": "The database is unavailable, try again later.",
+    "failed": "Could not save, try again."
+  },
+  "leave": "There is an unsaved value. Leave the page?",
+  "lead": "Apply to all projects as soon as they are saved.",
+  "days": "days",
+  "changed_one": "{{count}} field changed",
+  "changed_other": "{{count}} fields changed"
+}

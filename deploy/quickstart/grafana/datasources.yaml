@@ -1,0 +1,11 @@
+# Источник Loki для Grafana быстрого старта (профиль grafana в compose.yaml). Имя Loki ждёт хранилище loki-grafana по умолчанию.
+apiVersion: 1
+
+datasources:
+  - name: Loki
+    uid: loki
+    type: loki
+    access: proxy
+    url: http://loki:3100
+    isDefault: true
+    editable: false

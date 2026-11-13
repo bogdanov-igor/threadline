@@ -1,0 +1,350 @@
+{
+  "admin-login-off": {
+    "width": 117,
+    "height": 50
+  },
+  "admin-login-on": {
+    "width": 117,
+    "height": 50
+  },
+  "admin-status": {
+    "width": 1100,
+    "height": 879
+  },
+  "file-outcome-step": {
+    "width": 368,
+    "height": 140
+  },
+  "file-page": {
+    "width": 1032,
+    "height": 664
+  },
+  "file-page-conflict": {
+    "width": 992,
+    "height": 98
+  },
+  "file-page-error": {
+    "width": 1032,
+    "height": 664
+  },
+  "file-page-report": {
+    "width": 1032,
+    "height": 664
+  },
+  "file-start-request": {
+    "width": 1280,
+    "height": 804
+  },
+  "guide-catalog-after": {
+    "width": 1248,
+    "height": 54
+  },
+  "guide-catalog-before": {
+    "width": 1248,
+    "height": 54
+  },
+  "guide-catalog-form": {
+    "width": 560,
+    "height": 860
+  },
+  "guide-catalog-general": {
+    "width": 560,
+    "height": 720
+  },
+  "guide-catalog-page": {
+    "width": 1280,
+    "height": 520
+  },
+  "guide-catalog-unknown": {
+    "width": 1280,
+    "height": 560
+  },
+  "guide-modes-brief": {
+    "width": 1232,
+    "height": 814
+  },
+  "guide-modes-dark": {
+    "width": 1280,
+    "height": 640
+  },
+  "guide-modes-full": {
+    "width": 1232,
+    "height": 814
+  },
+  "guide-modes-language": {
+    "width": 900,
+    "height": 300
+  },
+  "guide-operation-button": {
+    "width": 1232,
+    "height": 62
+  },
+  "guide-operation-page": {
+    "width": 1280,
+    "height": 820
+  },
+  "guide-operation-row": {
+    "width": 1232,
+    "height": 504
+  },
+  "guide-request-attempts": {
+    "width": 360,
+    "height": 132
+  },
+  "guide-request-collapsed": {
+    "width": 1280,
+    "height": 620
+  },
+  "guide-request-page": {
+    "width": 1280,
+    "height": 760
+  },
+  "guide-request-panel": {
+    "width": 414,
+    "height": 686
+  },
+  "guide-request-parallel": {
+    "width": 1040,
+    "height": 538
+  },
+  "guide-request-records": {
+    "width": 1280,
+    "height": 720
+  },
+  "guide-request-retries": {
+    "width": 1040,
+    "height": 672
+  },
+  "guide-request-scheme": {
+    "width": 1040,
+    "height": 490
+  },
+  "guide-request-timeline": {
+    "width": 1280,
+    "height": 620
+  },
+  "guide-request-window": {
+    "width": 1280,
+    "height": 720
+  },
+  "guide-request-zoom": {
+    "width": 216,
+    "height": 48
+  },
+  "guide-roles-business": {
+    "width": 1280,
+    "height": 720
+  },
+  "guide-roles-hint": {
+    "width": 1280,
+    "height": 280
+  },
+  "guide-roles-mask": {
+    "width": 408,
+    "height": 728
+  },
+  "guide-roles-menu": {
+    "width": 336,
+    "height": 317
+  },
+  "guide-roles-open": {
+    "width": 408,
+    "height": 728
+  },
+  "guide-search-empty": {
+    "width": 1232,
+    "height": 244
+  },
+  "guide-search-env": {
+    "width": 360,
+    "height": 289
+  },
+  "guide-search-exclude": {
+    "width": 1232,
+    "height": 150
+  },
+  "guide-search-filters": {
+    "width": 1232,
+    "height": 250
+  },
+  "guide-search-lines": {
+    "width": 1280,
+    "height": 460
+  },
+  "guide-search-period": {
+    "width": 520,
+    "height": 300
+  },
+  "guide-search-values": {
+    "width": 1232,
+    "height": 50
+  },
+  "guide-share-menu": {
+    "width": 620,
+    "height": 222
+  },
+  "guide-share-open": {
+    "width": 1280,
+    "height": 720
+  },
+  "guide-start-request": {
+    "width": 1280,
+    "height": 720
+  },
+  "guide-start-results": {
+    "width": 1232,
+    "height": 814
+  },
+  "guide-start-screen": {
+    "width": 1280,
+    "height": 470
+  },
+  "guide-start-search": {
+    "width": 1232,
+    "height": 50
+  },
+  "guide-status-report": {
+    "width": 540,
+    "height": 398
+  },
+  "guide-status-service": {
+    "width": 1280,
+    "height": 520
+  },
+  "learn-business-described": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-business-results": {
+    "width": 1232,
+    "height": 946
+  },
+  "learn-business-share": {
+    "width": 620,
+    "height": 222
+  },
+  "learn-business-undescribed": {
+    "width": 876,
+    "height": 171
+  },
+  "learn-card-field": {
+    "width": 1232,
+    "height": 50
+  },
+  "learn-card-hit": {
+    "width": 1280,
+    "height": 664
+  },
+  "learn-card-records": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-card-results": {
+    "width": 1232,
+    "height": 302
+  },
+  "learn-describe-after": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-describe-form": {
+    "width": 560,
+    "height": 860
+  },
+  "learn-describe-request": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-describe-unknown": {
+    "width": 1280,
+    "height": 560
+  },
+  "learn-file-applied": {
+    "width": 1280,
+    "height": 620
+  },
+  "learn-file-open": {
+    "width": 1280,
+    "height": 620
+  },
+  "learn-file-result": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-file-typed": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-find-body": {
+    "width": 1384,
+    "height": 848
+  },
+  "learn-find-paste": {
+    "width": 1264,
+    "height": 82
+  },
+  "learn-find-reason": {
+    "width": 1248,
+    "height": 54
+  },
+  "learn-find-request": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-find-results": {
+    "width": 1232,
+    "height": 214
+  },
+  "learn-postman-curl": {
+    "width": 408,
+    "height": 728
+  },
+  "learn-postman-hide": {
+    "width": 1260,
+    "height": 90
+  },
+  "learn-postman-open": {
+    "width": 1440,
+    "height": 900
+  },
+  "learn-postman-step": {
+    "width": 1440,
+    "height": 900
+  },
+  "learn-share-done": {
+    "width": 1280,
+    "height": 280
+  },
+  "learn-share-menu": {
+    "width": 620,
+    "height": 254
+  },
+  "learn-share-open": {
+    "width": 1280,
+    "height": 720
+  },
+  "learn-transfer-button": {
+    "width": 1260,
+    "height": 90
+  },
+  "learn-transfer-outcome": {
+    "width": 1280,
+    "height": 420
+  },
+  "learn-transfer-position": {
+    "width": 1260,
+    "height": 90
+  },
+  "learn-transfer-results": {
+    "width": 1232,
+    "height": 566
+  },
+  "learn-transfer-row": {
+    "width": 1248,
+    "height": 512
+  },
+  "learn-transfer-table": {
+    "width": 1248,
+    "height": 232
+  }
+}

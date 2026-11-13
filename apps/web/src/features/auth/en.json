@@ -1,0 +1,65 @@
+{
+  "role": {
+    "business": "Business",
+    "support": "Support",
+    "developer": "Developer",
+    "analyst": "Analyst",
+    "admin": "Administrator"
+  },
+  "menu": {
+    "label": "{{name}}, role: {{role}}",
+    "noName": "Signed in",
+    "logout": "Sign out",
+    "logoutFailed": "Could not sign out. Please try again.",
+    "admin": "Administration",
+    "service": "Service settings",
+    "projects": "Projects",
+    "storages": "Storages"
+  },
+  "off": {
+    "label": "Sign-in is off",
+    "hint": "Sign-in is turned off by the auth: off setting. Everyone has administrator rights, except for revealing card numbers and secrets.",
+    "text": "Everyone has administrator rights, except for revealing card numbers and secrets"
+  },
+  "noAccess": {
+    "title": "No access",
+    "who": "You are signed in as {{name}}.",
+    "text": "Your account has no Threadline role. Contact the administrator of the sign-in service (OIDC)."
+  },
+  "error": {
+    "title": "Sign-in failed",
+    "denied": "The sign-in service refused the sign-in.",
+    "unavailable": "The sign-in service is unavailable. Please try again a little later.",
+    "config": "Sign-in is configured incorrectly. Contact your administrator.",
+    "clock": "The clocks of the server and the sign-in service differ. Contact your administrator.",
+    "state": "The response from the sign-in service is out of date or invalid. Please sign in again.",
+    "unknown": "Could not sign in. Please try again.",
+    "retry": "Sign in again"
+  },
+  "loggedOut": {
+    "title": "You have signed out",
+    "text": "Your Threadline session has ended.",
+    "providerUnreachable": "The sign-in service did not respond: your session at the OIDC provider may still be active, and the next sign-in may not ask for a password.",
+    "login": "Sign in again"
+  },
+  "done": {
+    "title": "Signed in",
+    "text": "Go back to the tab you were working in."
+  },
+  "lost": {
+    "title": "The session was not saved",
+    "text": "The browser did not keep the session after sign-in. Check that cookies are allowed for this address and try again.",
+    "retry": "Retry"
+  },
+  "expired": {
+    "title": "Your session has expired",
+    "text": "Your input is still here. Sign in in a new tab and come back to save it.",
+    "login": "Sign in in a new tab"
+  },
+  "closed": {
+    "title": "Section unavailable",
+    "text": "This section is not available to your role.",
+    "toProjects": "To the project list",
+    "toSearch": "To search"
+  }
+}

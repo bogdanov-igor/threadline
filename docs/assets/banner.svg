@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 440" width="1200" height="440" role="img" aria-label="Threadline — request tracer for Loki logs">
+  <defs>
+    <!-- wordmark as a fibre lit from inside: white at the crown, signal blue at the foot -->
+    <linearGradient id="fibre" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%"  stop-color="#f2f7ff"/>
+      <stop offset="40%" stop-color="#cfe0ff"/>
+      <stop offset="72%" stop-color="#86adff"/>
+      <stop offset="100%" stop-color="#3f6fd8"/>
+    </linearGradient>
+    <!-- accent underline: the thread carrying light, white-hot in the middle, running out into the amber of the cause -->
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"  stop-color="#4c8dff"/>
+      <stop offset="55%" stop-color="#dfe6f5"/>
+      <stop offset="100%" stop-color="#f5a65b"/>
+    </linearGradient>
+    <!-- the glow of a monitor left on in a dark room, falling from the upper left -->
+    <radialGradient id="halo" cx="15%" cy="22%" r="55%">
+      <stop offset="0%"  stop-color="#1f5fd6" stop-opacity="0.34"/>
+      <stop offset="55%" stop-color="#0f2a5c" stop-opacity="0.10"/>
+      <stop offset="100%" stop-color="#07090e" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+
+  <!-- deep, cold near-black field, the room after hours -->
+  <rect width="1200" height="440" fill="#07090e"/>
+  <rect width="1200" height="440" fill="url(#halo)"/>
+
+  <!-- eyebrow: the node where the thread was found, then the tracked kicker -->
+  <circle cx="88" cy="93" r="5" fill="#4c8dff"/>
+  <circle cx="88" cy="93" r="9.5" fill="none" stroke="#4c8dff" stroke-opacity="0.28" stroke-width="1"/>
+  <text x="112" y="99"
+        font-family="'SF Mono', SFMono-Regular, Menlo, Consolas, monospace"
+        font-size="16" letter-spacing="6.5" fill="#7d889b">THREADLINE · REQUEST TRACER · v0.1 · BOGDANOV · IVANOV</text>
+
+  <!-- wordmark -->
+  <text x="72" y="300"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="190" font-weight="800" letter-spacing="-4" fill="url(#fibre)">threadline</text>
+
+  <!-- subtitle, two lines, in the blue of a selected row -->
+  <text x="80" y="352"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="22" font-weight="500" fill="#74a6ff">A request tracer for Loki logs.</text>
+  <text x="80" y="383"
+        font-family="'Helvetica Neue', Helvetica, Arial, sans-serif"
+        font-size="22" font-weight="500" fill="#74a6ff">Pull one thread, and the whole request follows.</text>
+
+  <!-- accent underline -->
+  <rect x="80" y="414" width="232" height="3" rx="1.5" fill="url(#accent)"/>
+</svg>

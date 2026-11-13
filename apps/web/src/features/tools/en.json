@@ -1,0 +1,46 @@
+{
+  "exclude": {
+    "toggle": "Refine",
+    "label": "Does not contain",
+    "placeholder": "A value the records must not contain",
+    "hint": "In the request list it removes a whole request if any of its records has the value. In “All records” it removes only those lines, like != in Grafana.",
+    "hintBrief": "Removes a whole request from the list if any of its records has the value.",
+    "error": {
+      "too-short": "The value is too short: at least 2 characters are needed.",
+      "too-long": "The value is too long: no more than 1000 characters.",
+      "forbidden-char": "Quotes and backslashes are not allowed: they are escaped in logs.",
+      "too-many": "No more than 5 excluded values.",
+      "pan-hidden": "The card number is not kept after a page reload. Remove it and enter it again.",
+      "conflict": "This value is in the search: the result would be empty."
+    }
+  },
+  "filters": {
+    "label": "Result filters",
+    "method": "Method",
+    "system": "System",
+    "component": "Component",
+    "all": {
+      "method": "All methods",
+      "system": "All systems",
+      "component": "All components"
+    },
+    "none": {
+      "method": "No name",
+      "system": "No system",
+      "component": "No component"
+    },
+    "hidden": "Hidden by filters: {{n}}",
+    "allHidden": "All rows are hidden by filters.",
+    "reset": "Reset"
+  },
+  "curl": {
+    "label": "Copy as cURL",
+    "hint": "Method, address, headers and body, as on screen.",
+    "masked": "Hidden values are copied masked. To copy them in the clear, first reveal them with the eye icon.",
+    "noHost": "The record only has a path: add the host."
+  },
+  "contact": {
+    "label": "Support:",
+    "open": "Open"
+  }
+}

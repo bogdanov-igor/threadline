@@ -1,0 +1,55 @@
+# Настройка сквозных тестов страниц проектов: только имитация и ненастроенная Grafana, наружу ничего не ходит.
+auth: off
+# Общие шутки и шутки по времени не должны попасть в прогон случайно: их проверяет extras.spec.ts на своём сервере.
+extras: { publicEggs: false }
+defaults: { project: pay, environment: demo }
+
+backends:
+  demo: { type: mock, latencyMs: 40 }
+  slow: { type: mock, latencyMs: 4000 }
+  grafana:
+    type: loki-grafana
+    url: https://grafana.example.internal
+    tokenEnv: THREADLINE_E2E_TOKEN_NOT_SET
+    formScope:
+      label: namespace
+      values: [pay, 'pay-pr-*', acme, 'acme-*']
+
+formats:
+  acme-json:
+    component: [container]
+    variants:
+      - name: app
+        when: { has: [rec.ts] }
+        layers:
+          - { name: rec, decode: json }
+        fields:
+          time: rec.ts
+          level: rec.lvl
+          message: rec.msg
+          correlationId: rec.trace_id
+
+# Региональные правила демо-проекта, как в config/threadline.yaml: телефоны без кода страны, паспорт и личный номер в тексте.
+regional:
+  phone: { countryCode: '44', nationalDigits: 10, trunkPrefix: '0' }
+  patterns:
+    passport: ['[A-Z]{2}\d{7}']
+    national_id: ['[A-Z]{2}\d{6}[A-D]']
+projects:
+  pay:
+    name: Demo Pay
+    timezone: Asia/Karachi
+    logo: { light: logos/demo-pay-light.png, dark: logos/demo-pay-dark.png }
+    environments:
+      demo:
+        name: Demo
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]
+      slow:
+        name: Slow
+        backend: slow
+        selector: [{ label: namespace, op: '=', value: pay }]
+      prod:
+        name: Prod
+        backend: grafana
+        selector: [{ label: namespace, op: '=', value: pay }]

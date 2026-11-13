@@ -1,0 +1,63 @@
+{
+  "docsTitle": "Documentation",
+  "learnTitle": "Training",
+  "contents": "Contents",
+  "onPage": "On this page",
+  "toTop": "Back to top",
+  "neighbours": "Adjacent pages",
+  "prev": "Back",
+  "next": "Next",
+  "preparing": "This section is being prepared.",
+  "notTranslated": "This text is in Russian only for now.",
+  "pictureMissing": "The picture is not ready yet: {{name}}",
+  "anchor": "Link to the “{{title}}” section",
+  "lesson": "Lesson {{n}} of {{total}}",
+  "breadcrumb": "Page path",
+  "copyLink": {
+    "idle": "Copy link",
+    "copied": "Link copied",
+    "failed": "Could not copy"
+  },
+  "menu": {
+    "open": "Sections",
+    "close": "Close menu",
+    "trees": "Documentation or training"
+  },
+  "filter": {
+    "label": "Filter pages and sections",
+    "placeholder": "Filter",
+    "clear": "Clear filter",
+    "empty": "Nothing found"
+  },
+  "home": {
+    "intro": "How to find a request in the logs, read its path through the systems, describe your project and install Threadline.",
+    "searchLabel": "Search the documentation",
+    "searchPlaceholder": "Search the documentation",
+    "empty": "Nothing found for “{{query}}”",
+    "all_one": "{{count}} page",
+    "all_other": "All {{count}} pages",
+    "openSection": "Open section",
+    "sections": {
+      "guide": "Search, the request page, operations, links and roles: every screen step by step.",
+      "learn": "Short lessons on demo data: from the first error to describing a project.",
+      "file": "How to describe systems, methods, errors and request outcomes in one YAML file.",
+      "admin": "Installation, local mode, environment variables, sign-in and the log store.",
+      "arch": "What the service is made of and how it builds a request from log records."
+    }
+  },
+  "code": {
+    "plain": "Text"
+  },
+  "viewer": {
+    "open": "Open larger",
+    "stage": "Picture. Wheel or pinch zooms, drag moves it, double click zooms in. Keys: plus, minus, zero, arrows.",
+    "untitled": "Picture"
+  },
+  "groups": {
+    "guide": "How to use",
+    "file": "Project file",
+    "arch": "How the service works",
+    "admin": "Installation and setup",
+    "learn": "Training"
+  }
+}

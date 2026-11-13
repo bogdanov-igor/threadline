@@ -1,0 +1,126 @@
+# Быстрый старт Threadline: сервер, PostgreSQL, Loki и генератор демо-логов Demo Pay, README.ru.md, «Быстрый старт».
+#   cd deploy/quickstart && docker compose up -d                     http://localhost:8080
+#   docker compose --profile grafana up -d                           ещё Grafana с источником Loki: http://localhost:3000
+#   docker compose down                                              остановить; down -v удаляет и тома: базу, логи, Grafana
+# Только для своей машины: вход выключен, пароль базы известен, порты открыты только на 127.0.0.1.
+# Разработка с локальной базой (pnpm dev) — docker-compose.yml в корне, он отдельный.
+
+name: threadline-quickstart
+
+# Один образ из Dockerfile в корне репозитория: сервер, шаг миграций и генератор.
+# Собирает его только сервис threadline, остальные берут готовый: две сборки в один тег падают.
+x-threadline: &threadline
+  build:
+    context: ../..
+  image: threadline-quickstart:local
+  # Тег только местный: без этой строки первый up сначала пробует скачать его и пишет ошибку «pull access denied», а потом собирает.
+  pull_policy: never
+
+x-threadline-image: &threadline-image
+  image: threadline-quickstart:local
+  pull_policy: never
+
+x-database: &database
+  THREADLINE_DATABASE_URL: postgres://threadline:threadline@db:5432/threadline
+
+services:
+  db:
+    image: postgres:16.14-alpine3.24
+    environment:
+      POSTGRES_DB: threadline
+      POSTGRES_USER: threadline
+      POSTGRES_PASSWORD: threadline
+    volumes:
+      - db:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U threadline -d threadline']
+      interval: 5s
+      timeout: 3s
+      retries: 20
+    restart: unless-stopped
+
+  # Схема базы: выполняется один раз и завершается, сервер стартует только после неё.
+  migrate:
+    <<: *threadline-image
+    command: ['node', '--disable-warning=ExperimentalWarning', 'apps/server/src/cli/migrate.ts']
+    environment:
+      <<: *database
+    healthcheck:
+      disable: true
+    depends_on:
+      db:
+        condition: service_healthy
+    restart: 'no'
+
+  threadline:
+    <<: *threadline
+    environment:
+      <<: *database
+      THREADLINE_CONFIG: config/quickstart.yaml
+      # auth: off в threadline.yaml разрешён только с этой переменной: только для своей машины.
+      THREADLINE_ALLOW_NO_LOGIN: '1'
+      # Для хранилища loki-grafana, если включить его в threadline.yaml: значение из .env рядом с этим файлом.
+      THREADLINE_GRAFANA_TOKEN: ${THREADLINE_GRAFANA_TOKEN:-}
+    volumes:
+      - ./threadline.yaml:/app/config/quickstart.yaml:ro
+    ports:
+      - '127.0.0.1:${THREADLINE_PORT:-8080}:8080'
+    # Свой Loki или Grafana на этой же машине: http://host.docker.internal:<порт>, так же и в Docker на Linux.
+    extra_hosts:
+      - 'host.docker.internal:host-gateway'
+    depends_on:
+      migrate:
+        condition: service_completed_successfully
+      loki:
+        condition: service_started
+    restart: unless-stopped
+
+  loki:
+    image: grafana/loki:3.7.9
+    command: ['-config.file=/etc/loki/quickstart.yaml']
+    volumes:
+      - ./loki.yaml:/etc/loki/quickstart.yaml:ro
+      - loki:/loki
+    restart: unless-stopped
+
+  # Записи Demo Pay в Loki: история за сутки при первом старте, затем новый запрос каждые 10 секунд.
+  demo-logs:
+    <<: *threadline-image
+    command:
+      [
+        'node',
+        '--disable-warning=ExperimentalWarning',
+        'apps/server/src/cli/demo-logs.ts',
+        '--url',
+        'http://loki:3100',
+      ]
+    healthcheck:
+      disable: true
+    depends_on:
+      loki:
+        condition: service_started
+    restart: unless-stopped
+
+  grafana:
+    profiles: [grafana]
+    image: grafana/grafana:13.2.5
+    environment:
+      # Без входа с правами администратора, только на 127.0.0.1. Вход admin / admin остаётся для токена сервисного аккаунта.
+      GF_AUTH_ANONYMOUS_ENABLED: 'true'
+      GF_AUTH_ANONYMOUS_ORG_ROLE: Admin
+      GF_ANALYTICS_REPORTING_ENABLED: 'false'
+      GF_ANALYTICS_CHECK_FOR_UPDATES: 'false'
+    volumes:
+      - ./grafana/datasources.yaml:/etc/grafana/provisioning/datasources/threadline.yaml:ro
+      - grafana:/var/lib/grafana
+    ports:
+      - '127.0.0.1:${GRAFANA_PORT:-3000}:3000'
+    depends_on:
+      loki:
+        condition: service_started
+    restart: unless-stopped
+
+volumes:
+  db:
+  loki:
+  grafana:

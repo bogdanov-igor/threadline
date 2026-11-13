@@ -1,0 +1,282 @@
+{
+  "title": "Projects",
+  "fallbackToFile": "No project record in the database passed the check, so the projects from the settings file apply. Fix the records below.",
+  "defaultMoved": "Instead of {{configured}} set in the file, {{actual}} opens: the configured project is hidden or that environment no longer exists.",
+  "ignoredInFile": "Projects deleted on this page are still in the settings file: {{list}}. Remove them from the file.",
+  "loadFailed": {
+    "title": "Could not load projects",
+    "text": "The Threadline server did not respond to the project settings request. Try again."
+  },
+  "source": {
+    "off": "Projects are read from the settings file. Editing on this page needs a database: set the THREADLINE_DATABASE_URL variable and restart the server.",
+    "connecting": "The database is not connected yet: {{message}}. Projects from the settings file are shown, so a project hidden on the page is visible again and projects created on the page are missing. Editing is disabled.",
+    "error": "The database is not ready: {{message}}. Projects from the settings file are shown. Editing is disabled.",
+    "stale": "The database is unavailable: {{message}}. Settings are as of {{time}}, search works. Editing is disabled."
+  },
+  "fileState": {
+    "none": "Page only",
+    "here": "Edited here",
+    "file-newer": "File changed, not applied",
+    "removed": "Removed from file"
+  },
+  "fileAction": {
+    "take": "Take from file",
+    "keep": "Keep"
+  },
+  "hidden": {
+    "page": "Hidden",
+    "file": "Hidden: removed from file"
+  },
+  "hiddenNotice": {
+    "page": "The project is hidden: it is not in the project list. Edits are saved and do not unhide it.",
+    "file": "The project is hidden because it was removed from the settings file. “Show” keeps it on the page."
+  },
+  "list": {
+    "title": "All projects",
+    "lead": "A project is a system whose logs Threadline searches. Each has its own environments and its own catalog.",
+    "colProject": "Project",
+    "colId": "ID",
+    "colEnvironments": "Environments",
+    "colFormat": "Log format",
+    "colRetention": "Retention",
+    "current": "current",
+    "settings": "Settings",
+    "empty": "No visible projects. Turn on “Hidden” or add a project.",
+    "add": "Add project",
+    "showHidden_one": "Hidden ({{count}})",
+    "showHidden_other": "Hidden ({{count}})",
+    "retention_one": "{{count}} day",
+    "retention_other": "{{count}} days",
+    "invalid": "Failed the check",
+    "notConfigured": "Environment not configured",
+    "search": "Search"
+  },
+  "action": {
+    "hideLast": "Cannot hide: there are no other visible projects",
+    "show": "Show",
+    "delete": "Delete permanently",
+    "deleteForever": "Delete permanently",
+    "cancel": "Cancel"
+  },
+  "stores": {
+    "mock": "Synthetic data",
+    "tokenSet": "set",
+    "tokenMissing": "not set",
+    "scope": "The form reads label {{label}}: {{values}}",
+    "scopeOpen": "Boundary removed: the form can read any value of label {{label}}",
+    "noScope": "Boundary not set: the form does not save new conditions. An administrator sets backends.{{id}}.formScope in the settings file.",
+    "newGrafana": "New Grafana or Loki: an administrator adds the log storage to backends (type loki-grafana or loki) with formScope, sets the credential variables and restarts the server. It then appears in the list.",
+    "newLocal": "New Grafana or Loki: connect it on the storages page, no restart needed. It then appears in the list.",
+    "newLocalLink": "Connect a storage"
+  },
+  "probe": {
+    "action": "Check connection",
+    "hint": "A request goes to log storage only when you click.",
+    "failed": "Check not run: the Threadline server did not respond.",
+    "records": "This environment has records in the last 5 minutes.",
+    "noRecords": "Connected, no records in the last 5 minutes. Check the conditions; this is not an error.",
+    "stands": "Live stands in the last 7 days: {{list}}",
+    "labels": "Index labels"
+  },
+  "delete": {
+    "title": "Delete “{{name}}”",
+    "text": "The project, its logos and all its catalog records will be deleted permanently. There is no history or trash: it can only be restored from a backup.",
+    "counts": "Will be deleted: systems {{systems}}, methods {{methods}}, errors {{errors}}, “Unknown” rows {{unknown}}.",
+    "counting": "Counting records…",
+    "countsFailed": "Could not get the record counts.",
+    "confirmLabel": "Enter the project ID: {{id}}"
+  },
+  "logo": {
+    "light": "Light theme",
+    "dark": "Dark theme",
+    "empty": "No file",
+    "choose": "Choose file",
+    "remove": "Remove",
+    "hint": "PNG or SVG up to 256 KB. The dark version is optional: without it, the light one is used in both themes.",
+    "format": "PNG and SVG files are accepted.",
+    "tooBig": "The file is {{size}} KB, over the {{max}} KB limit.",
+    "unreadable": "Could not read the file."
+  },
+  "env": {
+    "untitled": "New environment",
+    "id": "ID",
+    "idHint": "Latin letters, digits and hyphens: it goes into addresses.",
+    "idSaved": "Cannot change: it is in addresses and colleagues' links.",
+    "name": "Name",
+    "kind": "Kind",
+    "kindSingle": "Regular",
+    "kindStands": "PR stands",
+    "kindChanged": "Old links to this environment will open the stand selection.",
+    "backend": "Log storage",
+    "outOfScope": "The environment is not working: its conditions went beyond the backends.{{id}}.formScope boundary. No requests go to log storage, the record is saved. Fix the conditions or ask an administrator to widen the boundary.",
+    "storeMissing": "not in the file",
+    "storeMissingHint": "This log storage is no longer in the settings file: choose another.",
+    "mockFormat": "The simulated data is written in a different log format: records may not parse.",
+    "noScope": "Boundary not set: new conditions will not be saved until an administrator sets backends.{{id}}.formScope, for example formScope: { label: namespace, values: [acme, 'acme-*'] }.",
+    "tokenMissing": "Token not set: {{name}}.",
+    "standLabel": "Stand label",
+    "standTemplate": "Stand template",
+    "standHint": "With one place for the number: acme-pr-{number}",
+    "selector": "Conditions",
+    "label": "Label",
+    "op": "Operator",
+    "value": "Value",
+    "regexHint": "A regular expression over the whole value, like =~ in Grafana: cards|worker.",
+    "regexNotHint": "A regular expression over the whole value, like !~ in Grafana: records with a matching value are not read, for example debug|worker-.*",
+    "searchOnly": "Regular search only",
+    "removeCondition": "Remove condition",
+    "addCondition": "Add condition",
+    "conditionsLimit": "No more than {{max}} conditions in an environment.",
+    "examples": "Search examples",
+    "examplesHint": "Cards on the environment page before the first search: a click fills in the search bar and searches. A caption for each interface language; if one is empty, both show the other. Everyone who opens the environment sees them: use made-up or test values.",
+    "exampleLabelRu": "Caption in Russian",
+    "exampleLabelEn": "Caption in English",
+    "exampleValues": "Values, comma-separated",
+    "examplePeriod": "Period",
+    "examplePeriodDefault": "6 h, as in search",
+    "removeExample": "Remove example",
+    "addExample": "Add example",
+    "examplesLimit": "No more than {{max}} examples in an environment.",
+    "preview": "Conditions",
+    "remove": "Remove",
+    "lastHint": "The last environment cannot be removed: at least one is needed.",
+    "up": "Up: {{name}}",
+    "down": "Down: {{name}}",
+    "add": "Add environment",
+    "envLimit": "No more than {{max}} environments in a project.",
+    "needOne": "At least one environment is needed.",
+    "removedWarning": "Will be removed on save: {{list}}. Links to their requests will stop opening."
+  },
+  "form": {
+    "idReserved": "Taken by page addresses: {{list}}.",
+    "envNumber": "Environment {{n}}",
+    "envIdsTaken": "Environment IDs {{list}} are taken",
+    "createProject": "Create project",
+    "createTitle": "New project",
+    "toList": "To projects",
+    "notFound": {
+      "title": "No such project",
+      "text": "Project “{{id}}” is not in the settings."
+    },
+    "main": "General",
+    "id": "ID",
+    "name": "Name",
+    "timezone": "Time zone",
+    "idHint": "Lowercase Latin letters, digits and hyphens, up to 32 characters. Cannot change after creation.",
+    "idSaved": "Cannot change: it is in addresses and colleagues' links.",
+    "retention": "Log retention, days",
+    "retentionHint": "A whole number from 1 to 400.",
+    "logo": "Logo",
+    "formatLabel": "Log format",
+    "formatHint": "Format not in the list? An administrator describes it in the formats section, checks it with pnpm threadline:check <format> <file> and restarts the server.",
+    "formatMissing": "{{name}}: this format is no longer in the file",
+    "environments": "Environments",
+    "create": "Create",
+    "save": "Save",
+    "hasErrors": "Fix the errors in the fields.",
+    "leave": "You have unsaved changes. Leave the page?"
+  },
+  "validation": {
+    "idRule": "ID: lowercase Latin letters, digits and hyphens, not starting with a hyphen, up to 32 characters.",
+    "idReserved": "This ID is taken by a page address, choose another.",
+    "idDigits": "An ID cannot be digits only: the project order would not be preserved.",
+    "envIdRule": "ID: lowercase Latin letters, digits and hyphens, not starting with a hyphen, up to 32 characters.",
+    "envIdReserved": "This ID is taken by a project page address, choose another.",
+    "envIdDigits": "An ID cannot be digits only: the order of such an environment would not be preserved.",
+    "envIdRepeat": "This ID already exists in this project.",
+    "nameRequired": "A name is required."
+  },
+  "problem": {
+    "conflict": "The project was changed while you were editing it.",
+    "reload": "Load latest version",
+    "gone": "This project no longer exists.",
+    "recreate": "Create again",
+    "duplicate": "Project “{{id}}” already exists, it may be hidden.",
+    "openExisting": "Open it",
+    "limit": "There are already {{max}} projects, including hidden ones: a new one cannot be created.",
+    "last": "The last visible project cannot be hidden.",
+    "unavailable": "The database is unavailable, try again later.",
+    "forbidden": "The server refused: your role does not allow this action.",
+    "failed": "Could not save ({{code}})."
+  },
+  "zone": {
+    "mainHint": "Project settings · edited by analysts and administrators",
+    "envsHint": "Where Threadline reads logs for each environment",
+    "viewHint": "What is shown in the Detailed and Brief modes",
+    "nameHint": "Shown in the header and the project list",
+    "formatHint": "How to read this project’s records",
+    "hideProject": "Hide project",
+    "unsaved": "There are unsaved changes",
+    "cancel": "Discard",
+    "storage": "Log storage",
+    "selector": "selection conditions",
+    "probe": "Check"
+  },
+  "tabs": {
+    "view": "View"
+  },
+  "view": {
+    "boundary": "These settings change only how pages look. Hidden content stays in the browser and opens with the mode switch; only masking protects data.",
+    "toMasking": "Masking",
+    "defaultMode": "Default mode",
+    "defaultModeHint": "Applies to those who have not chosen a mode in this browser yet.",
+    "mode": {
+      "full": "Detailed",
+      "brief": "Brief"
+    },
+    "columns": "Request list columns",
+    "statusAlways": "Status is always there and comes first, Request ID is always last.",
+    "column": {
+      "time": "Time",
+      "request": "Request",
+      "outcome": "Outcome",
+      "component": "Component",
+      "duration": "Duration",
+      "records": "Records",
+      "cid": "Request ID"
+    },
+    "requiredColumn": "Without this column the row cannot be read: it cannot be turned off.",
+    "tabsTitle": "Request page tabs",
+    "defaultTab": "Default tab",
+    "defaultTabMoved": "The selected tab is off in both modes: “Timeline” opens instead.",
+    "tab": {
+      "scheme": "Diagram",
+      "timeline": "Timeline",
+      "records": "Records"
+    },
+    "timelineAlways": "The timeline is needed when the diagram fails and for screen readers: it cannot be turned off.",
+    "blocksTitle": "Step panel blocks",
+    "block": {
+      "request": "Request",
+      "response": "Response",
+      "headers": "Headers",
+      "context": "Context",
+      "raw": "Raw records",
+      "logs": "Logs"
+    },
+    "rawRequired": "An unrecognized record is visible only here: in “Detailed” this block cannot be turned off.",
+    "bodyView": "Body view",
+    "bodyViewHint": "In “Brief” bodies are always formatted.",
+    "body": {
+      "pretty": "Formatted",
+      "raw": "As logged"
+    },
+    "reset": "Restore defaults",
+    "save": "Save view",
+    "issue": {
+      "dropped": "Removed during parsing: {{value}}",
+      "forced": "Required value turned on: {{field}}",
+      "defaulted": "Invalid value replaced with the built-in one: {{field}}",
+      "unparsed": "The settings record was not parsed, built-in values apply"
+    },
+    "problem": {
+      "conflict": "The settings were changed while you were editing them",
+      "reload": "Load latest version",
+      "gone": "The project no longer exists",
+      "toList": "To the project list",
+      "unavailable": "The database is unavailable, try again later",
+      "forbidden": "The server refused: your role does not allow this action",
+      "failed": "Could not save: {{code}}"
+    }
+  }
+}

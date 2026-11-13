@@ -1,0 +1,2663 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "properties": {
+    "$schema": {
+      "description": "Ссылка на эту схему для редактора кода (необязательно).",
+      "type": "string"
+    },
+    "version": {
+      "type": "number",
+      "const": 1,
+      "description": "Версия формата файла справочника. Поддерживается 1."
+    },
+    "project": {
+      "type": "string",
+      "pattern": "^[a-z0-9][a-z0-9-]{0,31}$",
+      "description": "Id проекта из threadline.yaml.",
+      "examples": [
+        "pay"
+      ]
+    },
+    "settings": {
+      "type": "object",
+      "properties": {
+        "name": {
+          "type": "string",
+          "description": "Название проекта.",
+          "examples": [
+            "Demo Pay"
+          ]
+        },
+        "timezone": {
+          "type": "string",
+          "description": "Часовой пояс проекта: имя из базы часовых поясов.",
+          "examples": [
+            "UTC",
+            "Europe/Berlin"
+          ]
+        },
+        "retentionDays": {
+          "type": "number",
+          "description": "Срок хранения логов в днях, от 1 до 400.",
+          "examples": [
+            30
+          ]
+        },
+        "format": {
+          "type": "string",
+          "description": "Имя профиля формата из файла настроек или встроенный json. Тело профиля в этот файл не входит.",
+          "examples": [
+            "json"
+          ]
+        },
+        "environments": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "id": {
+                "type": "string",
+                "description": "Идентификатор среды: по нему среда ищется в проекте. Менять его нельзя: новый id это новая среда.",
+                "examples": [
+                  "prod"
+                ]
+              },
+              "name": {
+                "type": "string",
+                "description": "Название среды.",
+                "examples": [
+                  "Прод"
+                ]
+              },
+              "kind": {
+                "default": "single",
+                "description": "Вид среды: одна среда или стенды pull request.",
+                "examples": [
+                  "single"
+                ],
+                "type": "string",
+                "enum": [
+                  "single",
+                  "pr-stands"
+                ]
+              },
+              "backend": {
+                "type": "string",
+                "description": "Имя хранилища из файла настроек. Определения хранилищ, адреса и токены в этот файл не входят.",
+                "examples": [
+                  "grafana"
+                ]
+              },
+              "selector": {
+                "default": [],
+                "description": "Условия, по которым среда читает записи. Те же правила, что на форме: граница хранилища formScope и лимиты.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "type": "string",
+                      "description": "Имя метки хранилища."
+                    },
+                    "op": {
+                      "type": "string",
+                      "enum": [
+                        "=",
+                        "!=",
+                        "=~",
+                        "!~"
+                      ],
+                      "description": "Сравнение: =, !=, =~ (регулярное выражение) или !~ (не совпадает с выражением)."
+                    },
+                    "value": {
+                      "type": "string",
+                      "description": "Значение метки."
+                    },
+                    "searchOnly": {
+                      "type": "boolean",
+                      "description": "Исключение только для обычного поиска: поиск операции его не применяет. Только у !=."
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "op",
+                    "value"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Условие среды."
+                }
+              },
+              "stand": {
+                "description": "Метка и шаблон стенда: только у вида pr-stands.",
+                "type": "object",
+                "properties": {
+                  "label": {
+                    "type": "string",
+                    "description": "Имя метки хранилища."
+                  },
+                  "template": {
+                    "type": "string",
+                    "description": "Шаблон значения метки с местом для номера стенда."
+                  }
+                },
+                "required": [
+                  "label",
+                  "template"
+                ],
+                "additionalProperties": false
+              },
+              "examples": {
+                "description": "Примеры поиска на стартовой странице среды, до 6. Нет поля: примеров нет.",
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "properties": {
+                    "label": {
+                      "anyOf": [
+                        {
+                          "type": "string"
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "ru": {
+                              "type": "string"
+                            },
+                            "en": {
+                              "type": "string"
+                            }
+                          },
+                          "additionalProperties": false
+                        }
+                      ],
+                      "description": "Подпись карточки на стартовой странице среды, до 60 символов: одна строка на все языки или своя на каждом языке интерфейса (ru, en). Нет подписи на языке интерфейса — видна другая.",
+                      "examples": [
+                        "Отказ проверки личности",
+                        {
+                          "ru": "Отказ проверки личности",
+                          "en": "Identity check failed"
+                        }
+                      ]
+                    },
+                    "values": {
+                      "type": "array",
+                      "items": {
+                        "type": "string",
+                        "description": "Значение, как его вводят в строку поиска."
+                      },
+                      "description": "Значения поиска, как в строке поиска: от 1 до 5. Номер карты на экране показан маской.",
+                      "examples": [
+                        [
+                          "0192f0a1-7b2c-7d3e-8f40-5a6b7c8d9e0f"
+                        ]
+                      ]
+                    },
+                    "period": {
+                      "description": "Период поиска. Нет поля: 6 ч, как у строки поиска.",
+                      "examples": [
+                        "24h"
+                      ],
+                      "type": "string",
+                      "enum": [
+                        "15m",
+                        "1h",
+                        "6h",
+                        "24h"
+                      ]
+                    }
+                  },
+                  "required": [
+                    "label",
+                    "values"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Пример поиска: щелчок по карточке заполняет строку поиска и ищет."
+                }
+              }
+            },
+            "required": [
+              "id",
+              "name",
+              "backend"
+            ],
+            "additionalProperties": false,
+            "description": "Среда проекта. Среда, которой нет в файле, остаётся в проекте: убирают её на форме «Среды».",
+            "examples": [
+              {
+                "id": "prod",
+                "name": "Прод",
+                "backend": "grafana",
+                "selector": [
+                  {
+                    "label": "namespace",
+                    "op": "=",
+                    "value": "pay"
+                  }
+                ]
+              }
+            ]
+          },
+          "description": "Среды проекта по порядку: порядок хранится. Среды, которых здесь нет, идут за названными."
+        },
+        "view": {
+          "description": "Настройка вида. Нет поля: настройка не меняется. Сброс к встроенным значениям только на форме «Вид».",
+          "type": "object",
+          "properties": {
+            "defaultMode": {
+              "type": "string",
+              "enum": [
+                "full",
+                "brief"
+              ],
+              "description": "Режим по умолчанию."
+            },
+            "columns": {
+              "type": "object",
+              "properties": {
+                "time": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент time: где показывать."
+                },
+                "request": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент request: где показывать."
+                },
+                "outcome": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент outcome: где показывать."
+                },
+                "component": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент component: где показывать."
+                },
+                "duration": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент duration: где показывать."
+                },
+                "records": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент records: где показывать."
+                },
+                "cid": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент cid: где показывать."
+                }
+              },
+              "required": [
+                "time",
+                "request",
+                "outcome",
+                "component",
+                "duration",
+                "records",
+                "cid"
+              ],
+              "additionalProperties": false,
+              "description": "Колонки списка результатов по режимам."
+            },
+            "defaultTab": {
+              "type": "string",
+              "enum": [
+                "scheme",
+                "timeline",
+                "records"
+              ],
+              "description": "Вкладка страницы запроса по умолчанию."
+            },
+            "tabs": {
+              "type": "object",
+              "properties": {
+                "scheme": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент scheme: где показывать."
+                },
+                "records": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент records: где показывать."
+                }
+              },
+              "required": [
+                "scheme",
+                "records"
+              ],
+              "additionalProperties": false,
+              "description": "Вкладки страницы запроса по режимам."
+            },
+            "blocks": {
+              "type": "object",
+              "properties": {
+                "request": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент request: где показывать."
+                },
+                "response": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент response: где показывать."
+                },
+                "headers": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент headers: где показывать."
+                },
+                "context": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент context: где показывать."
+                },
+                "raw": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "const": true,
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент raw: где показывать."
+                },
+                "logs": {
+                  "type": "object",
+                  "properties": {
+                    "full": {
+                      "type": "boolean",
+                      "description": "Показывать в полном режиме."
+                    },
+                    "brief": {
+                      "type": "boolean",
+                      "description": "Показывать в кратком режиме."
+                    }
+                  },
+                  "required": [
+                    "full",
+                    "brief"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Элемент logs: где показывать."
+                }
+              },
+              "required": [
+                "request",
+                "response",
+                "headers",
+                "context",
+                "raw",
+                "logs"
+              ],
+              "additionalProperties": false,
+              "description": "Блоки подробностей записи по режимам."
+            },
+            "bodyView": {
+              "type": "string",
+              "enum": [
+                "pretty",
+                "raw"
+              ],
+              "description": "Вид тела запроса и ответа по умолчанию."
+            }
+          },
+          "required": [
+            "defaultMode",
+            "columns",
+            "defaultTab",
+            "tabs",
+            "blocks",
+            "bodyView"
+          ],
+          "additionalProperties": false
+        }
+      },
+      "required": [
+        "name",
+        "timezone",
+        "retentionDays",
+        "format",
+        "environments"
+      ],
+      "additionalProperties": false,
+      "description": "Настройки проекта. Раздела нет: настройки не меняются. Проверяются теми же правилами, что формы, поэтому файл не может больше форм. Токенов, секретов, адресов хранилищ, тела профиля, логотипов, id проекта и скрытия здесь нет: они живут в файле настроек и на формах. Начальный набор этот раздел пропускает.",
+      "examples": [
+        {
+          "name": "Demo Pay",
+          "timezone": "UTC",
+          "retentionDays": 30,
+          "format": "json",
+          "environments": [
+            {
+              "id": "prod",
+              "name": "Прод",
+              "backend": "grafana",
+              "selector": [
+                {
+                  "label": "namespace",
+                  "op": "=",
+                  "value": "pay"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    "idTypes": {
+      "description": "Типы id проекта.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z][a-z0-9_]{0,31}$",
+            "description": "Ключ типа id: латиница в нижнем регистре, цифры и «_», с буквы. Подстановка {transferId}, {transfer_id} или {transferId2} в пути получает тип transfer.",
+            "examples": [
+              "user",
+              "card",
+              "transfer",
+              "merchant_payment"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "entity",
+              "operation"
+            ],
+            "description": "entity — сущность (пользователь, карта, счёт): на страницах запроса и операции не показывается, проверка предупредит. operation — операция (платёж, перевод): от неё появляется кнопка «Открыть операцию».",
+            "examples": [
+              "operation"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "Название типа.",
+            "examples": [
+              "Перевод",
+              "Пользователь"
+            ]
+          },
+          "statuses": {
+            "description": "Словарь статусов операции по порядку жизни. У сущности словаря нет.",
+            "examples": [
+              [
+                {
+                  "value": "processing",
+                  "name": "В обработке",
+                  "outcome": "pending"
+                }
+              ]
+            ],
+            "maxItems": 30,
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "value": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 64,
+                  "description": "Значение статуса, как в словаре типа операции.",
+                  "examples": [
+                    "processing",
+                    "completed",
+                    "2"
+                  ]
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "description": "Название статуса для людей.",
+                  "examples": [
+                    "В обработке",
+                    "Выполнен"
+                  ]
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "pending",
+                    "success",
+                    "failure"
+                  ],
+                  "description": "Итог статуса: pending — в процессе, success — успех, failure — отказ.",
+                  "examples": [
+                    "pending"
+                  ]
+                }
+              },
+              "required": [
+                "value",
+                "name",
+                "outcome"
+              ],
+              "additionalProperties": false,
+              "description": "Статус операции в словаре типа.",
+              "examples": [
+                {
+                  "value": "processing",
+                  "name": "В обработке",
+                  "outcome": "pending"
+                }
+              ]
+            }
+          },
+          "hidden": {
+            "description": "true — запись скрыта и в сопоставлении не участвует.",
+            "examples": [
+              true
+            ],
+            "type": "boolean"
+          }
+        },
+        "required": [
+          "key",
+          "kind",
+          "name"
+        ],
+        "additionalProperties": false,
+        "description": "Тип id: сущность или операция со словарём статусов.",
+        "examples": [
+          {
+            "key": "transfer",
+            "kind": "operation",
+            "name": "Перевод",
+            "statuses": [
+              {
+                "value": "completed",
+                "name": "Выполнен",
+                "outcome": "success"
+              }
+            ]
+          }
+        ],
+        "if": {
+          "properties": {
+            "kind": {
+              "const": "entity"
+            }
+          },
+          "required": [
+            "kind"
+          ]
+        },
+        "then": {
+          "properties": {
+            "statuses": {
+              "maxItems": 0
+            }
+          }
+        }
+      }
+    },
+    "systems": {
+      "description": "Системы: система-автор и внешние системы.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "key": {
+            "type": "string",
+            "pattern": "^[a-z0-9-]{1,32}$",
+            "description": "Ключ системы: строчные латинские буквы, цифры и дефис. У системы-автора — id проекта.",
+            "examples": [
+              "switch",
+              "processor",
+              "pay"
+            ]
+          },
+          "kind": {
+            "description": "project — система-автор проекта (одна, её key равен id проекта), external — внешняя система (по умолчанию).",
+            "examples": [
+              "external"
+            ],
+            "type": "string",
+            "enum": [
+              "project",
+              "external"
+            ]
+          },
+          "type": {
+            "description": "service — HTTP, SOAP, JSON-RPC (по умолчанию), database — база данных, queue — шина сообщений. У базы и шины нет методов и не работают правила итога. Отдельных шагов шины в логах нет, проверка предупредит.",
+            "examples": [
+              "service"
+            ],
+            "type": "string",
+            "enum": [
+              "service",
+              "database",
+              "queue"
+            ]
+          },
+          "name": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 80,
+            "description": "Название системы.",
+            "examples": [
+              "Карточный коммутатор",
+              "Процессинг карт"
+            ]
+          },
+          "hosts": {
+            "description": "Шаблоны хостов: host, host:port, [ipv6]:port или *.domain. Регистр не важен. Один шаблон — у одной системы.",
+            "examples": [
+              [
+                "switch.pay.example:11101",
+                "*.acquirer.example"
+              ]
+            ],
+            "maxItems": 50,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "minLength": 1,
+              "maxLength": 255,
+              "description": "Шаблон хоста.",
+              "examples": [
+                "switch.pay.example:11101"
+              ],
+              "pattern": "^\\s*(?:\\*\\.[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)+|\\[[0-9A-Fa-f:.]+\\](?::[0-9]{1,5})?|[A-Za-z0-9_](?:[A-Za-z0-9_-]*[A-Za-z0-9_])?(?:\\.[A-Za-z0-9_](?:[A-Za-z0-9_-]*[A-Za-z0-9_])?)*(?::[0-9]{1,5})?)\\s*$"
+            }
+          },
+          "description": {
+            "description": "Описание системы.",
+            "examples": [
+              "REST JSON. Успех: HTTP 200 и непустой result"
+            ],
+            "anyOf": [
+              {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 500,
+                "description": "Описание системы.",
+                "examples": [
+                  "REST JSON. Успех: HTTP 200 и непустой result"
+                ]
+              },
+              {
+                "type": "null"
+              }
+            ]
+          },
+          "hidden": {
+            "description": "true — запись скрыта и в сопоставлении не участвует.",
+            "examples": [
+              true
+            ],
+            "type": "boolean"
+          },
+          "methods": {
+            "description": "Методы системы. У базы данных и шины методов нет.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "http": {
+                  "type": "string",
+                  "enum": [
+                    "GET",
+                    "POST",
+                    "PUT",
+                    "PATCH",
+                    "DELETE",
+                    "HEAD",
+                    "OPTIONS",
+                    "*"
+                  ],
+                  "description": "HTTP-метод заглавными буквами или * — любой.",
+                  "examples": [
+                    "GET",
+                    "POST",
+                    "*"
+                  ]
+                },
+                "path": {
+                  "type": "string",
+                  "maxLength": 512,
+                  "pattern": "^/$|^(?:/(?:\\{[^{}/\\s]+\\}|[^{}/?#\\s]+))+$",
+                  "description": "Шаблон пути: начинается с «/», подстановка {имя} занимает сегмент целиком, без строки запроса. Имя подстановки задаёт тип id, на выбор метода не влияет.",
+                  "examples": [
+                    "/v1/users/{userId}/cards/{cardId}",
+                    "/v3/cards/info",
+                    "/"
+                  ]
+                },
+                "rpc": {
+                  "type": "string",
+                  "maxLength": 128,
+                  "pattern": "^[A-Za-z0-9_.:-]*$",
+                  "description": "Действие SOAP (первый элемент Body без префикса) или метод JSON-RPC. Пусто — метод без действия. У входа в проект действие не читается: у системы проекта проверка предупредит.",
+                  "examples": [
+                    "getCard",
+                    "risk.check",
+                    ""
+                  ]
+                },
+                "name": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 80,
+                  "description": "Название метода.",
+                  "examples": [
+                    "Данные карты",
+                    "Статус перевода"
+                  ]
+                },
+                "domain": {
+                  "description": "Домен метода.",
+                  "examples": [
+                    "Карты",
+                    "Переводы"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 40,
+                      "description": "Домен метода.",
+                      "examples": [
+                        "Карты",
+                        "Переводы"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "description": {
+                  "description": "Описание метода.",
+                  "examples": [
+                    "Возвращает реквизиты карты"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500,
+                      "description": "Описание метода.",
+                      "examples": [
+                        "Возвращает реквизиты карты"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "kind": {
+                  "description": "call — обычный (синхронный), start — создание операции (асинхронная отправка), status — статус операции, callback — колбэк в проект (только у системы-автора).",
+                  "examples": [
+                    "status"
+                  ],
+                  "type": "string",
+                  "enum": [
+                    "call",
+                    "start",
+                    "status",
+                    "callback"
+                  ]
+                },
+                "op": {
+                  "description": "Тип операции — ключ типа вида operation из idTypes. Обязателен у start, status и callback.",
+                  "examples": [
+                    "transfer"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "pattern": "^[a-z][a-z0-9_]{0,31}$",
+                      "description": "Тип операции — ключ типа вида operation из idTypes. Обязателен у start, status и callback.",
+                      "examples": [
+                        "transfer"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "fields": {
+                  "description": "Id вне пути: строка запроса, тело отправки или ответа.",
+                  "examples": [
+                    [
+                      {
+                        "in": "request",
+                        "path": "request_id",
+                        "type": "payment"
+                      }
+                    ]
+                  ],
+                  "maxItems": 10,
+                  "type": "array",
+                  "items": {
+                    "type": "object",
+                    "properties": {
+                      "in": {
+                        "type": "string",
+                        "enum": [
+                          "query",
+                          "request",
+                          "response"
+                        ],
+                        "description": "Где поле: query — строка запроса, request — тело отправки (у входа — тело входящей записи), response — тело ответа.",
+                        "examples": [
+                          "request"
+                        ]
+                      },
+                      "path": {
+                        "type": "string",
+                        "maxLength": 128,
+                        "pattern": "^[A-Za-z0-9_$@:-]+(\\.[A-Za-z0-9_$@:-]+)*$",
+                        "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
+                        "examples": [
+                          "status",
+                          "data.transfer_data.state",
+                          "response_code"
+                        ]
+                      },
+                      "type": {
+                        "type": "string",
+                        "pattern": "^[a-z][a-z0-9_]{0,31}$",
+                        "description": "Ключ типа id: латиница в нижнем регистре, цифры и «_», с буквы. Подстановка {transferId}, {transfer_id} или {transferId2} в пути получает тип transfer.",
+                        "examples": [
+                          "user",
+                          "card",
+                          "transfer",
+                          "merchant_payment"
+                        ]
+                      }
+                    },
+                    "required": [
+                      "in",
+                      "path",
+                      "type"
+                    ],
+                    "additionalProperties": false,
+                    "description": "Id вне пути: место, путь поля и тип id из idTypes.",
+                    "examples": [
+                      {
+                        "in": "request",
+                        "path": "ext_transfer_id",
+                        "type": "transfer"
+                      }
+                    ]
+                  }
+                },
+                "status": {
+                  "description": "Поле статуса операции. Есть только у метода с op.",
+                  "examples": [
+                    {
+                      "in": "response",
+                      "path": "data.transfer_data.state"
+                    }
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "object",
+                      "properties": {
+                        "in": {
+                          "type": "string",
+                          "enum": [
+                            "request",
+                            "response"
+                          ],
+                          "description": "Тело, где лежит статус: request или response.",
+                          "examples": [
+                            "response"
+                          ]
+                        },
+                        "path": {
+                          "type": "string",
+                          "maxLength": 128,
+                          "pattern": "^[A-Za-z0-9_$@:-]+(\\.[A-Za-z0-9_$@:-]+)*$",
+                          "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
+                          "examples": [
+                            "status",
+                            "data.transfer_data.state",
+                            "response_code"
+                          ]
+                        },
+                        "map": {
+                          "description": "Перевод значений из записи в значения словаря типа операции, без учёта регистра.",
+                          "examples": [
+                            {
+                              "complete": "completed",
+                              "error": "failed"
+                            }
+                          ],
+                          "type": "object",
+                          "propertyNames": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 64
+                          },
+                          "additionalProperties": {
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 64
+                          }
+                        }
+                      },
+                      "required": [
+                        "in",
+                        "path"
+                      ],
+                      "additionalProperties": false,
+                      "description": "Поле статуса операции. Есть только у метода с op.",
+                      "examples": [
+                        {
+                          "in": "response",
+                          "path": "data.transfer_data.state"
+                        }
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "hidden": {
+                  "description": "true — запись скрыта и в сопоставлении не участвует.",
+                  "examples": [
+                    true
+                  ],
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "http",
+                "path",
+                "name"
+              ],
+              "additionalProperties": false,
+              "description": "Метод системы.",
+              "examples": [
+                {
+                  "http": "GET",
+                  "path": "/v1/users/{userId}/cards/{cardId}",
+                  "name": "Данные карты",
+                  "domain": "Карты"
+                }
+              ],
+              "if": {
+                "properties": {
+                  "kind": {
+                    "enum": [
+                      "start",
+                      "status",
+                      "callback"
+                    ]
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              },
+              "then": {
+                "required": [
+                  "op"
+                ]
+              }
+            }
+          },
+          "errors": {
+            "description": "Правила ошибок системы и её методов.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "object",
+                  "properties": {
+                    "http": {
+                      "type": "string",
+                      "enum": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "PATCH",
+                        "DELETE",
+                        "HEAD",
+                        "OPTIONS",
+                        "*"
+                      ],
+                      "description": "HTTP-метод заглавными буквами или * — любой.",
+                      "examples": [
+                        "GET",
+                        "POST",
+                        "*"
+                      ]
+                    },
+                    "path": {
+                      "type": "string",
+                      "maxLength": 512,
+                      "pattern": "^\\/[^?#\\s]*$",
+                      "description": "Шаблон пути: начинается с «/», подстановка {имя} занимает сегмент целиком, без строки запроса. Имя подстановки задаёт тип id, на выбор метода не влияет.",
+                      "examples": [
+                        "/v1/users/{userId}/cards/{cardId}",
+                        "/v3/cards/info",
+                        "/"
+                      ]
+                    },
+                    "rpc": {
+                      "type": "string",
+                      "maxLength": 128,
+                      "pattern": "^[A-Za-z0-9_.:-]*$",
+                      "description": "Действие SOAP (первый элемент Body без префикса) или метод JSON-RPC. Пусто — метод без действия. У входа в проект действие не читается: у системы проекта проверка предупредит.",
+                      "examples": [
+                        "getCard",
+                        "risk.check",
+                        ""
+                      ]
+                    }
+                  },
+                  "required": [
+                    "http",
+                    "path"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Ссылка на метод этой системы: HTTP-метод, шаблон пути и действие. Без поля — правило всей системы.",
+                  "examples": [
+                    {
+                      "http": "POST",
+                      "path": "/v3/cards/token"
+                    }
+                  ]
+                },
+                "http": {
+                  "description": "HTTP-статус ответа, в том числе ниже 400: HTTP 200 с кодом ошибки в теле. У записи приложения статуса нет, правило с этим условием к ней не подходит.",
+                  "examples": [
+                    404,
+                    200
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "integer",
+                      "minimum": 100,
+                      "maximum": 599,
+                      "description": "HTTP-статус ответа, в том числе ниже 400: HTTP 200 с кодом ошибки в теле. У записи приложения статуса нет, правило с этим условием к ней не подходит.",
+                      "examples": [
+                        404,
+                        200
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "code": {
+                  "description": "Код ошибки из тела ответа или контекста записи. Коды из цифр сравниваются как числа: «00» и «0» — один код.",
+                  "examples": [
+                    "200",
+                    "-350",
+                    "PRC-ERR-0027"
+                  ],
+                  "anyOf": [
+                    {
+                      "anyOf": [
+                        {
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 64
+                        },
+                        {
+                          "type": "integer",
+                          "minimum": -9007199254740991,
+                          "maximum": 9007199254740991
+                        }
+                      ],
+                      "description": "Код ошибки из тела ответа или контекста записи. Коды из цифр сравниваются как числа: «00» и «0» — один код.",
+                      "examples": [
+                        "200",
+                        "-350",
+                        "PRC-ERR-0027"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "text": {
+                  "description": "Подстрока текста ошибки, от 3 символов, без учёта регистра, лишних пробелов и переводов строк.",
+                  "examples": [
+                    "PRC-ERR-0027",
+                    "deadlock detected"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 3,
+                      "maxLength": 200,
+                      "description": "Подстрока текста ошибки, от 3 символов, без учёта регистра, лишних пробелов и переводов строк.",
+                      "examples": [
+                        "PRC-ERR-0027",
+                        "deadlock detected"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "title": {
+                  "type": "string",
+                  "minLength": 1,
+                  "maxLength": 200,
+                  "description": "Человеческий текст ошибки.",
+                  "examples": [
+                    "Карта не найдена"
+                  ]
+                },
+                "action": {
+                  "description": "«Что делать» для второй линии.",
+                  "examples": [
+                    "Проверить статус карты в коммутаторе"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500,
+                      "description": "«Что делать» для второй линии.",
+                      "examples": [
+                        "Проверить статус карты в коммутаторе"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "severity": {
+                  "description": "error — ошибка (по умолчанию), ok — «не ошибка»: шаг не красный, запрос не ошибочный.",
+                  "examples": [
+                    "ok"
+                  ],
+                  "type": "string",
+                  "enum": [
+                    "error",
+                    "ok"
+                  ]
+                },
+                "partnerCode": {
+                  "description": "Код проекта, который по реестру получит партнёр.",
+                  "examples": [
+                    "176"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 64,
+                      "description": "Код проекта, который по реестру получит партнёр.",
+                      "examples": [
+                        "176"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "hidden": {
+                  "description": "true — запись скрыта и в сопоставлении не участвует.",
+                  "examples": [
+                    true
+                  ],
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "title"
+              ],
+              "additionalProperties": false,
+              "description": "Правило ошибки: условия (HTTP-статус, код, подстрока — хотя бы одно) и человеческий текст.",
+              "examples": [
+                {
+                  "code": "200",
+                  "title": "Карта не найдена",
+                  "partnerCode": "176"
+                }
+              ],
+              "anyOf": [
+                {
+                  "required": [
+                    "http"
+                  ]
+                },
+                {
+                  "required": [
+                    "code"
+                  ]
+                },
+                {
+                  "required": [
+                    "text"
+                  ]
+                }
+              ]
+            }
+          },
+          "outcomes": {
+            "description": "Правила итога системы и её методов. У базы данных и шины не работают: у их записей нет ответа.",
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "method": {
+                  "type": "object",
+                  "properties": {
+                    "http": {
+                      "type": "string",
+                      "enum": [
+                        "GET",
+                        "POST",
+                        "PUT",
+                        "PATCH",
+                        "DELETE",
+                        "HEAD",
+                        "OPTIONS",
+                        "*"
+                      ],
+                      "description": "HTTP-метод заглавными буквами или * — любой.",
+                      "examples": [
+                        "GET",
+                        "POST",
+                        "*"
+                      ]
+                    },
+                    "path": {
+                      "type": "string",
+                      "maxLength": 512,
+                      "pattern": "^\\/[^?#\\s]*$",
+                      "description": "Шаблон пути: начинается с «/», подстановка {имя} занимает сегмент целиком, без строки запроса. Имя подстановки задаёт тип id, на выбор метода не влияет.",
+                      "examples": [
+                        "/v1/users/{userId}/cards/{cardId}",
+                        "/v3/cards/info",
+                        "/"
+                      ]
+                    },
+                    "rpc": {
+                      "type": "string",
+                      "maxLength": 128,
+                      "pattern": "^[A-Za-z0-9_.:-]*$",
+                      "description": "Действие SOAP (первый элемент Body без префикса) или метод JSON-RPC. Пусто — метод без действия. У входа в проект действие не читается: у системы проекта проверка предупредит.",
+                      "examples": [
+                        "getCard",
+                        "risk.check",
+                        ""
+                      ]
+                    }
+                  },
+                  "required": [
+                    "http",
+                    "path"
+                  ],
+                  "additionalProperties": false,
+                  "description": "Ссылка на метод этой системы: HTTP-метод, шаблон пути и действие. Без поля — правило всей системы.",
+                  "examples": [
+                    {
+                      "http": "POST",
+                      "path": "/v3/cards/token"
+                    }
+                  ]
+                },
+                "priority": {
+                  "description": "Порядок внутри уровня: меньше — раньше. По умолчанию 100.",
+                  "examples": [
+                    10,
+                    100
+                  ],
+                  "type": "integer",
+                  "minimum": 1,
+                  "maximum": 1000
+                },
+                "when": {
+                  "type": "object",
+                  "properties": {
+                    "http": {
+                      "anyOf": [
+                        {
+                          "type": "integer",
+                          "minimum": 100,
+                          "maximum": 599,
+                          "description": "Точный HTTP-статус.",
+                          "examples": [
+                            422
+                          ]
+                        },
+                        {
+                          "type": "object",
+                          "properties": {
+                            "from": {
+                              "type": "integer",
+                              "minimum": 100,
+                              "maximum": 599,
+                              "description": "Начало диапазона HTTP-статусов, включительно.",
+                              "examples": [
+                                400
+                              ]
+                            },
+                            "to": {
+                              "type": "integer",
+                              "minimum": 100,
+                              "maximum": 599,
+                              "description": "Конец диапазона HTTP-статусов, включительно.",
+                              "examples": [
+                                499
+                              ]
+                            }
+                          },
+                          "required": [
+                            "from",
+                            "to"
+                          ],
+                          "additionalProperties": false,
+                          "description": "Диапазон HTTP-статусов включительно.",
+                          "examples": [
+                            {
+                              "from": 400,
+                              "to": 499
+                            }
+                          ]
+                        },
+                        {
+                          "minItems": 1,
+                          "maxItems": 20,
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "integer",
+                                "minimum": 100,
+                                "maximum": 599,
+                                "description": "Точный HTTP-статус в списке.",
+                                "examples": [
+                                  200
+                                ]
+                              },
+                              {
+                                "type": "object",
+                                "properties": {
+                                  "from": {
+                                    "type": "integer",
+                                    "minimum": 100,
+                                    "maximum": 599,
+                                    "description": "Начало диапазона HTTP-статусов, включительно.",
+                                    "examples": [
+                                      400
+                                    ]
+                                  },
+                                  "to": {
+                                    "type": "integer",
+                                    "minimum": 100,
+                                    "maximum": 599,
+                                    "description": "Конец диапазона HTTP-статусов, включительно.",
+                                    "examples": [
+                                      499
+                                    ]
+                                  }
+                                },
+                                "required": [
+                                  "from",
+                                  "to"
+                                ],
+                                "additionalProperties": false,
+                                "description": "Диапазон HTTP-статусов включительно.",
+                                "examples": [
+                                  {
+                                    "from": 400,
+                                    "to": 499
+                                  }
+                                ]
+                              }
+                            ],
+                            "description": "Элемент списка: статус или диапазон."
+                          },
+                          "description": "Список HTTP-статусов и диапазонов.",
+                          "examples": [
+                            [
+                              200,
+                              202
+                            ]
+                          ]
+                        }
+                      ],
+                      "description": "Условие на HTTP-статус ответа: число, диапазон {from, to} или список.",
+                      "examples": [
+                        422,
+                        {
+                          "from": 400,
+                          "to": 499
+                        },
+                        [
+                          200,
+                          202
+                        ]
+                      ]
+                    },
+                    "fields": {
+                      "description": "Условия на поля тела ответа или отправки. Правило подходит, если выполнены все.",
+                      "examples": [
+                        [
+                          {
+                            "path": "status",
+                            "equals": "OK"
+                          }
+                        ]
+                      ],
+                      "maxItems": 10,
+                      "type": "array",
+                      "items": {
+                        "type": "object",
+                        "properties": {
+                          "in": {
+                            "description": "Тело ответа (по умолчанию) или тело отправки этого обмена.",
+                            "examples": [
+                              "response"
+                            ],
+                            "type": "string",
+                            "enum": [
+                              "response",
+                              "request"
+                            ]
+                          },
+                          "path": {
+                            "type": "string",
+                            "maxLength": 128,
+                            "pattern": "^[A-Za-z0-9_$@:-]+(\\.[A-Za-z0-9_$@:-]+)*$",
+                            "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
+                            "examples": [
+                              "status",
+                              "data.transfer_data.state",
+                              "response_code"
+                            ]
+                          },
+                          "equals": {
+                            "description": "Равно: сравнение текстом без пробелов по краям и без учёта регистра; 2 и \"2\" равны.",
+                            "examples": [
+                              "OK",
+                              "error",
+                              0
+                            ],
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "maxLength": 200
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              }
+                            ]
+                          },
+                          "oneOf": {
+                            "description": "Одно из значений, сравнение как у equals.",
+                            "examples": [
+                              [
+                                "PENDING",
+                                "PROCESSING"
+                              ]
+                            ],
+                            "minItems": 1,
+                            "maxItems": 50,
+                            "type": "array",
+                            "items": {
+                              "anyOf": [
+                                {
+                                  "type": "string",
+                                  "maxLength": 200
+                                },
+                                {
+                                  "type": "number"
+                                },
+                                {
+                                  "type": "boolean"
+                                }
+                              ],
+                              "description": "Значение из списка.",
+                              "examples": [
+                                "PENDING"
+                              ]
+                            }
+                          },
+                          "exists": {
+                            "description": "true — поле есть и не null; false — поля нет или оно null.",
+                            "examples": [
+                              true
+                            ],
+                            "type": "boolean"
+                          },
+                          "regex": {
+                            "description": "Регулярное выражение по значению поля (читаются первые 1000 символов). Регистр учитывается. Чтобы не учитывать, начните с (?i). Флаги только в начале: (?i), (?s) или (?is).",
+                            "examples": [
+                              "^Timeout",
+                              "(?i)timeout"
+                            ],
+                            "type": "string",
+                            "minLength": 1,
+                            "maxLength": 200
+                          }
+                        },
+                        "required": [
+                          "path"
+                        ],
+                        "additionalProperties": false,
+                        "description": "Условие на поле тела: ровно одна проверка — equals, oneOf, exists или regex.",
+                        "examples": [
+                          {
+                            "path": "status",
+                            "equals": "OK"
+                          }
+                        ],
+                        "oneOf": [
+                          {
+                            "required": [
+                              "equals"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "oneOf"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "exists"
+                            ]
+                          },
+                          {
+                            "required": [
+                              "regex"
+                            ]
+                          }
+                        ]
+                      }
+                    }
+                  },
+                  "additionalProperties": false,
+                  "description": "Условия правила итога: HTTP-статус и поля тела. Нужно хотя бы одно условие; правило подходит, если выполнены все.",
+                  "examples": [
+                    {
+                      "http": 200,
+                      "fields": [
+                        {
+                          "path": "status",
+                          "equals": "error"
+                        }
+                      ]
+                    }
+                  ],
+                  "anyOf": [
+                    {
+                      "required": [
+                        "http"
+                      ]
+                    },
+                    {
+                      "required": [
+                        "fields"
+                      ],
+                      "properties": {
+                        "fields": {
+                          "minItems": 1,
+                          "description": "Хотя бы одно условие на поле."
+                        }
+                      }
+                    }
+                  ]
+                },
+                "outcome": {
+                  "type": "string",
+                  "enum": [
+                    "success",
+                    "error",
+                    "pending",
+                    "ignore"
+                  ],
+                  "description": "success — успех, error — ошибка, pending — в обработке, ignore — не ошибка.",
+                  "examples": [
+                    "success"
+                  ]
+                },
+                "text": {
+                  "description": "Свой текст или шаблон: {путь} подставляет значение поля тела ответа, до 5 мест.",
+                  "examples": [
+                    "{message}",
+                    "Отказ партнёра: {error.message}"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 200,
+                      "description": "Свой текст или шаблон: {путь} подставляет значение поля тела ответа, до 5 мест.",
+                      "examples": [
+                        "{message}",
+                        "Отказ партнёра: {error.message}"
+                      ],
+                      "pattern": "^[^{]*(?:\\{[^{]*){0,5}$"
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "action": {
+                  "description": "«Что делать» для второй линии.",
+                  "examples": [
+                    "Повторить через минуту"
+                  ],
+                  "anyOf": [
+                    {
+                      "type": "string",
+                      "minLength": 1,
+                      "maxLength": 500,
+                      "description": "«Что делать» для второй линии.",
+                      "examples": [
+                        "Повторить через минуту"
+                      ]
+                    },
+                    {
+                      "type": "null"
+                    }
+                  ]
+                },
+                "hidden": {
+                  "description": "true — запись скрыта и в сопоставлении не участвует.",
+                  "examples": [
+                    true
+                  ],
+                  "type": "boolean"
+                }
+              },
+              "required": [
+                "when",
+                "outcome"
+              ],
+              "additionalProperties": false,
+              "description": "Правило итога ответа. Уровни: метод (сильнее), система, весь проект; внутри — по priority. Первое подходящее решает итог вместо общих признаков ошибки.",
+              "examples": [
+                {
+                  "when": {
+                    "http": 422,
+                    "fields": [
+                      {
+                        "path": "status",
+                        "equals": "OK"
+                      }
+                    ]
+                  },
+                  "outcome": "success"
+                }
+              ]
+            }
+          }
+        },
+        "required": [
+          "key",
+          "name"
+        ],
+        "additionalProperties": false,
+        "description": "Система: система-автор проекта (kind: project) или внешняя система.",
+        "examples": [
+          {
+            "key": "switch",
+            "name": "Карточный коммутатор",
+            "hosts": [
+              "switch.pay.example:11101"
+            ]
+          }
+        ],
+        "allOf": [
+          {
+            "if": {
+              "properties": {
+                "type": {
+                  "enum": [
+                    "database",
+                    "queue"
+                  ]
+                }
+              },
+              "required": [
+                "type"
+              ]
+            },
+            "then": {
+              "properties": {
+                "methods": {
+                  "maxItems": 0
+                }
+              }
+            }
+          },
+          {
+            "if": {
+              "not": {
+                "properties": {
+                  "kind": {
+                    "const": "project"
+                  }
+                },
+                "required": [
+                  "kind"
+                ]
+              }
+            },
+            "then": {
+              "properties": {
+                "methods": {
+                  "items": {
+                    "properties": {
+                      "kind": {
+                        "not": {
+                          "const": "callback"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        ]
+      }
+    },
+    "general": {
+      "type": "object",
+      "properties": {
+        "errors": {
+          "description": "Общие правила ошибок проекта.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "http": {
+                "description": "HTTP-статус ответа, в том числе ниже 400: HTTP 200 с кодом ошибки в теле. У записи приложения статуса нет, правило с этим условием к ней не подходит.",
+                "examples": [
+                  404,
+                  200
+                ],
+                "anyOf": [
+                  {
+                    "type": "integer",
+                    "minimum": 100,
+                    "maximum": 599,
+                    "description": "HTTP-статус ответа, в том числе ниже 400: HTTP 200 с кодом ошибки в теле. У записи приложения статуса нет, правило с этим условием к ней не подходит.",
+                    "examples": [
+                      404,
+                      200
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "code": {
+                "description": "Код ошибки из тела ответа или контекста записи. Коды из цифр сравниваются как числа: «00» и «0» — один код.",
+                "examples": [
+                  "200",
+                  "-350",
+                  "PRC-ERR-0027"
+                ],
+                "anyOf": [
+                  {
+                    "anyOf": [
+                      {
+                        "type": "string",
+                        "minLength": 1,
+                        "maxLength": 64
+                      },
+                      {
+                        "type": "integer",
+                        "minimum": -9007199254740991,
+                        "maximum": 9007199254740991
+                      }
+                    ],
+                    "description": "Код ошибки из тела ответа или контекста записи. Коды из цифр сравниваются как числа: «00» и «0» — один код.",
+                    "examples": [
+                      "200",
+                      "-350",
+                      "PRC-ERR-0027"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "text": {
+                "description": "Подстрока текста ошибки, от 3 символов, без учёта регистра, лишних пробелов и переводов строк.",
+                "examples": [
+                  "PRC-ERR-0027",
+                  "deadlock detected"
+                ],
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 3,
+                    "maxLength": 200,
+                    "description": "Подстрока текста ошибки, от 3 символов, без учёта регистра, лишних пробелов и переводов строк.",
+                    "examples": [
+                      "PRC-ERR-0027",
+                      "deadlock detected"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "title": {
+                "type": "string",
+                "minLength": 1,
+                "maxLength": 200,
+                "description": "Человеческий текст ошибки.",
+                "examples": [
+                  "Карта не найдена"
+                ]
+              },
+              "action": {
+                "description": "«Что делать» для второй линии.",
+                "examples": [
+                  "Проверить статус карты в коммутаторе"
+                ],
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500,
+                    "description": "«Что делать» для второй линии.",
+                    "examples": [
+                      "Проверить статус карты в коммутаторе"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "severity": {
+                "description": "error — ошибка (по умолчанию), ok — «не ошибка»: шаг не красный, запрос не ошибочный.",
+                "examples": [
+                  "ok"
+                ],
+                "type": "string",
+                "enum": [
+                  "error",
+                  "ok"
+                ]
+              },
+              "partnerCode": {
+                "description": "Код проекта, который по реестру получит партнёр.",
+                "examples": [
+                  "176"
+                ],
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 64,
+                    "description": "Код проекта, который по реестру получит партнёр.",
+                    "examples": [
+                      "176"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "hidden": {
+                "description": "true — запись скрыта и в сопоставлении не участвует.",
+                "examples": [
+                  true
+                ],
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "title"
+            ],
+            "additionalProperties": false,
+            "description": "Общее правило ошибки проекта. Одного HTTP-статуса мало: проверка предупредит, нужны ещё код или подстрока.",
+            "anyOf": [
+              {
+                "required": [
+                  "http"
+                ]
+              },
+              {
+                "required": [
+                  "code"
+                ]
+              },
+              {
+                "required": [
+                  "text"
+                ]
+              }
+            ]
+          }
+        },
+        "outcomes": {
+          "description": "Общие правила итога проекта.",
+          "type": "array",
+          "items": {
+            "type": "object",
+            "properties": {
+              "priority": {
+                "description": "Порядок внутри уровня: меньше — раньше. По умолчанию 100.",
+                "examples": [
+                  10,
+                  100
+                ],
+                "type": "integer",
+                "minimum": 1,
+                "maximum": 1000
+              },
+              "when": {
+                "type": "object",
+                "properties": {
+                  "http": {
+                    "anyOf": [
+                      {
+                        "type": "integer",
+                        "minimum": 100,
+                        "maximum": 599,
+                        "description": "Точный HTTP-статус.",
+                        "examples": [
+                          422
+                        ]
+                      },
+                      {
+                        "type": "object",
+                        "properties": {
+                          "from": {
+                            "type": "integer",
+                            "minimum": 100,
+                            "maximum": 599,
+                            "description": "Начало диапазона HTTP-статусов, включительно.",
+                            "examples": [
+                              400
+                            ]
+                          },
+                          "to": {
+                            "type": "integer",
+                            "minimum": 100,
+                            "maximum": 599,
+                            "description": "Конец диапазона HTTP-статусов, включительно.",
+                            "examples": [
+                              499
+                            ]
+                          }
+                        },
+                        "required": [
+                          "from",
+                          "to"
+                        ],
+                        "additionalProperties": false,
+                        "description": "Диапазон HTTP-статусов включительно.",
+                        "examples": [
+                          {
+                            "from": 400,
+                            "to": 499
+                          }
+                        ]
+                      },
+                      {
+                        "minItems": 1,
+                        "maxItems": 20,
+                        "type": "array",
+                        "items": {
+                          "anyOf": [
+                            {
+                              "type": "integer",
+                              "minimum": 100,
+                              "maximum": 599,
+                              "description": "Точный HTTP-статус в списке.",
+                              "examples": [
+                                200
+                              ]
+                            },
+                            {
+                              "type": "object",
+                              "properties": {
+                                "from": {
+                                  "type": "integer",
+                                  "minimum": 100,
+                                  "maximum": 599,
+                                  "description": "Начало диапазона HTTP-статусов, включительно.",
+                                  "examples": [
+                                    400
+                                  ]
+                                },
+                                "to": {
+                                  "type": "integer",
+                                  "minimum": 100,
+                                  "maximum": 599,
+                                  "description": "Конец диапазона HTTP-статусов, включительно.",
+                                  "examples": [
+                                    499
+                                  ]
+                                }
+                              },
+                              "required": [
+                                "from",
+                                "to"
+                              ],
+                              "additionalProperties": false,
+                              "description": "Диапазон HTTP-статусов включительно.",
+                              "examples": [
+                                {
+                                  "from": 400,
+                                  "to": 499
+                                }
+                              ]
+                            }
+                          ],
+                          "description": "Элемент списка: статус или диапазон."
+                        },
+                        "description": "Список HTTP-статусов и диапазонов.",
+                        "examples": [
+                          [
+                            200,
+                            202
+                          ]
+                        ]
+                      }
+                    ],
+                    "description": "Условие на HTTP-статус ответа: число, диапазон {from, to} или список.",
+                    "examples": [
+                      422,
+                      {
+                        "from": 400,
+                        "to": 499
+                      },
+                      [
+                        200,
+                        202
+                      ]
+                    ]
+                  },
+                  "fields": {
+                    "description": "Условия на поля тела ответа или отправки. Правило подходит, если выполнены все.",
+                    "examples": [
+                      [
+                        {
+                          "path": "status",
+                          "equals": "OK"
+                        }
+                      ]
+                    ],
+                    "maxItems": 10,
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "in": {
+                          "description": "Тело ответа (по умолчанию) или тело отправки этого обмена.",
+                          "examples": [
+                            "response"
+                          ],
+                          "type": "string",
+                          "enum": [
+                            "response",
+                            "request"
+                          ]
+                        },
+                        "path": {
+                          "type": "string",
+                          "maxLength": 128,
+                          "pattern": "^[A-Za-z0-9_$@:-]+(\\.[A-Za-z0-9_$@:-]+)*$",
+                          "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
+                          "examples": [
+                            "status",
+                            "data.transfer_data.state",
+                            "response_code"
+                          ]
+                        },
+                        "equals": {
+                          "description": "Равно: сравнение текстом без пробелов по краям и без учёта регистра; 2 и \"2\" равны.",
+                          "examples": [
+                            "OK",
+                            "error",
+                            0
+                          ],
+                          "anyOf": [
+                            {
+                              "type": "string",
+                              "maxLength": 200
+                            },
+                            {
+                              "type": "number"
+                            },
+                            {
+                              "type": "boolean"
+                            }
+                          ]
+                        },
+                        "oneOf": {
+                          "description": "Одно из значений, сравнение как у equals.",
+                          "examples": [
+                            [
+                              "PENDING",
+                              "PROCESSING"
+                            ]
+                          ],
+                          "minItems": 1,
+                          "maxItems": 50,
+                          "type": "array",
+                          "items": {
+                            "anyOf": [
+                              {
+                                "type": "string",
+                                "maxLength": 200
+                              },
+                              {
+                                "type": "number"
+                              },
+                              {
+                                "type": "boolean"
+                              }
+                            ],
+                            "description": "Значение из списка.",
+                            "examples": [
+                              "PENDING"
+                            ]
+                          }
+                        },
+                        "exists": {
+                          "description": "true — поле есть и не null; false — поля нет или оно null.",
+                          "examples": [
+                            true
+                          ],
+                          "type": "boolean"
+                        },
+                        "regex": {
+                          "description": "Регулярное выражение по значению поля (читаются первые 1000 символов). Регистр учитывается. Чтобы не учитывать, начните с (?i). Флаги только в начале: (?i), (?s) или (?is).",
+                          "examples": [
+                            "^Timeout",
+                            "(?i)timeout"
+                          ],
+                          "type": "string",
+                          "minLength": 1,
+                          "maxLength": 200
+                        }
+                      },
+                      "required": [
+                        "path"
+                      ],
+                      "additionalProperties": false,
+                      "description": "Условие на поле тела: ровно одна проверка — equals, oneOf, exists или regex.",
+                      "examples": [
+                        {
+                          "path": "status",
+                          "equals": "OK"
+                        }
+                      ],
+                      "oneOf": [
+                        {
+                          "required": [
+                            "equals"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "oneOf"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "exists"
+                          ]
+                        },
+                        {
+                          "required": [
+                            "regex"
+                          ]
+                        }
+                      ]
+                    }
+                  }
+                },
+                "additionalProperties": false,
+                "description": "Условия правила итога: HTTP-статус и поля тела. Нужно хотя бы одно условие; правило подходит, если выполнены все.",
+                "examples": [
+                  {
+                    "http": 200,
+                    "fields": [
+                      {
+                        "path": "status",
+                        "equals": "error"
+                      }
+                    ]
+                  }
+                ],
+                "anyOf": [
+                  {
+                    "required": [
+                      "http"
+                    ]
+                  },
+                  {
+                    "required": [
+                      "fields"
+                    ],
+                    "properties": {
+                      "fields": {
+                        "minItems": 1,
+                        "description": "Хотя бы одно условие на поле."
+                      }
+                    }
+                  }
+                ]
+              },
+              "outcome": {
+                "type": "string",
+                "enum": [
+                  "success",
+                  "error",
+                  "pending",
+                  "ignore"
+                ],
+                "description": "success — успех, error — ошибка, pending — в обработке, ignore — не ошибка.",
+                "examples": [
+                  "success"
+                ]
+              },
+              "text": {
+                "description": "Свой текст или шаблон: {путь} подставляет значение поля тела ответа, до 5 мест.",
+                "examples": [
+                  "{message}",
+                  "Отказ партнёра: {error.message}"
+                ],
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 200,
+                    "description": "Свой текст или шаблон: {путь} подставляет значение поля тела ответа, до 5 мест.",
+                    "examples": [
+                      "{message}",
+                      "Отказ партнёра: {error.message}"
+                    ],
+                    "pattern": "^[^{]*(?:\\{[^{]*){0,5}$"
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "action": {
+                "description": "«Что делать» для второй линии.",
+                "examples": [
+                  "Повторить через минуту"
+                ],
+                "anyOf": [
+                  {
+                    "type": "string",
+                    "minLength": 1,
+                    "maxLength": 500,
+                    "description": "«Что делать» для второй линии.",
+                    "examples": [
+                      "Повторить через минуту"
+                    ]
+                  },
+                  {
+                    "type": "null"
+                  }
+                ]
+              },
+              "hidden": {
+                "description": "true — запись скрыта и в сопоставлении не участвует.",
+                "examples": [
+                  true
+                ],
+                "type": "boolean"
+              }
+            },
+            "required": [
+              "when",
+              "outcome"
+            ],
+            "additionalProperties": false,
+            "description": "Общее правило итога проекта."
+          }
+        }
+      },
+      "additionalProperties": false,
+      "description": "Общие правила проекта: проверяются после правил метода и системы, для неузнанных систем — только они.",
+      "examples": [
+        {
+          "errors": [
+            {
+              "http": 504,
+              "text": "gateway timeout",
+              "title": "Система не ответила вовремя"
+            }
+          ]
+        }
+      ]
+    },
+    "masking": {
+      "description": "Маскирование проекта: переключатель и добавленные поля каждого вида маски. Раздела нет — настройка не меняется. Начальный набор этот раздел пропускает.",
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "type": {
+            "type": "string",
+            "enum": [
+              "card_number",
+              "secrets",
+              "card_data",
+              "card_token",
+              "account_number",
+              "phone",
+              "national_id",
+              "passport",
+              "surname",
+              "first_name",
+              "birth_date",
+              "email",
+              "address"
+            ],
+            "description": "Вид маски: номер карты, секреты, данные карты, токен карты, номер счёта, телефон, личный номер, паспорт, фамилия, имя и отчество, дата рождения, e-mail или адрес.",
+            "examples": [
+              "phone"
+            ]
+          },
+          "enabled": {
+            "type": "boolean",
+            "description": "Включено ли маскирование вида. Выключенный вид открыт в блоках подробностей записи для всех пользователей проекта. У «Номера карты» и «Секретов» выключателя нет: только true.",
+            "examples": [
+              true
+            ]
+          },
+          "keys": {
+            "description": "Поля, добавленные к встроенным. Нет поля — пустой список.",
+            "examples": [
+              [
+                "client_mobile_alt"
+              ]
+            ],
+            "maxItems": 200,
+            "type": "array",
+            "items": {
+              "type": "string",
+              "description": "Имя поля: латиница, цифры, «_», «.», «:» и «-».",
+              "examples": [
+                "client_mobile_alt"
+              ]
+            }
+          }
+        },
+        "required": [
+          "type",
+          "enabled"
+        ],
+        "additionalProperties": false,
+        "description": "Настройка вида маски. Вид, не названный в файле, не меняется.",
+        "examples": [
+          {
+            "type": "phone",
+            "enabled": true,
+            "keys": [
+              "client_mobile_alt"
+            ]
+          }
+        ]
+      }
+    }
+  },
+  "required": [
+    "version",
+    "project"
+  ],
+  "additionalProperties": false,
+  "title": "Файл справочника Threadline, версия 1",
+  "description": "Справочник проекта: типы id, системы с методами, ошибками и правилами итога, общие правила. YAML или JSON одной структуры. Импорт идемпотентный: запись ищется по смысловому ключу, ручные правки редактора без --force не меняются, записи не удаляются.",
+  "examples": [
+    {
+      "version": 1,
+      "project": "pay",
+      "systems": [
+        {
+          "key": "switch",
+          "name": "Карточный коммутатор",
+          "methods": [
+            {
+              "http": "POST",
+              "path": "/v3/cards/info",
+              "name": "Данные карты в коммутаторе"
+            }
+          ],
+          "errors": [
+            {
+              "code": "200",
+              "title": "Карта не найдена"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

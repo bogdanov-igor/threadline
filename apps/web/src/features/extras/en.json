@@ -1,0 +1,9 @@
+{
+  "answer": "Answer found. The question was not.",
+  "sudo": "You are not in the sudoers file. This incident will be reported.",
+  "teapot": "418 I'm a teapot",
+  "empty": "Maybe there are simply no logs? Just like weekends.",
+  "night": "Go to sleep. The incident can wait until morning.",
+  "friday": "Deploying on a Friday? The logs are already crying.",
+  "confetti": "Happy Programmer's Day!"
+}

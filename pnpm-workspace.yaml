@@ -1,0 +1,7 @@
+packages:
+  - apps/*
+  - packages/*
+allowBuilds:
+  esbuild: true
+  # Снимки документации: готовая сборка из пакета, скрипт установки не нужен.
+  sharp: false

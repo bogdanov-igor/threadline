@@ -1,0 +1,22 @@
+# Один проект: в шапке название проекта текстом, без выпадающего списка.
+auth: off
+# Общие шутки и шутки по времени не должны попасть в прогон случайно: их проверяет extras.spec.ts на своём сервере.
+extras: { publicEggs: false }
+defaults: { project: pay, environment: demo }
+backends:
+  demo: { type: mock }
+# Региональные правила демо-проекта, как в config/threadline.yaml: телефоны без кода страны, паспорт и личный номер в тексте.
+regional:
+  phone: { countryCode: '44', nationalDigits: 10, trunkPrefix: '0' }
+  patterns:
+    passport: ['[A-Z]{2}\d{7}']
+    national_id: ['[A-Z]{2}\d{6}[A-D]']
+projects:
+  pay:
+    name: Demo Pay
+    logo: { light: logos/demo-pay-light.png, dark: logos/demo-pay-dark.png }
+    environments:
+      demo:
+        name: Demo
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]

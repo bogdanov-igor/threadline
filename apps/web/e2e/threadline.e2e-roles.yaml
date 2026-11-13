@@ -1,0 +1,32 @@
+# Настройка для сквозных тестов ролей: вход включён, сервис входа ложный (apps/server/test/fake-oidc.ts), записи из имитации.
+auth:
+  issuer: http://127.0.0.1:8093/realms/test
+  clientId: threadline
+  publicUrl: http://127.0.0.1:8094
+  roleClaim: realm_access.roles
+  roles:
+    business: [threadline-business]
+    support: [threadline-tech-support, threadline-customer-support]
+    developer: [threadline-developer]
+    analyst: [threadline-analyst]
+    admin: [threadline-admin]
+# Общие шутки и шутки по времени не должны попасть в прогон случайно: их проверяет extras.spec.ts на своём сервере.
+extras: { publicEggs: false }
+defaults: { project: pay, environment: demo }
+backends:
+  demo: { type: mock, latencyMs: 20 }
+# Региональные правила демо-проекта, как в config/threadline.yaml: телефоны без кода страны, паспорт и личный номер в тексте.
+regional:
+  phone: { countryCode: '44', nationalDigits: 10, trunkPrefix: '0' }
+  patterns:
+    passport: ['[A-Z]{2}\d{7}']
+    national_id: ['[A-Z]{2}\d{6}[A-D]']
+projects:
+  pay:
+    name: Demo Pay
+    timezone: Asia/Karachi
+    environments:
+      demo:
+        name: Demo
+        backend: demo
+        selector: [{ label: namespace, op: '=', value: pay }]

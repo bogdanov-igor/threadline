@@ -1,0 +1,54 @@
+{
+  "took": "took {{duration}}",
+  "side": {
+    "label": "Summary",
+    "took": "Took",
+    "steps": "Steps",
+    "passed": "{{passed}} of {{total}} passed",
+    "failedAt": "{{passed}} of {{total}}, error at step {{index}}",
+    "okNote": "All steps passed, no errors.",
+    "pendingNote": "One of the steps is still waiting for a response, so the result may change.",
+    "unknownNote": "The cause is not described in Threadline yet, so this page only shows which step failed.",
+    "noAnswerNote": "No response ever arrived.",
+    "stopped": "No further steps were recorded.",
+    "continued": "Later steps were recorded.",
+    "shareNote": "A link from “Share” opens read-only for your colleague.",
+    "support": "{{project}} support",
+    "unreadNote": "The records were not read in full, so the outcome is unknown."
+  },
+  "steps": {
+    "label": "Request steps"
+  },
+  "step": {
+    "ok": "Passed",
+    "failed": "Failed",
+    "noAnswer": "No response",
+    "pending": "Waiting for a response",
+    "waited": "waited {{duration}}",
+    "internal": "Internal step",
+    "unread": "Response not read"
+  },
+  "what": {
+    "label": "What happened",
+    "failed": "Step “{{step}}” failed",
+    "error": "The request ended with an error",
+    "noAnswer": "System “{{system}}” did not respond",
+    "noAnswerAny": "An external system did not respond",
+    "waited": "Step “{{step}}” waited {{duration}} for a response and did not get one.",
+    "notWaited": "Step “{{step}}” did not get a response.",
+    "previous": "The previous step “{{step}}” passed.",
+    "pending": "Step “{{step}}” is still waiting for a response",
+    "pendingAny": "The response has not arrived yet",
+    "pendingText": "The result will be known when the response arrives. Refresh the page a little later.",
+    "unread": "The records read so far have no response to step “{{step}}”",
+    "unreadAny": "The records read so far have no response",
+    "unreadText": "The records were not read in full, so the outcome is unknown. If it matters, pass the link to support.",
+    "noLink": "These records have no link of their own: share the operation itself."
+  },
+  "noName": "Unnamed request",
+  "incompleteHint": "There were too many records, so only part of them was read.",
+  "status": {
+    "pending": "Waiting for a response",
+    "unread": "Outcome unknown"
+  }
+}

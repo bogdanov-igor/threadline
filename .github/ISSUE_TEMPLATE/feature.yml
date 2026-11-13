@@ -1,0 +1,36 @@
+name: Feature request
+description: Suggest something Threadline should do
+labels: [enhancement]
+body:
+  - type: markdown
+    attributes:
+      value: Thank you for the idea. English or Russian is fine.
+  - type: textarea
+    id: problem
+    attributes:
+      label: The problem
+      description: What you are trying to find out or do, and what gets in the way today.
+    validations:
+      required: true
+  - type: textarea
+    id: proposal
+    attributes:
+      label: What would help
+      description: How it could look or work. Mockups and examples of log records (invented values) are welcome.
+    validations:
+      required: true
+  - type: dropdown
+    id: role
+    attributes:
+      label: Who needs it
+      multiple: true
+      options:
+        - Business
+        - Support
+        - Developer
+        - Analyst
+        - Administrator
+  - type: textarea
+    id: alternatives
+    attributes:
+      label: What you do now instead

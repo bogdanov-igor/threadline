@@ -1,0 +1,58 @@
+name: Bug report
+description: Something works wrong or differently from the documentation
+labels: [bug]
+body:
+  - type: markdown
+    attributes:
+      value: |
+        Thank you for the report. English or Russian is fine.
+        **Do not paste real log lines, tokens, card numbers or personal data**: replace them with invented values.
+        A security problem goes to a private advisory instead, see SECURITY.md.
+  - type: textarea
+    id: what
+    attributes:
+      label: What happened
+      description: What you did, what you expected and what you saw instead. Screenshots help.
+    validations:
+      required: true
+  - type: textarea
+    id: steps
+    attributes:
+      label: Steps to reproduce
+      description: The page, the search value (invented) and the period, or the command you ran.
+      placeholder: |
+        1. Quick start, search for 4111111234557893 over 6 hours
+        2. Open the first request
+        3. ...
+    validations:
+      required: true
+  - type: dropdown
+    id: run
+    attributes:
+      label: How Threadline runs
+      options:
+        - Quick start (deploy/quickstart)
+        - Local mode (pnpm local)
+        - Container image in a cluster
+        - Development (pnpm dev)
+    validations:
+      required: true
+  - type: input
+    id: version
+    attributes:
+      label: Version
+      description: From the "About Threadline" page or GET /api/health, or the commit.
+  - type: dropdown
+    id: storage
+    attributes:
+      label: Log storage
+      options:
+        - Loki directly
+        - Loki through Grafana
+        - Demo (simulated) environment
+  - type: textarea
+    id: logs
+    attributes:
+      label: Server log
+      description: The relevant JSON records from the server log, with values replaced.
+      render: json

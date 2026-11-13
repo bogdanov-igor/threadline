@@ -1,0 +1,44 @@
+{
+  "credits": "Credits",
+  "toSearch": "To search",
+  "creditsPage": {
+    "lead": "Authors",
+    "people": {
+      "ivanov": {
+        "name": "Aleksandr Ivanov",
+        "role": "Author of the idea and product"
+      },
+      "bogdanov": {
+        "name": "Igor Bogdanov",
+        "role": "Architecture and development"
+      }
+    },
+    "thanks": {
+      "title": "Acknowledgements",
+      "people": {
+        "anvarov": "Sunnatila Anvarov",
+        "fomenko": "Evgeny Fomenko",
+        "akmalov": "Umar Akmalov"
+      }
+    },
+    "crawlIntro": "A long time ago, in a galaxy of logs far, far away…"
+  },
+  "aboutPage": {
+    "lead": "The path of every request through the logs: where it came from, which systems it passed, where it waited and where it stopped.",
+    "what": {
+      "title": "What it is",
+      "text": "A service for viewing logs. It finds records by a value and a period, groups them into requests and shows the path of a request step by step. Threadline only reads logs and changes nothing in them."
+    },
+    "why": {
+      "title": "Why",
+      "text": "To sort out a case: open it, enter a value, see the reason, leave."
+    },
+    "whom": {
+      "title": "For whom",
+      "text": "For those who handle support cases and work with projects. A role decides what each of them sees and can do."
+    },
+    "version": "Version {{version}}",
+    "built": "built {{date}}",
+    "report": "Report a problem"
+  }
+}

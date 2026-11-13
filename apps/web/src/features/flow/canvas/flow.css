@@ -1,0 +1,65 @@
+/* Граф потока на токенах Threadline. colorMode React Flow не используется: токены переключает класс .dark.
+   Доля 75 % держит контраст ребра с --card не ниже 3:1 в обеих темах (проверяет features/flow/tokens.test.ts). */
+.threadline-flow .react-flow {
+  --xy-background-color: transparent;
+  --xy-edge-stroke: color-mix(in srgb, var(--color-muted-foreground) 75%, transparent);
+  --xy-edge-stroke-selected: var(--color-primary);
+  --xy-edge-stroke-width: 1.5;
+  --xy-node-border-radius: 10px;
+  font-family: inherit;
+}
+
+.threadline-flow .react-flow__pane {
+  cursor: grab;
+}
+
+.threadline-flow .react-flow__pane.dragging {
+  cursor: grabbing;
+}
+
+.threadline-flow .react-flow__node {
+  border: 0;
+  padding: 0;
+  background: transparent;
+  box-shadow: none;
+  cursor: default;
+  /* Узлы не выбираются и не двигаются средствами React Flow, и он снимает с них события указателя;
+     кнопки узлов, значки и действия обрабатываем сами. */
+  pointer-events: all !important;
+}
+
+/* Рамка проекта только обозначает границы: перетаскивание по ней двигает холст. */
+.threadline-flow .react-flow__node-project {
+  pointer-events: none !important;
+}
+
+.threadline-flow .threadline-edge {
+  stroke: var(--xy-edge-stroke);
+  stroke-width: 1.5;
+}
+
+/* Пунктир primary — только связь потоков операции. */
+.threadline-flow .threadline-edge-link {
+  stroke: var(--color-primary);
+  stroke-dasharray: 5 4;
+}
+
+.threadline-flow .threadline-junction {
+  background: var(--xy-edge-stroke);
+}
+
+/* Рёбра к узлам с ошибкой — красным тоном: путь сбоя виден на схеме. Доля 65 % держит контраст с --card не ниже 3:1. */
+.threadline-flow .react-flow {
+  --flow-edge-hot: color-mix(in srgb, var(--color-danger) 65%, transparent);
+}
+
+.threadline-flow .threadline-edge-hot {
+  stroke: var(--flow-edge-hot);
+  stroke-width: 1.6;
+}
+
+/* Подписи рёбер — над рёбрами детей раскрытой группы: React Flow поднимает их над рамкой. Подписи стоят в промежутках
+   между узлами и узлы не перекрывают. */
+.threadline-flow .react-flow__edgelabel-renderer {
+  z-index: 5;
+}

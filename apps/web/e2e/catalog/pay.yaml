@@ -1,0 +1,59 @@
+# yaml-language-server: $schema=../../../../config/catalog/catalog.schema.json
+# Набор справочника для сквозных тестов: выдуманные названия под синтетические записи имитации (dataset-pay.ts).
+# Названы только системы и методы, которых не проверяют другие наборы тестов (процессинг, коммутатор, проверка
+# мошенничества, эквайер и входы /v1/cards/lookup и transfers там проверяются по хостам и путям). Типы операций и поля id —
+# под сценарии операции (MOCK_FLOW): выплата с колбэком, платежи платёжного ядра, рассрочки. /v1/payments/confirm
+# намеренно не описан: catalog.spec добавляет его из шага.
+version: 1
+project: pay
+idTypes:
+  - { key: user, kind: entity, name: User }
+  - { key: payment, kind: operation, name: Payment }
+  - { key: installment, kind: operation, name: Installment }
+  - key: transfer
+    kind: operation
+    name: Transfer
+    statuses:
+      - { value: awaiting, name: Awaiting response, outcome: pending }
+      - { value: completed, name: Completed, outcome: success }
+      - { value: failed, name: Declined, outcome: failure }
+  - key: card_payout
+    kind: operation
+    name: Payout
+    statuses:
+      - { value: created, name: Created, outcome: pending }
+      - { value: processing, name: Processing, outcome: pending }
+      - { value: completed, name: Completed, outcome: success }
+      - { value: failed, name: Rejected, outcome: failure }
+systems:
+  - key: pay
+    kind: project
+    name: Demo Pay
+    methods:
+      - { http: POST, path: /v1/cards/sync, name: Card sync, domain: Cards }
+      - { http: POST, path: /internal/callbacks/payout, name: Payout network callback, kind: callback, op: transfer,
+          fields: [{ in: request, path: ext_transfer_id, type: transfer }],
+          status: { in: request, path: state, map: { complete: completed, error: failed } } }
+  - key: ledger
+    name: Payment core
+    hosts: ['ledger.pay.example:8080']
+    methods:
+      - { http: POST, path: /v1/payments/charge, name: Payment charge }
+      - { http: POST, path: /v1/payments/hold, name: Payment hold, op: payment, fields: [{ in: request, path: request_id, type: payment }] }
+      - { http: POST, path: /v1/transfers/hold, name: Transfer hold, op: transfer, fields: [{ in: request, path: request_id, type: transfer }] }
+      - { http: POST, path: /v1/installments/charge, name: Installment charge, op: installment,
+          fields: [{ in: request, path: request_id, type: installment }] }
+    errors:
+      - { code: '12', title: "Not enough money in the customer's account", action: Offer the customer another card, partnerCode: '150' }
+  - key: payout
+    name: Payout network
+    hosts: ['payout.pay.example:9443']
+    methods:
+      - { http: POST, path: /v3/transfer, name: Card payout, kind: start, op: card_payout,
+          fields: [{ in: request, path: document_id, type: transfer }, { in: response, path: data.transfer_id, type: card_payout }] }
+      - { http: POST, path: /v1/transfer_info, name: Payout status, kind: status, op: card_payout,
+          fields: [{ in: request, path: transfer_id, type: card_payout }],
+          status: { in: response, path: data.transfer_data.state } }
+general:
+  errors:
+    - { http: 504, title: System did not respond in time }

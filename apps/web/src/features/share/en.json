@@ -1,0 +1,112 @@
+{
+  "button": {
+    "copied": "Copied",
+    "copiedLong": "Link copied",
+    "manual": "Copy the address by hand: the browser denied clipboard access",
+    "address": "Link address",
+    "until": "Valid until {{date}}.",
+    "terms": "Opens without signing in, on the internal network, with values masked.",
+    "problem": {
+      "expired": "The search has expired. Repeat it and share again.",
+      "unavailable": "Links are stored in the database, which is unavailable now. Try again later.",
+      "failed": "Could not create the link. Try again."
+    },
+    "reason": {
+      "segment": "These records have no link of their own: share the operation itself.",
+      "off": "Links are stored in the database, which is not connected. Signed-in colleagues can use the address of the request page.",
+      "down": "Links are stored in the database, which is unavailable now. Signed-in colleagues can use the address of the request page."
+    }
+  },
+  "header": {
+    "openedByLink": "Opened by link",
+    "signIn": "Sign in to Threadline",
+    "stand": "Stand {{stand}}",
+    "readOnly": "read only"
+  },
+  "summary": {
+    "label": "Link conditions",
+    "values": "Values",
+    "excludes": "Does not contain",
+    "period": "Period",
+    "zone": "project time: {{zone}}",
+    "until": "Link valid until {{date}}",
+    "periodCut": "Earlier records are already deleted: the log retention period has ended.",
+    "masked": "values and data masked",
+    "requestUntil": "Link valid until {{date}} · everything masked",
+    "environment": "Environment",
+    "envsDropped": "One of the link environments is no longer in the project: the search runs in the rest."
+  },
+  "askSender": "You cannot narrow the search on this page: contact the person who sent the link.",
+  "emptyText": "No records match this link. If you need them, contact the person who sent the link.",
+  "standGone": "The stand of this link may no longer exist.",
+  "back": "To results",
+  "requestEmpty": {
+    "title": "No records of this request for the period",
+    "text": "The logs may already be deleted. Contact the person who sent the link."
+  },
+  "failedRequest": "The request did not open",
+  "retry": "Retry",
+  "openAgain": "Open the link again",
+  "states": {
+    "notFound": {
+      "title": "This link no longer works",
+      "text": "It has expired or does not exist. Ask the person who sent it for a new one."
+    },
+    "projectHidden": {
+      "title": "The project is unavailable now",
+      "text": "Contact the person who sent the link."
+    },
+    "noEnvironment": {
+      "title": "This environment no longer exists",
+      "text": "Contact the person who sent the link."
+    },
+    "notConfigured": {
+      "title": "The environment is not configured now",
+      "text": "Contact the person who sent the link."
+    },
+    "logsGone": {
+      "title": "Records of this period are already deleted",
+      "text": "The log retention period has ended."
+    },
+    "busy": {
+      "title": "The service is busy, try again",
+      "text": "Too many searches by link are running now."
+    },
+    "busyIn": "Try again in {{seconds}} s.",
+    "unavailable": {
+      "title": "Links are unavailable now, try again",
+      "text": "The link database is not responding. The link itself is not lost."
+    },
+    "outdated": {
+      "title": "The link is out of date, ask for a new one",
+      "text": "The conditions of this link no longer pass validation."
+    },
+    "failed": {
+      "title": "Could not open the link",
+      "text": "The server did not respond. Open the link again."
+    },
+    "notInLink": "The results of this link have no such request or operation."
+  },
+  "menu": {
+    "link": "Short link",
+    "ticket": "Text for a ticket",
+    "id": "Request ID",
+    "note": "The link opens without signing in, read only, everything masked.",
+    "previewTicket": "Will be copied · Markdown",
+    "previewLink": "Will be copied · address",
+    "previewId": "Will be copied · ID",
+    "newLink": "short link appears when copied",
+    "ticketCopied": "Ticket text copied",
+    "idCopied": "Request ID copied",
+    "ticketNoLink": "The text was copied without a short link.",
+    "manualText": "Copy by hand: the browser denied clipboard access",
+    "textLabel": "Text to copy"
+  },
+  "ticket": {
+    "reason": "Reason: {{text}}",
+    "where": "Where: {{text}}",
+    "requestId": "Request ID: {{id}}",
+    "operationId": "Operation ID: {{id}}"
+  },
+  "toResults": "To the results of this link"
+}
