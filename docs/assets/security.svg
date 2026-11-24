@@ -1,0 +1,163 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 912" width="1200" height="912" role="img" aria-label="Security, the trust boundary. In Loki and in server memory a raw record holds a full card number, a phone, a surname and a password. Masks are applied on the server before the answer. Business receives no log text at all, only steps, names, the outcome and the reason in words. Support and developer receive a masked card number, phone and surname that open with a button on one request, and a password that never opens. Analyst and administrator see the phone and surname at once; the card number and the password open with the button. A short link shows everything masked and opens nothing for anyone. Tokens, passwords and keys of the service itself are never sent to any browser. For a card number Loki receives a pattern with the first 6 and last 4 digits, and the server checks the exact number itself.">
+  <!-- the trust boundary: a raw record on the left, what each role receives on the right -->
+  <defs>
+    <linearGradient id="fibre" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="45%" stop-color="#cfe0ff"/>
+      <stop offset="100%" stop-color="#86adff"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4c8dff"/>
+      <stop offset="55%" stop-color="#dfe6f5"/>
+      <stop offset="100%" stop-color="#f5a65b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="15%" cy="12%" r="62%">
+      <stop offset="0%" stop-color="#1f5fd6" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#0f2a5c" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#07090e" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#4c8dff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#5b7fbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#f5a65b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <linearGradient id="toCause" gradientUnits="userSpaceOnUse" x1="0" y1="488" x2="0" y2="530"><stop offset="0%" stop-color="#4c8dff"/><stop offset="100%" stop-color="#f5a65b"/></linearGradient>
+  </defs>
+  <style>
+    .sans, .h, .ct, .b, .s, .bl { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .mono, .k, .z, .m, .ms { font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace; }
+    .k  { font-size: 16px; letter-spacing: 5px; fill: #7d889b; }
+    .h  { font-size: 42px; font-weight: 800; letter-spacing: -1px; fill: url(#fibre); }
+    .z  { font-size: 15.5px; letter-spacing: 3px; fill: #8592a8; }
+    .ct { font-size: 21px; font-weight: 600; fill: #eef3fd; }
+    .b  { font-size: 18px; fill: #a3afc3; }
+    .s  { font-size: 16.5px; fill: #8592a8; }
+    .bl { font-size: 18px; font-weight: 500; fill: #74a6ff; }
+    .m  { font-size: 17px; fill: #c5d6f7; }
+    .ms { font-size: 15.5px; fill: #a9bbdf; }
+    .am { fill: #f5a65b; } .wh { fill: #eef3fd; } .mu { fill: #7d889b; } .bu { fill: #74a6ff; } .ok { fill: #7fd0a5; }
+    .mid { text-anchor: middle; } .end { text-anchor: end; }
+    .card { fill: #0c111a; stroke: #1d2738; stroke-width: 1; }
+    .zone { fill: #0a0f18; stroke: #1f3358; stroke-width: 1.25; }
+    .hot  { fill: #0d182b; stroke: #3d6fc7; stroke-width: 1.5; }
+    .cause { fill: #1a130c; stroke: #f5a65b; stroke-width: 1.5; }
+    .chip { fill: #111b2c; stroke: #243553; stroke-width: 1; }
+    .ghost { fill: none; stroke: #2a3a56; stroke-width: 1.25; stroke-dasharray: 5 5; }
+    .wire { fill: none; stroke: #4c8dff; stroke-width: 2; }
+    .wire2 { fill: none; stroke: #3a5a94; stroke-width: 1.75; }
+    .dash { stroke-dasharray: 5 6; }
+    .rule { stroke: #1d2738; stroke-width: 1; }
+  </style>
+
+  <rect width="1200" height="912" rx="18" fill="#07090e"/>
+  <rect width="1200" height="912" rx="18" fill="url(#halo)"/>
+
+  <!-- eyebrow, headline, accent -->
+  <circle cx="48" cy="57" r="5" fill="#4c8dff"/><circle cx="48" cy="57" r="9.5" fill="none" stroke="#4c8dff" stroke-opacity="0.32" stroke-width="1"/>
+  <text x="72" y="63" class="k">SECURITY</text>
+  <text x="38" y="121" class="h">Masked before it leaves the server</text>
+  <rect x="40" y="140" width="232" height="3" rx="1.5" fill="url(#accent)"/>
+
+  <!-- the raw record stays on this side -->
+  <text x="40" y="206" class="z">RAW RECORD</text>
+  <text x="40" y="234" class="s">in Loki and server memory</text>
+  <rect x="40" y="298" width="250" height="312" rx="14" class="zone"/>
+  <text x="62" y="331" class="s">card number</text>
+  <text x="62" y="357" class="m wh">4111111234557893</text>
+  <line x1="62" y1="376" x2="268" y2="376" class="rule"/>
+  <text x="62" y="409" class="s">phone</text>
+  <text x="62" y="435" class="m wh">+447700900001</text>
+  <line x1="62" y1="454" x2="268" y2="454" class="rule"/>
+  <text x="62" y="487" class="s">surname</text>
+  <text x="62" y="513" class="m wh">Turner</text>
+  <line x1="62" y1="532" x2="268" y2="532" class="rule"/>
+  <text x="62" y="565" class="s">password</text>
+  <text x="62" y="591" class="m wh">Qwerty-77</text>
+
+  <!-- the boundary, with the masks on it -->
+  <line x1="337" y1="186" x2="337" y2="610" stroke="#4c8dff" stroke-opacity="0.6" stroke-width="1.75" stroke-dasharray="2 8" stroke-linecap="round"/>
+  <path d="M 291 454 H 378" class="wire" marker-end="url(#arrow)"/>
+  <circle cx="337" cy="454" r="25" fill="#0d182b" stroke="#4c8dff" stroke-width="1.75"/>
+  <path d="M 337 440 l11 4 v7 c0 8 -5 12 -11 15 c-6 -3 -11 -7 -11 -15 v-7 Z" fill="none" stroke="#f2f7ff" stroke-width="2" stroke-linejoin="round"/>
+  <rect x="297" y="486" width="80" height="46" rx="8" fill="#07090e"/>
+  <text x="337" y="504" class="s mid bu">masks</text>
+  <text x="337" y="525" class="s mid bu">per role</text>
+
+  <!-- what each role receives -->
+  <text x="386" y="206" class="z">WHAT THE BROWSER RECEIVES</text>
+  <text x="386" y="278" class="ct" style="font-size:19.5px">Business</text>
+  <rect x="384" y="298" width="182" height="312" rx="12" class="ghost"/>
+  <text x="400" y="331" class="b" style="font-size:17px">No log text at all.</text>
+  <text x="400" y="356" class="b" style="font-size:17px">Steps, names,</text>
+  <text x="400" y="381" class="b" style="font-size:17px">outcome, reason:</text>
+  <path d="M 406 446 V 488" class="wire2"/><path d="M 406 488 V 530" stroke="url(#toCause)" stroke-width="2"/>
+  <circle cx="406" cy="446" r="5.5" fill="#4c8dff" stroke="#0a0f18" stroke-width="2"/><text x="422" y="452" class="b wh" style="font-size:17px">Gateway</text>
+  <circle cx="406" cy="488" r="5.5" fill="#4c8dff" stroke="#0a0f18" stroke-width="2"/><text x="422" y="494" class="b wh" style="font-size:17px">New payment</text>
+  <circle cx="406" cy="530" r="5.5" fill="#f5a65b" stroke="#0a0f18" stroke-width="2"/><text x="422" y="536" class="b wh" style="font-size:17px">Fraud check</text>
+  <text x="422" y="562" class="b am" style="font-size:15.5px">No answer in time</text>
+  <text x="584" y="254" class="ct" style="font-size:19.5px">Support,</text>
+  <text x="584" y="278" class="ct" style="font-size:19.5px">developer</text>
+  <rect x="582" y="298" width="182" height="312" rx="12" class="card"/>
+  <text x="598" y="332" class="m" style="font-size:16px;fill:#9fb4dc">411111******7893</text>
+  <circle cx="603" cy="351" r="4" fill="none" stroke="#74a6ff" stroke-width="1.75"/><text x="615" y="356.5" class="s" style="font-size:15.4px">opens by button</text>
+  <line x1="598" y1="376" x2="748" y2="376" class="rule"/>
+  <text x="598" y="410" class="m" style="font-size:16px;fill:#9fb4dc">+********0001</text>
+  <circle cx="603" cy="429" r="4" fill="none" stroke="#74a6ff" stroke-width="1.75"/><text x="615" y="434.5" class="s" style="font-size:15.4px">opens by button</text>
+  <line x1="598" y1="454" x2="748" y2="454" class="rule"/>
+  <text x="598" y="488" class="m" style="font-size:16px;fill:#9fb4dc">T*****</text>
+  <circle cx="603" cy="507" r="4" fill="none" stroke="#74a6ff" stroke-width="1.75"/><text x="615" y="512.5" class="s" style="font-size:15.4px">opens by button</text>
+  <line x1="598" y1="532" x2="748" y2="532" class="rule"/>
+  <text x="598" y="566" class="m" style="font-size:16px;fill:#9fb4dc">***</text>
+  <path d="M 599 585 H 607" stroke="#7d889b" stroke-width="2" stroke-linecap="round"/><text x="615" y="590.5" class="s" style="font-size:15.4px">never opens</text>
+  <text x="782" y="254" class="ct" style="font-size:19.5px">Analyst,</text>
+  <text x="782" y="278" class="ct" style="font-size:19.5px">administrator</text>
+  <rect x="780" y="298" width="182" height="312" rx="12" class="card"/>
+  <text x="796" y="332" class="m" style="font-size:16px;fill:#9fb4dc">411111******7893</text>
+  <circle cx="801" cy="351" r="4" fill="none" stroke="#74a6ff" stroke-width="1.75"/><text x="813" y="356.5" class="s" style="font-size:15.4px">opens by button</text>
+  <line x1="796" y1="376" x2="946" y2="376" class="rule"/>
+  <text x="796" y="410" class="m" style="font-size:16px;fill:#ffffff">+447700900001</text>
+  <circle cx="801" cy="429" r="4.5" fill="#74a6ff"/><text x="813" y="434.5" class="s" style="font-size:15.4px">seen at once</text>
+  <line x1="796" y1="454" x2="946" y2="454" class="rule"/>
+  <text x="796" y="488" class="m" style="font-size:16px;fill:#ffffff">Turner</text>
+  <circle cx="801" cy="507" r="4.5" fill="#74a6ff"/><text x="813" y="512.5" class="s" style="font-size:15.4px">seen at once</text>
+  <line x1="796" y1="532" x2="946" y2="532" class="rule"/>
+  <text x="796" y="566" class="m" style="font-size:16px;fill:#9fb4dc">***</text>
+  <circle cx="801" cy="585" r="4" fill="none" stroke="#74a6ff" stroke-width="1.75"/><text x="813" y="590.5" class="s" style="font-size:15.4px">opens by button</text>
+  <text x="980" y="254" class="ct" style="font-size:19.5px">Short link,</text>
+  <text x="980" y="278" class="ct" style="font-size:19.5px">no sign-in</text>
+  <rect x="978" y="298" width="182" height="312" rx="12" class="card"/>
+  <text x="994" y="332" class="m" style="font-size:16px;fill:#9fb4dc">411111******7893</text>
+  <path d="M 995 351 H 1003" stroke="#7d889b" stroke-width="2" stroke-linecap="round"/><text x="1011" y="356.5" class="s" style="font-size:15.4px">never opens</text>
+  <line x1="994" y1="376" x2="1144" y2="376" class="rule"/>
+  <text x="994" y="410" class="m" style="font-size:16px;fill:#9fb4dc">+********0001</text>
+  <path d="M 995 429 H 1003" stroke="#7d889b" stroke-width="2" stroke-linecap="round"/><text x="1011" y="434.5" class="s" style="font-size:15.4px">never opens</text>
+  <line x1="994" y1="454" x2="1144" y2="454" class="rule"/>
+  <text x="994" y="488" class="m" style="font-size:16px;fill:#9fb4dc">T*****</text>
+  <path d="M 995 507 H 1003" stroke="#7d889b" stroke-width="2" stroke-linecap="round"/><text x="1011" y="512.5" class="s" style="font-size:15.4px">never opens</text>
+  <line x1="994" y1="532" x2="1144" y2="532" class="rule"/>
+  <text x="994" y="566" class="m" style="font-size:16px;fill:#9fb4dc">***</text>
+  <path d="M 995 585 H 1003" stroke="#7d889b" stroke-width="2" stroke-linecap="round"/><text x="1011" y="590.5" class="s" style="font-size:15.4px">never opens</text>
+
+  <!-- card number on its way to Loki -->
+  <rect x="40" y="646" width="572" height="226" rx="14" class="card"/>
+  <text x="64" y="690" class="ct">What Loki receives for a card number</text>
+  <text x="64" y="737" class="s">you paste</text>
+  <rect x="160" y="712" width="226" height="38" rx="8" class="chip"/>
+  <text x="176" y="737" class="m wh">4111 1112 3455 7893</text>
+  <text x="64" y="787" class="s">Loki gets</text>
+  <rect x="160" y="762" width="290" height="38" rx="8" class="chip"/>
+  <text x="176" y="787" class="m">411111(?:\d{6}|\*{6})7893</text>
+  <text x="468" y="776" class="s">first 6 and</text>
+  <text x="468" y="797" class="s">last 4 digits</text>
+  <text x="64" y="828" class="s">The server compares the full number itself, in memory,</text>
+  <text x="64" y="851" class="s">and drops other cards with the same edges.</text>
+
+  <!-- secrets of the service itself -->
+  <rect x="636" y="646" width="524" height="226" rx="14" class="hot"/>
+  <path d="M 664 682 v-6 a7.5 7.5 0 0 1 15 0 v6" fill="none" stroke="#74a6ff" stroke-width="2"/>
+  <rect x="660" y="681" width="23" height="17" rx="4" fill="#0d182b" stroke="#74a6ff" stroke-width="1.9"/>
+  <text x="696" y="692" class="ct">Never sent to any browser</text>
+  <circle cx="666" cy="727" r="3" fill="#4c8dff"/><text x="682" y="733" class="b" style="font-size:17px">Loki and Grafana tokens and passwords</text>
+  <circle cx="666" cy="754" r="3" fill="#4c8dff"/><text x="682" y="760" class="b" style="font-size:17px">the database password</text>
+  <circle cx="666" cy="781" r="3" fill="#4c8dff"/><text x="682" y="787" class="b" style="font-size:17px">the OIDC client secret and the session key</text>
+  <circle cx="666" cy="808" r="3" fill="#4c8dff"/><text x="682" y="814" class="b" style="font-size:17px">the Telegram bot token</text>
+  <text x="660" y="849" class="s">If one of them gets into a log line, it is cut out of it.</text>
+</svg>

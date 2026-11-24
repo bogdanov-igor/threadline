@@ -1,0 +1,170 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 1002" width="1200" height="1002" role="img" aria-label="Architecture. The browser, or the installed app, talks to one Threadline server process over https. Inside the process: sign-in and roles, search jobs, masking and the catalog. The server reads Loki directly or through Grafana with GET requests only. It keeps projects, the catalog, settings and short links in PostgreSQL, or in the embedded PGlite in local mode, signs people in through an OIDC provider and can send messages to Telegram if you set it up. Search results and sessions live only in server memory. Log records are never copied, and there is no search history and no user store.">
+  <!-- one server process between the browser and the log storage -->
+  <defs>
+    <linearGradient id="fibre" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="45%" stop-color="#cfe0ff"/>
+      <stop offset="100%" stop-color="#86adff"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4c8dff"/>
+      <stop offset="55%" stop-color="#dfe6f5"/>
+      <stop offset="100%" stop-color="#f5a65b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="15%" cy="12%" r="62%">
+      <stop offset="0%" stop-color="#1f5fd6" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#0f2a5c" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#07090e" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#4c8dff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#5b7fbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#f5a65b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <style>
+    .sans, .h, .ct, .b, .s, .bl { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .mono, .k, .z, .m, .ms { font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace; }
+    .k  { font-size: 16px; letter-spacing: 5px; fill: #7d889b; }
+    .h  { font-size: 42px; font-weight: 800; letter-spacing: -1px; fill: url(#fibre); }
+    .z  { font-size: 15.5px; letter-spacing: 3px; fill: #8592a8; }
+    .ct { font-size: 21px; font-weight: 600; fill: #eef3fd; }
+    .b  { font-size: 18px; fill: #a3afc3; }
+    .s  { font-size: 16.5px; fill: #8592a8; }
+    .bl { font-size: 18px; font-weight: 500; fill: #74a6ff; }
+    .m  { font-size: 17px; fill: #c5d6f7; }
+    .ms { font-size: 15.5px; fill: #a9bbdf; }
+    .am { fill: #f5a65b; } .wh { fill: #eef3fd; } .mu { fill: #7d889b; } .bu { fill: #74a6ff; } .ok { fill: #7fd0a5; }
+    .mid { text-anchor: middle; } .end { text-anchor: end; }
+    .card { fill: #0c111a; stroke: #1d2738; stroke-width: 1; }
+    .zone { fill: #0a0f18; stroke: #1f3358; stroke-width: 1.25; }
+    .hot  { fill: #0d182b; stroke: #3d6fc7; stroke-width: 1.5; }
+    .cause { fill: #1a130c; stroke: #f5a65b; stroke-width: 1.5; }
+    .chip { fill: #111b2c; stroke: #243553; stroke-width: 1; }
+    .ghost { fill: none; stroke: #2a3a56; stroke-width: 1.25; stroke-dasharray: 5 5; }
+    .wire { fill: none; stroke: #4c8dff; stroke-width: 2; }
+    .wire2 { fill: none; stroke: #3a5a94; stroke-width: 1.75; }
+    .dash { stroke-dasharray: 5 6; }
+    .rule { stroke: #1d2738; stroke-width: 1; }
+  </style>
+
+  <rect width="1200" height="1002" rx="18" fill="#07090e"/>
+  <rect width="1200" height="1002" rx="18" fill="url(#halo)"/>
+
+  <!-- eyebrow, headline, accent -->
+  <circle cx="48" cy="57" r="5" fill="#4c8dff"/><circle cx="48" cy="57" r="9.5" fill="none" stroke="#4c8dff" stroke-opacity="0.32" stroke-width="1"/>
+  <text x="72" y="63" class="k">ARCHITECTURE</text>
+  <text x="38" y="121" class="h">One process between people and the logs</text>
+  <rect x="40" y="140" width="232" height="3" rx="1.5" fill="url(#accent)"/>
+
+  <!-- people's side -->
+  <rect x="40" y="180" width="264" height="208" rx="14" class="card"/>
+  <g fill="none" stroke="#74a6ff" stroke-width="2"><rect x="62" y="202" width="34" height="26" rx="5"/><path d="M62 211 H96"/></g><circle cx="68" cy="206.6" r="1.4" fill="#74a6ff"/><circle cx="73" cy="206.6" r="1.4" fill="#74a6ff"/>
+  <text x="110" y="222" class="ct">Browser</text>
+  <text x="62" y="260" class="b" style="font-size:17px">A page or an installed</text>
+  <text x="62" y="284" class="b" style="font-size:17px">app (PWA). It caches its</text>
+  <text x="62" y="308" class="b" style="font-size:17px">own files, not the data.</text>
+  <text x="62" y="344" class="s" style="font-size:16px">Talks to the server and the</text>
+  <text x="62" y="368" class="s" style="font-size:16px">OIDC provider, nobody else.</text>
+  <rect x="40" y="432" width="264" height="188" rx="14" class="card"/>
+  <g fill="none" stroke="#74a6ff" stroke-width="2" stroke-linecap="round"><circle cx="70" cy="467" r="7"/><path d="M77 467 H95 M88 467 v6 M95 467 v6"/></g>
+  <text x="110" y="474" class="ct">OIDC provider</text>
+  <text x="62" y="512" class="b" style="font-size:17px">Users, passwords and</text>
+  <text x="62" y="536" class="b" style="font-size:17px">roles live here.</text>
+  <text x="62" y="570" class="s" style="font-size:16px">Keycloak, Authentik, Okta,</text>
+  <text x="62" y="594" class="s" style="font-size:16px">Entra ID, Zitadel, Dex</text>
+
+  <!-- the process -->
+  <rect x="378" y="180" width="460" height="440" rx="18" class="zone"/>
+  <text x="400" y="218" class="z bu">THREADLINE SERVER</text>
+  <text x="400" y="246" class="s">one process, one replica, serves the interface too</text>
+  <rect x="398" y="272" width="202" height="156" rx="12" class="chip"/>
+  <g fill="none" stroke="#74a6ff" stroke-width="2" stroke-linecap="round"><circle cx="424" cy="303" r="7"/><path d="M431 303 H449 M442 303 v6 M449 303 v6"/></g>
+  <text x="416" y="350" class="ct">Sign-in, roles</text>
+  <text x="416" y="379" class="b" style="font-size:17px">Every API route says</text>
+  <text x="416" y="403" class="b" style="font-size:17px">who may call it.</text>
+  <rect x="616" y="272" width="202" height="156" rx="12" class="chip"/>
+  <g fill="none" stroke="#74a6ff" stroke-width="2" stroke-linecap="round"><circle cx="646" cy="302" r="10"/><path d="M653.5 309.5 l8 8"/></g>
+  <text x="634" y="350" class="ct">Search jobs</text>
+  <text x="634" y="379" class="b" style="font-size:17px">Two passes, results</text>
+  <text x="634" y="403" class="b" style="font-size:17px">in memory only.</text>
+  <rect x="398" y="444" width="202" height="156" rx="12" class="chip"/>
+  <path d="M416 463 h13 a4 4 0 0 1 4 4 v21 a4 4 0 0 0 -4 -4 h-13 Z M450 463 h-13 a4 4 0 0 0 -4 4 v21 a4 4 0 0 1 4 -4 h13 Z" fill="none" stroke="#74a6ff" stroke-width="2" stroke-linejoin="round"/>
+  <text x="416" y="522" class="ct">Catalog</text>
+  <text x="416" y="551" class="b" style="font-size:17px">Names, outcomes,</text>
+  <text x="416" y="575" class="b" style="font-size:17px">what to do.</text>
+  <rect x="616" y="444" width="202" height="156" rx="12" class="hot"/>
+  <path d="M647 462 l12 4 v8 c0 8 -5 13 -12 16 c-7 -3 -12 -8 -12 -16 v-8 Z" fill="none" stroke="#f2f7ff" stroke-width="2" stroke-linejoin="round"/><path d="M642 476 l4 4 l7 -8" fill="none" stroke="#f2f7ff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+  <text x="634" y="522" class="ct">Masking</text>
+  <text x="634" y="551" class="b" style="font-size:17px">Per role, in every</text>
+  <text x="634" y="575" class="b" style="font-size:17px">answer it sends.</text>
+
+  <!-- logs -->
+  <rect x="916" y="180" width="244" height="129.33" rx="14" class="card"/>
+  <g stroke="#74a6ff" stroke-width="2.25" stroke-linecap="round"><path d="M938 207 h10 M954 207 h18 M938 215 h20 M964 215 h8 M938 223 h6 M950 223 h16"/></g>
+  <text x="986" y="222" class="ct">Loki</text>
+  <text x="938" y="260" class="b" style="font-size:17px">Directly: no sign-in,</text>
+  <text x="938" y="284" class="b" style="font-size:17px">Bearer or Basic.</text>
+  <rect x="916" y="335.33" width="244" height="129.33" rx="14" class="card"/>
+  <g fill="none" stroke="#74a6ff" stroke-width="2" stroke-linecap="round"><path d="M940 380.33 a15 15 0 1 1 30 0"/><path d="M955 378.33 l7 -9"/></g>
+  <text x="986" y="377.33" class="ct">Grafana</text>
+  <text x="938" y="415.33" class="b" style="font-size:17px">Its data source proxy,</text>
+  <text x="938" y="439.33" class="b" style="font-size:17px">a Viewer token.</text>
+  <rect x="916" y="490.67" width="244" height="129.33" rx="14" class="ghost"/>
+  <path d="M938 525.67 L970 512.67 L962 538.67 L952 530.67 Z M952 530.67 L970 512.67" fill="none" stroke="#5b7fbf" stroke-width="1.9" stroke-linejoin="round"/>
+  <text x="986" y="532.67" class="ct">Telegram</text>
+  <text x="938" y="570.67" class="b" style="font-size:17px">Optional: new errors</text>
+  <text x="938" y="594.67" class="b" style="font-size:17px">and problem reports.</text>
+
+  <!-- database, migrations, monitoring -->
+  <rect x="378" y="666" width="460" height="78" rx="14" class="card"/>
+  <g fill="none" stroke="#74a6ff" stroke-width="2"><ellipse cx="417" cy="694" rx="15" ry="5"/><path d="M402 694 v22 a15 5 0 0 0 30 0 v-22 M402 705 a15 5 0 0 0 30 0"/></g>
+  <text x="452" y="701" class="ct">PostgreSQL 16</text>
+  <text x="452" y="727" class="b" style="font-size:16.5px">or embedded PGlite in local mode</text>
+  <rect x="40" y="666" width="264" height="78" rx="14" class="ghost"/>
+  <text x="62" y="701" class="bl">Migrations</text>
+  <text x="62" y="726" class="s" style="font-size:16px">same image, before the server</text>
+  <rect x="916" y="666" width="244" height="78" rx="14" class="ghost"/>
+  <text x="938" y="701" class="bl">Prometheus, probes</text>
+  <text x="938" y="726" class="ms">/metrics, /health</text>
+
+  <!-- wires -->
+  <path d="M 308 284 H 374" class="wire" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="341" y="271" class="s mid">https</text>
+  <path d="M 308 524 H 374" class="wire" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <text x="341" y="511" class="s mid">tokens</text>
+  <path d="M 80 392 V 428" class="wire2 dash" marker-start="url(#arrow2)" marker-end="url(#arrow2)"/>
+  <text x="96" y="416" class="s">sign-in</text>
+  <path d="M 838 244.67 H 912" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 838 400 H 912" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 956 334.33 V 313.33" class="wire" marker-end="url(#arrow)"/>
+  <text x="877" y="318.33" class="s mid">GET</text>
+  <text x="877" y="340.33" class="s mid">only</text>
+  <path d="M 838 555.33 H 912" class="wire2 dash" marker-end="url(#arrow2)"/>
+  <path d="M 608 624 V 662" class="wire" marker-start="url(#arrow)" marker-end="url(#arrow)"/>
+  <path d="M 304 705 H 374" class="wire2 dash" marker-end="url(#arrow2)"/>
+  <path d="M 916 705 H 891 Q 877 705 877 691 V 612 Q 877 598 863 598 H 842" class="wire2 dash" marker-end="url(#arrow2)"/>
+
+  <!-- what lives where -->
+  <text x="40" y="804" class="z">WHAT LIVES WHERE</text>
+  <line x1="40" y1="822" x2="302" y2="822" stroke="#4c8dff" stroke-opacity="0.65" stroke-width="1.5"/>
+  <text x="40" y="856" class="ct">Database</text>
+  <text x="40" y="886" class="b" style="font-size:17px">projects, environments</text>
+  <text x="40" y="911" class="b" style="font-size:17px">catalog, “Unknown” inbox</text>
+  <text x="40" y="936" class="b" style="font-size:17px">mask and view settings</text>
+  <text x="40" y="961" class="b" style="font-size:17px">short links</text>
+  <line x1="326" y1="822" x2="588" y2="822" stroke="#4c8dff" stroke-opacity="0.65" stroke-width="1.5"/>
+  <text x="326" y="856" class="ct">Server memory</text>
+  <text x="326" y="886" class="b" style="font-size:17px">search results, 15 min</text>
+  <text x="326" y="911" class="b" style="font-size:17px">after the last use</text>
+  <text x="326" y="936" class="b" style="font-size:17px">sessions, 12 h at most</text>
+  <text x="326" y="961" class="b" style="font-size:17px">a copy of the catalog</text>
+  <line x1="612" y1="822" x2="874" y2="822" stroke="#4c8dff" stroke-opacity="0.65" stroke-width="1.5"/>
+  <text x="612" y="856" class="ct">Browser</text>
+  <text x="612" y="886" class="b" style="font-size:17px">session cookie, HttpOnly</text>
+  <text x="612" y="911" class="b" style="font-size:17px">language, theme, mode</text>
+  <text x="612" y="936" class="b" style="font-size:17px">last project chosen</text>
+  <line x1="898" y1="822" x2="1160" y2="822" stroke="#7d889b" stroke-opacity="0.65" stroke-width="1.5" stroke-dasharray="5 5"/>
+  <text x="898" y="856" class="ct">Nowhere</text>
+  <text x="898" y="886" class="b" style="font-size:17px">a copy of log records</text>
+  <text x="898" y="911" class="b" style="font-size:17px">search history</text>
+  <text x="898" y="936" class="b" style="font-size:17px">users and passwords</text>
+</svg>

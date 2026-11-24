@@ -1,0 +1,138 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 782" width="1200" height="782" role="img" aria-label="Three ways to run Threadline. Local mode, pnpm local: one Node process on 127.0.0.1 with an embedded PGlite database in your home folder, no sign-in, for one person; it reads the Demo Pay simulation or your own Loki or Grafana. Docker quick start, docker compose up -d: Threadline, a migration step, PostgreSQL 16, Loki and a demo log generator on 127.0.0.1, no sign-in, Grafana only with a profile, to try it on a real Loki. Team installation: one image with two runs, a migration Job and then one server replica behind an https Ingress, with PostgreSQL 16, sign-in and roles from your OIDC provider, reading your Loki directly or through Grafana with a Viewer token.">
+  <!-- three ways to run it: local mode, the Docker quick start, a team installation -->
+  <defs>
+    <linearGradient id="fibre" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#f2f7ff"/>
+      <stop offset="45%" stop-color="#cfe0ff"/>
+      <stop offset="100%" stop-color="#86adff"/>
+    </linearGradient>
+    <linearGradient id="accent" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%" stop-color="#4c8dff"/>
+      <stop offset="55%" stop-color="#dfe6f5"/>
+      <stop offset="100%" stop-color="#f5a65b"/>
+    </linearGradient>
+    <radialGradient id="halo" cx="15%" cy="12%" r="62%">
+      <stop offset="0%" stop-color="#1f5fd6" stop-opacity="0.32"/>
+      <stop offset="55%" stop-color="#0f2a5c" stop-opacity="0.1"/>
+      <stop offset="100%" stop-color="#07090e" stop-opacity="0"/>
+    </radialGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#4c8dff" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrow2" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#5b7fbf" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+    <marker id="arrowA" viewBox="0 0 10 10" refX="8.5" refY="5" markerWidth="11" markerHeight="11" markerUnits="userSpaceOnUse" orient="auto-start-reverse"><path d="M1 1 L9 5 L1 9" fill="none" stroke="#f5a65b" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/></marker>
+  </defs>
+  <style>
+    .sans, .h, .ct, .b, .s, .bl { font-family: 'Helvetica Neue', Helvetica, Arial, sans-serif; }
+    .mono, .k, .z, .m, .ms { font-family: 'SF Mono', SFMono-Regular, Menlo, Consolas, monospace; }
+    .k  { font-size: 16px; letter-spacing: 5px; fill: #7d889b; }
+    .h  { font-size: 42px; font-weight: 800; letter-spacing: -1px; fill: url(#fibre); }
+    .z  { font-size: 15.5px; letter-spacing: 3px; fill: #8592a8; }
+    .ct { font-size: 21px; font-weight: 600; fill: #eef3fd; }
+    .b  { font-size: 18px; fill: #a3afc3; }
+    .s  { font-size: 16.5px; fill: #8592a8; }
+    .bl { font-size: 18px; font-weight: 500; fill: #74a6ff; }
+    .m  { font-size: 17px; fill: #c5d6f7; }
+    .ms { font-size: 15.5px; fill: #a9bbdf; }
+    .am { fill: #f5a65b; } .wh { fill: #eef3fd; } .mu { fill: #7d889b; } .bu { fill: #74a6ff; } .ok { fill: #7fd0a5; }
+    .mid { text-anchor: middle; } .end { text-anchor: end; }
+    .card { fill: #0c111a; stroke: #1d2738; stroke-width: 1; }
+    .zone { fill: #0a0f18; stroke: #1f3358; stroke-width: 1.25; }
+    .hot  { fill: #0d182b; stroke: #3d6fc7; stroke-width: 1.5; }
+    .cause { fill: #1a130c; stroke: #f5a65b; stroke-width: 1.5; }
+    .chip { fill: #111b2c; stroke: #243553; stroke-width: 1; }
+    .ghost { fill: none; stroke: #2a3a56; stroke-width: 1.25; stroke-dasharray: 5 5; }
+    .wire { fill: none; stroke: #4c8dff; stroke-width: 2; }
+    .wire2 { fill: none; stroke: #3a5a94; stroke-width: 1.75; }
+    .dash { stroke-dasharray: 5 6; }
+    .rule { stroke: #1d2738; stroke-width: 1; }
+  </style>
+
+  <rect width="1200" height="782" rx="18" fill="#07090e"/>
+  <rect width="1200" height="782" rx="18" fill="url(#halo)"/>
+
+  <!-- eyebrow, headline, accent -->
+  <circle cx="48" cy="57" r="5" fill="#4c8dff"/><circle cx="48" cy="57" r="9.5" fill="none" stroke="#4c8dff" stroke-opacity="0.32" stroke-width="1"/>
+  <text x="72" y="63" class="k">RUNNING IT</text>
+  <text x="38" y="121" class="h">Your laptop, a trial, a whole team</text>
+  <rect x="40" y="140" width="232" height="3" rx="1.5" fill="url(#accent)"/>
+
+  <!-- local mode -->
+  <rect x="40" y="180" width="360" height="562" rx="16" class="card"/>
+  <text x="64" y="218" class="z">ONE PERSON</text>
+  <text x="64" y="254" class="ct" style="font-size:24px">Local mode</text>
+  <rect x="64" y="274" width="312" height="36" rx="8" class="chip"/>
+  <path d="M 80 287 l5 5 l-5 5" fill="none" stroke="#4c8dff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="96" y="298" class="m wh" style="font-size:16.5px">pnpm local</text>
+  <rect x="64" y="332" width="312" height="44" rx="10" class="chip"/>
+  <text x="220" y="360" class="b mid wh" style="font-size:17px">your browser</text>
+  <rect x="64" y="406" width="312" height="64" rx="10" class="hot"/>
+  <text x="220" y="434" class="b mid wh" style="font-size:17px">threadline</text>
+  <text x="220" y="457" class="s mid" style="font-size:15.5px">one Node process · 127.0.0.1</text>
+  <rect x="64" y="504" width="144" height="64" rx="10" class="chip"/>
+  <text x="136" y="532" class="b mid wh" style="font-size:17px">PGlite</text>
+  <text x="136" y="555" class="s mid" style="font-size:15.5px">~/.threadline/db</text>
+  <rect x="232" y="504" width="144" height="64" rx="10" class="chip"/>
+  <text x="304" y="532" class="b mid wh" style="font-size:17px">The demo, or</text>
+  <text x="304" y="555" class="s mid" style="font-size:15.5px">your Loki, Grafana</text>
+  <path d="M 220 378 V 402" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 136 472 V 500" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 304 472 V 500" class="wire" marker-end="url(#arrow)"/>
+  <text x="220" y="600" class="s mid">opens the browser by itself</text>
+  <line x1="64" y1="622" x2="376" y2="622" class="rule"/>
+  <circle cx="69" cy="650.5" r="3" fill="#4c8dff"/><text x="84" y="656" class="b" style="font-size:17px">Node 24 and pnpm, no Docker</text>
+  <circle cx="69" cy="678.5" r="3" fill="#4c8dff"/><text x="84" y="684" class="b" style="font-size:17px">no sign-in, administrator rights</text>
+  <circle cx="69" cy="706.5" r="3" fill="#4c8dff"/><text x="84" y="712" class="b" style="font-size:17px">tokens in storages.json, 0600</text>
+
+  <!-- quick start -->
+  <rect x="420" y="180" width="360" height="562" rx="16" class="card"/>
+  <text x="444" y="218" class="z">A TRIAL</text>
+  <text x="444" y="254" class="ct" style="font-size:24px">Docker quick start</text>
+  <rect x="444" y="274" width="312" height="36" rx="8" class="chip"/>
+  <path d="M 460 287 l5 5 l-5 5" fill="none" stroke="#4c8dff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/><text x="476" y="298" class="m wh" style="font-size:16.5px">docker compose up -d</text>
+  <rect x="444" y="332" width="312" height="44" rx="10" class="hot"/>
+  <text x="600" y="360" class="b mid wh" style="font-size:17px">threadline</text>
+  <rect x="444" y="406" width="144" height="64" rx="10" class="chip"/>
+  <text x="516" y="444" class="b mid wh" style="font-size:17px">PostgreSQL 16</text>
+  <rect x="612" y="406" width="144" height="64" rx="10" class="chip"/>
+  <text x="684" y="444" class="b mid wh" style="font-size:17px">Loki</text>
+  <rect x="444" y="514" width="144" height="44" rx="10" class="chip"/>
+  <text x="516" y="542" class="b mid wh" style="font-size:17px">migrate</text>
+  <rect x="612" y="514" width="144" height="44" rx="10" class="chip"/>
+  <text x="684" y="542" class="b mid wh" style="font-size:17px">demo-logs</text>
+  <path d="M 516 378 V 402" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 684 378 V 402" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 516 512 V 474" class="wire2" marker-end="url(#arrow2)"/>
+  <path d="M 684 512 V 474" class="wire2" marker-end="url(#arrow2)"/>
+  <text x="600" y="600" class="s mid">+ grafana, with a profile</text>
+  <line x1="444" y1="622" x2="756" y2="622" class="rule"/>
+  <circle cx="449" cy="650.5" r="3" fill="#4c8dff"/><text x="464" y="656" class="b" style="font-size:17px">a real Loki with a day of demo logs</text>
+  <circle cx="449" cy="678.5" r="3" fill="#4c8dff"/><text x="464" y="684" class="b" style="font-size:17px">a new request every 10 seconds</text>
+  <circle cx="449" cy="706.5" r="3" fill="#4c8dff"/><text x="464" y="712" class="b" style="font-size:17px">no sign-in, 127.0.0.1 only</text>
+
+  <!-- team installation -->
+  <rect x="800" y="180" width="360" height="562" rx="16" class="zone"/>
+  <text x="824" y="218" class="z">A TEAM</text>
+  <text x="824" y="254" class="ct" style="font-size:24px">Team installation</text>
+  <rect x="824" y="274" width="312" height="36" rx="8" class="chip"/>
+  <text x="840" y="298" class="m wh" style="font-size:16.5px">one image, two runs</text>
+  <rect x="824" y="332" width="312" height="44" rx="10" class="chip"/>
+  <text x="980" y="360" class="b mid wh" style="font-size:17px">Ingress, https</text>
+  <rect x="824" y="406" width="144" height="64" rx="10" class="chip"/>
+  <text x="896" y="434" class="b mid wh" style="font-size:17px">OIDC</text>
+  <text x="896" y="457" class="s mid" style="font-size:15.5px">provider</text>
+  <rect x="992" y="406" width="144" height="64" rx="10" class="hot"/>
+  <text x="1064" y="434" class="b mid wh" style="font-size:17px">server</text>
+  <text x="1064" y="457" class="s mid" style="font-size:15.5px">replicas: 1</text>
+  <rect x="824" y="504" width="144" height="64" rx="10" class="chip"/>
+  <text x="896" y="542" class="b mid wh" style="font-size:17px">PostgreSQL 16</text>
+  <rect x="992" y="504" width="144" height="64" rx="10" class="chip"/>
+  <text x="1064" y="532" class="b mid wh" style="font-size:17px">your Loki</text>
+  <text x="1064" y="555" class="s mid" style="font-size:15.5px">or through Grafana</text>
+  <path d="M 1064 378 V 402" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 991 438 H 972" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 1064 472 V 500" class="wire" marker-end="url(#arrow)"/>
+  <path d="M 1018 472 V 479 Q 1018 487 1010 487 H 904 Q 896 487 896 495 V 500" class="wire" marker-end="url(#arrow)"/>
+  <text x="980" y="600" class="s mid">the migration Job first, then the server</text>
+  <line x1="824" y1="622" x2="1136" y2="622" class="rule"/>
+  <circle cx="829" cy="650.5" r="3" fill="#4c8dff"/><text x="844" y="656" class="b" style="font-size:17px">OIDC sign-in, five roles</text>
+  <circle cx="829" cy="678.5" r="3" fill="#4c8dff"/><text x="844" y="684" class="b" style="font-size:17px">one replica, secrets in variables</text>
+  <circle cx="829" cy="706.5" r="3" fill="#4c8dff"/><text x="844" y="712" class="b" style="font-size:17px">internal network, not the internet</text>
+</svg>

@@ -1,14 +1,14 @@
 <p align="center">
-  <img src="docs/assets/banner.svg?v=0.1" alt="Threadline — request tracer for Loki logs" width="100%">
+  <img src="docs/assets/banner.svg?v=0.2" alt="Threadline — request tracer for Loki logs" width="100%">
 </p>
 
 <p align="center">
-  <img src="https://img.shields.io/badge/version-0.1.0-4c8dff?style=flat-square" alt="version 0.1.0">
-  <img src="https://img.shields.io/badge/license-MIT-blue?style=flat-square" alt="MIT">
-  <img src="https://img.shields.io/badge/logs-Loki%20%C2%B7%20Grafana-success?style=flat-square" alt="logs from Loki, directly or through Grafana">
-  <img src="https://img.shields.io/badge/UI-ru%20%C2%B7%20en-success?style=flat-square" alt="interface in Russian and English">
-  <img src="https://img.shields.io/badge/tests-6%2C500%2B%20unit%20%C2%B7%201%2C000%2B%20e2e-success?style=flat-square" alt="over 6,500 unit and over 1,000 end-to-end tests">
-  <img src="https://img.shields.io/badge/database-PostgreSQL%2016%20%C2%B7%20none%20locally-success?style=flat-square" alt="PostgreSQL 16, none in local mode">
+  <img src="docs/assets/badges/version.svg" alt="version 0.2.0">
+  <img src="docs/assets/badges/license.svg" alt="licence: PolyForm Noncommercial">
+  <img src="docs/assets/badges/logs.svg" alt="logs from Loki, directly or through Grafana">
+  <img src="docs/assets/badges/ui.svg" alt="interface in Russian and English">
+  <img src="docs/assets/badges/tests.svg" alt="over 6,500 unit and over 1,000 end-to-end tests">
+  <img src="docs/assets/badges/database.svg" alt="PostgreSQL 16, none in local mode">
 </p>
 
 <p align="center">
@@ -44,6 +44,10 @@ messages are written in Russian, because Russian is the language we write in.
 The Demo Pay demo project, its catalog included, is in English. Nothing in the
 search, the masks or the configuration format depends on the language: your
 own catalog can name systems and errors in any language.
+
+And one more: the licence is noncommercial. Personal use, study and research
+are free, a company needs a commercial licence. See
+[Commercial use](#commercial-use) and [Licence](#licence).
 
 There are two of us, [Igor Bogdanov](https://github.com/bogdanov-igor) and
 [Aleksandr Ivanov](https://github.com/freihor), and the story is simple. A
@@ -203,6 +207,84 @@ birth and e-mail are off until an administrator turns them on; card number and
 secrets can never be turned off. On a short link nothing opens for anyone, and nobody,
 administrators included, sees the service's own tokens and passwords.
 
+## Security
+
+![The trust boundary: a raw record with a card number, a phone, a surname and a password on the server side, and what Business, Support and Developer, Analyst and Administrator and a short link receive in the browser](docs/assets/security.svg)
+
+Production logs hold things most people must not see, so masks, roles, sign-in
+and short links are security features here, and a hole in any of them is a
+vulnerability. What the code does:
+
+- **It only reads.** The server sends Loki and Grafana GET requests only: for
+  labels, counts and lines and, in Grafana, to find the data source, so a Viewer
+  token is enough. What writes is the demo generator of the quick start, a
+  separate command, into its own Loki.
+- **Masks go on at the server**, per role, in every response. A record the mask
+  fails on is replaced with a stub, and until a project's mask settings are
+  read from the database every kind of value is masked. Card number and secrets
+  can never be turned off.
+- **Card numbers stay out of queries.** A card number you search for, 15 to 19
+  digits with or without separators, goes to Loki as its first 6 and last 4
+  digits, and the server checks the exact number in memory. The "Open in
+  Grafana" link carries no more than the mask shows. A number inside a longer
+  text, such as `pan=…`, is searched as typed.
+- **Roles are checked on the server.** Every API route declares who may call
+  it, and a route that declares nothing is closed. The Business role gets a
+  response built from a list of allowed fields: no log text is in it.
+- **No user store.** Sign-in is the OIDC authorization code flow with PKCE.
+  Sessions live in server memory for 12 hours at most, behind a cookie that is
+  HttpOnly, SameSite=Lax and, over https, Secure. The role is read again every
+  time the token is renewed; if the provider is down, a session keeps its last
+  role for 30 minutes past the end of the token, no longer.
+- **Secrets come from variables only.** The configuration file names variables,
+  and a token or password written into it stops the start. Local mode keeps
+  them in `storages.json`, mode `0600`. They are not in the server log, and the
+  service cuts its own tokens and passwords out of everything it reads from the
+  storage, for administrators too.
+- **Search values stay out of logs and addresses.** They travel in the request
+  body. The server log has route templates instead of addresses and the type of
+  an error instead of its text; the page address can hold only the ID of a
+  search, a request, an operation or a link.
+- **Nothing is copied.** Log records live in memory only. What the database
+  gets from them is the "Unknown" inbox of undescribed errors: a host, a path
+  template, a code and up to 200 characters of error text, all under every kind
+  of mask, and the ID of one example request.
+- **A page found in a log cannot act.** An HTML body is cleaned, gets its own
+  policy and opens in a frame with an empty `sandbox`: no scripts, no network,
+  no forms, no links.
+- **Headers and hosts.** A Content-Security-Policy limited to its own origin, no
+  framing, no referrer, `nosniff`, `no-store` on API responses. The API answers
+  only to the host from `THREADLINE_PUBLIC_URL`, `localhost` and IP addresses,
+  and refuses a change that comes from another origin.
+- **No sign-in, no start.** Without OIDC the server refuses to start.
+  `THREADLINE_ALLOW_NO_LOGIN=1` lets it, with administrator rights for everyone,
+  and even then card numbers and secrets do not open.
+- **No telemetry.** The server talks to your log storage, its database, your
+  OIDC provider and, if you set it up, Telegram, where no record text goes. The
+  page talks only to the server.
+
+What it does not do, and does not protect from:
+
+- **Short links open without sign-in** for anyone who has one and can reach the
+  service. The address is 128 random bits, everything is masked and nothing
+  opens, but hosts, codes and bodies are there. Until a link expires, its search
+  conditions are in the database: phone numbers and IDs in the open, card
+  numbers as the first 6 and last 4 digits.
+- **`/metrics` and `/health*` are open**, and `/api/health` tells the version.
+  Nothing from the logs is in them, but keep the first two off the Ingress.
+- **Masks know field names and shapes.** A surname in free text, or a personal
+  value in a field they have never heard of, stays visible: add your own field
+  names to the project's masks.
+- **Masks protect Threadline, not the logs.** Whoever opens Loki or Grafana
+  directly sees raw records. The records of a search are raw in server memory
+  too, until 15 minutes after its last use.
+- **No audit trail.** It does not write down who searched for what or who
+  pressed "Show hidden".
+- **One replica on an internal network.** There is no high availability, and it
+  is not meant for the open internet.
+
+Found a hole? Report it privately, not in an issue: [SECURITY.md](SECURITY.md).
+
 ## What's inside
 
 ![Search results: the requests found, with status, outcome, failure reason, duration and request ID](apps/web/src/features/docs/content/shots/en/guide-modes-full.png)
@@ -237,7 +319,13 @@ administrators included, sees the service's own tokens and passwords.
 - **Telegram**, optional: a message when a new undescribed error first shows up
   and when someone sends "Report a problem".
 
+How the parts connect and what is stored where:
+
+![Architecture: the browser and the OIDC provider on the left, one server process with sign-in, search jobs, catalog and masking in the middle, Loki, Grafana and optional Telegram on the right, PostgreSQL or PGlite below, and a list of what is kept in the database, in memory, in the browser and nowhere](docs/assets/architecture.svg)
+
 ### How a search runs
+
+![How a search runs: a pasted value, every spelling of it, a first pass that counts requests by the hour, a second pass that reads their records, stitching by correlation_id, names and outcomes from the catalog, masks on the server for the role, and the flow in the browser](docs/assets/how-it-works.svg)
 
 The first pass counts which requests contain your value, in one-hour chunks,
 newest first, without reading a single line; past 200 requests it stops and
@@ -261,15 +349,22 @@ from memory, and a closed tab stops its search after 90 seconds.
   means exactly one replica. Sessions and results live in memory and a restart
   loses them; projects, catalog, settings and short links are in PostgreSQL.
 - No user store and no passwords: sign-in and roles are your OIDC provider's.
-- No history of what people searched for. Values are not in the server log, the
-  browser or the page address; only a short link keeps its conditions until it
-  expires, card numbers as the first 6 and last 4 digits.
+- No history of what people searched for. Values are not in the server log or
+  kept in the browser, and the page address can hold only an ID; only a short
+  link keeps its conditions until it expires, card numbers as the first 6 and
+  last 4 digits.
 - No dashboards or charts of its own: that is what Grafana is for.
 - No open-by-default mode. Without sign-in configured the server refuses to
   start and names what to set; `THREADLINE_ALLOW_NO_LOGIN=1` exists for your own
   machine and never belongs in a cluster.
 
 ## Running it for a team
+
+There are three ways to run it: [local mode](#or-without-docker-local-mode) for
+yourself, the [Docker quick start](#quickstart) for a trial, and an installation
+for a team, which the rest of this section is about.
+
+![Three ways to run it: local mode with one process and PGlite, the Docker quick start with PostgreSQL, Loki and demo logs, and a team installation behind an Ingress with OIDC, PostgreSQL and your Loki or Grafana](docs/assets/deploy.svg)
 
 One image, two runs: the server (the image `CMD`, server and interface in one
 process, port `8080`) and the migrations
@@ -407,7 +502,7 @@ config/         projects, environments, storages; config/catalog: the demo
 deploy/         quick start: Docker Compose, Loki and the demo logs
 dev/            documentation screenshots on synthetic data (pnpm docs:shots),
                 the local Keycloak realm with test accounts
-docs/           developer notes
+docs/           developer notes, the pictures of this page
 ```
 
 ## Documentation
@@ -433,10 +528,54 @@ inside Threadline, where the same pages open at `/docs/<page>`.
 | How it is built | [what Threadline is made of](apps/web/src/features/docs/content/en/docs/arch-overview.md) | [из чего состоит Threadline](apps/web/src/features/docs/content/ru/docs/arch-overview.md) |
 | How a search runs | [what happens after “Find”](apps/web/src/features/docs/content/en/docs/arch-request.md) | [что происходит после «Найти»](apps/web/src/features/docs/content/ru/docs/arch-request.md) |
 
+## Languages
+
+The interface, the built-in documentation and the tutorials are in Russian and
+English today. Another language can be added quickly on request, Uzbek or any
+other: write to us at the address below or open an issue.
+
+It is quick because of how the text is kept. Interface strings are JSON files,
+one per language next to each feature, and a test keeps the languages in step: a
+missing key, a wrong plural form or a lost placeholder fails it. The
+documentation is Markdown, a folder per language. Names in the catalog are your
+own text and can be in any language, whatever the interface speaks.
+
+## Commercial use
+
+A company that wants to use Threadline writes to us:
+[bogdanov.ig.alex@gmail.com](mailto:bogdanov.ig.alex@gmail.com). There are two
+of us and we wrote it, so you talk to the people who change the code.
+
+- **Something is missing for your case**: a log format, a storage, a report, an
+  integration. We will build it.
+- **Rollout and the catalog.** We help to install it and to fill the catalog:
+  the names of your systems, methods and errors are what turn a flow of calls
+  into an answer.
+- **A trial on your own logs** can be agreed before anything else.
+
+Tell us where your logs are, Loki or something else, and what one record looks
+like. Invented values are enough: please never send real log lines, tokens or
+personal data. Bugs and ideas go to
+[GitHub issues](https://github.com/bogdanov-igor/threadline/issues).
+
 ## Licence
 
-[MIT](LICENSE) © 2026 **[Igor Bogdanov](https://github.com/bogdanov-igor)** ·
+[PolyForm Noncommercial 1.0.0](LICENSE) © 2026
+**[Igor Bogdanov](https://github.com/bogdanov-igor)** ·
 **[Aleksandr Ivanov](https://github.com/freihor)**
 
-Free to use, fork and build on, commercially included. Keep the copyright
-notice and the licence text.
+The source is available: you can read it, run it and change it. This is not an
+open-source licence, though: it covers noncommercial purposes only.
+
+- **Free**: personal use without a commercial aim, such as study, research,
+  experiments and hobby projects; charities, schools and other educational
+  institutions, public research, public safety or health, environmental
+  protection and government organizations. You may change it and pass it on for
+  the same purposes, together with the licence text or its address and the
+  `Required Notice:` line from the top of the [LICENSE](LICENSE) file.
+- **Needs a commercial licence**: use by a company or for a company, internal
+  use included. See [Commercial use](#commercial-use).
+
+The first published commits, up to 0.1.0, were under the MIT licence, and for
+copies taken then this stays true. From 0.2.0 on the licence above applies. This
+is a summary; the [licence text](LICENSE) decides.
