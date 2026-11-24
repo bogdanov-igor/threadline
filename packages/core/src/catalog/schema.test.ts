@@ -68,7 +68,7 @@ describe('метод', () => {
   it('тип операции — сущность или неизвестен; поле id с неизвестным типом', () => {
     expect(method({ ...M, kind: 'status', op: 'user' })[0]!.message).toMatch(/сущность/);
     expect(method({ ...M, op: 'payment' })[0]!.message).toMatch(/Идентификаторах/);
-    expect(paths(method({ ...M, fields: [{ in: 'request', path: 'ext_transfer_id', type: 'nope' }] }))).toEqual(['fields.0.type']);
+    expect(paths(method({ ...M, fields: [{ in: 'request', path: 'remote_transfer_id', type: 'nope' }] }))).toEqual(['fields.0.type']);
   });
 
   it('перевод значений статуса — в значения словаря', () => {
@@ -146,7 +146,7 @@ describe('система', () => {
   };
 
   it('хост уже у другой системы — с её названием', () => {
-    const issues = sys({ key: 'acquirer', name: 'Эквайер', hosts: ['switch.pay.example:11101'] }, new Map([['switch.pay.example:11101', 'Коммутатор']]));
+    const issues = sys({ key: 'acquirer', name: 'Эквайер', hosts: ['switch.pay.example:9191'] }, new Map([['switch.pay.example:9191', 'Коммутатор']]));
     expect(issues).toEqual([{ path: 'hosts.0', message: 'хост уже у системы «Коммутатор»' }]);
   });
 

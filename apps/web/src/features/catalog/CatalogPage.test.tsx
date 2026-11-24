@@ -71,7 +71,7 @@ describe('страница справочника', () => {
 
   it('раздел коммутатора: хосты и методы', () => {
     const t = text(page('/pay/catalog/system-switch'));
-    expect(t).toContain('switch.pay.example:11101');
+    expect(t).toContain('switch.pay.example:9191');
     expect(t).toContain('/v3/cards/info');
     expect(t).toContain('Данные карты в коммутаторе');
   });
@@ -141,11 +141,11 @@ const SWITCH_NAME = {
   source: 'external' as const,
   system: { key: 'switch', name: 'Коммутатор', type: 'service' as const },
   method: { id: 3, name: 'Данные карты в коммутаторе', domain: null, kind: 'call' as const, opType: null },
-  host: 'switch.pay.example:11101',
+  host: 'switch.pay.example:9191',
 };
 
 function step(patch: Partial<TraceStep>): TraceStep {
-  return { id: 's', parentId: null, depth: 0, kind: 'exchange', title: 'POST http://switch.pay.example:11101/v3/cards/info', system: 'switch.pay.example', startMs: 0, endMs: 1, durationMs: 1, status: 200, isError: false, noResponse: false, pending: false, recordIds: [], ...patch };
+  return { id: 's', parentId: null, depth: 0, kind: 'exchange', title: 'POST http://switch.pay.example:9191/v3/cards/info', system: 'switch.pay.example', startMs: 0, endMs: 1, durationMs: 1, status: 200, isError: false, noResponse: false, pending: false, recordIds: [], ...patch };
 }
 
 const outcome = (s: TraceStep, c: StepCatalog, records: ViewRecord[] = [], state: CatalogState = OK) => text(render('/pay/prod/requests/c1', <StepOutcome project="pay" step={s} catalog={c} records={records} />, state));
@@ -196,10 +196,10 @@ describe('блок «Итог» шага', () => {
       name: { ...SWITCH_NAME, method: { id: 9, name: 'Статус', domain: null, kind: 'status', opType: { key: 'transfer', name: 'Перевод' } } },
       error: null,
       outcome: null,
-      status: { type: 'transfer', value: 'waiting_cancel', raw: 'waiting_cancel', name: null, outcome: null, order: null },
+      status: { type: 'transfer', value: 'cancel_queued', raw: 'cancel_queued', name: null, outcome: null, order: null },
       ids: [],
     });
-    expect(t).toContain('waiting_cancel');
+    expect(t).toContain('cancel_queued');
   });
 
   it('справочник недоступен — без кнопок справочника', () => {

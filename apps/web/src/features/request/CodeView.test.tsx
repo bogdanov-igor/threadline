@@ -30,7 +30,7 @@ function minifiedJson(minBytes: number): string {
   const items: string[] = [];
   let size = 2;
   for (let i = 0; size < minBytes; i++) {
-    const item = JSON.stringify({ id: i, account: `2020800000${String(i).padStart(10, '0')}`, currency: 'UZS', balance: i * 100, active: i % 2 === 0, tags: ['a', 'b'] });
+    const item = JSON.stringify({ id: i, account: `1050000000${String(i).padStart(10, '0')}`, currency: 'UZS', balance: i * 100, active: i % 2 === 0, tags: ['a', 'b'] });
     items.push(item);
     size += item.length + 1;
   }

@@ -80,7 +80,7 @@ describe('buildOperation: роли и состав', () => {
     }
   });
 
-  it('id перевода в пути опроса, в request_id платёжного ядра и в ext_transfer_id колбэка — все три потока в операции', () => {
+  it('id перевода в пути опроса, в request_id платёжного ядра и в remote_transfer_id колбэка — все три потока в операции', () => {
     const poll = entryFlow('p', 0, 'GET /v1/users/{user}/transfers/{transfer}', 'status', { ids: [opId('transfer', 'tr-1', 'path')] });
     const w = new FlowFixture('w');
     ledger(w, 1000, 'Перевод', { type: 'transfer', value: 'tr-1' });
@@ -179,7 +179,7 @@ describe('buildOperation: ход статусов и итог', () => {
     const f = new FlowFixture(cid);
     f.entry(t, { method: 'GET', uri: '/v1/x', catalog: { name: name(null, { name: 'Опрос', kind: 'call' }), ids: [] } });
     f.exchange(t + 10, t + 100, {
-      uri: 'https://payout.pay.example/v1/transfer_info',
+      uri: 'https://payout.pay.example/v1/payout_status',
       catalog: { name: name(PAYOUT, { name: 'Статус выплаты', kind: 'status', op: 'payout' }), ids: [opId('payout', '604821')] },
       respCatalog: { name: name(PAYOUT, { name: 'Статус выплаты', kind: 'status', op: 'payout' }), ids: [opId('payout', '604821')], status: st },
     });
@@ -189,7 +189,7 @@ describe('buildOperation: ход статусов и итог', () => {
     facts(entryFlow(cid, t, 'POST /v1/callbacks/payout', 'callback', { ids: [opId('payout', '604821', 'request')], st }));
   const payoutKey = { type: 'payout', name: 'Выплата', values: ['604821'] };
 
-  it('processing → колбэк error → transfer_info failed: итог «Отклонён» из последнего transfer_info', () => {
+  it('processing → колбэк error → payout_status failed: итог «Отклонён» из последнего payout_status', () => {
     const view = buildOperation({ key: payoutKey, window: WINDOW, flows: [vdPoll('p1', 0, payoutProcessing), vdCallback('cb', 10 * MIN, payoutError), vdPoll('p2', 20 * MIN, payoutFailed)] });
     expect(view.trail.map((t) => [t.status.name, t.claimed, t.stale])).toEqual([
       ['В обработке', false, false],
@@ -212,13 +212,13 @@ describe('buildOperation: ход статусов и итог', () => {
     expect(view.outcome.basis).toBe('claimed');
   });
 
-  it('колбэк error, затем transfer_info processing — «В процессе», processing не устаревший', () => {
+  it('колбэк error, затем payout_status processing — «В процессе», processing не устаревший', () => {
     const view = buildOperation({ key: payoutKey, window: WINDOW, flows: [vdCallback('cb', 0, payoutError), vdPoll('p', MIN, payoutProcessing)] });
     expect(view.outcome.kind).toBe('pending');
     expect(view.trail[1]).toMatchObject({ claimed: false, stale: false });
   });
 
-  it('колбэк и следующий финальный transfer_info — итог из transfer_info', () => {
+  it('колбэк и следующий финальный payout_status — итог из payout_status', () => {
     const view = buildOperation({ key: payoutKey, window: WINDOW, flows: [vdCallback('cb', 0, payoutError), vdPoll('p', MIN, payoutCompleted)] });
     expect(view.outcome).toMatchObject({ kind: 'success', basis: 'confirmed', cid: 'p' });
   });
@@ -250,9 +250,9 @@ describe('buildOperation: ход статусов и итог', () => {
   });
 
   it('статус вне словаря показан как есть и итог не задаёт', () => {
-    const odd = status('payout', 'waiting_cancel', null, null);
+    const odd = status('payout', 'cancel_queued', null, null);
     const view = buildOperation({ key: payoutKey, window: WINDOW, flows: [vdPoll('p', 0, odd)] });
-    expect(view.trail[0]!.status.value).toBe('waiting_cancel');
+    expect(view.trail[0]!.status.value).toBe('cancel_queued');
     expect(view.outcome.kind).toBe('pending');
   });
 

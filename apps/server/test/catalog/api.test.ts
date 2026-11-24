@@ -78,7 +78,7 @@ describe.skipIf(!PG_URL)('API справочника', () => {
     expect([dup.statusCode, code(dup)]).toEqual([409, 'catalog-duplicate']);
     expect((dup.json() as { error: { existingId: number } }).error.existingId).toBe(created.id);
 
-    const host = await app.inject({ method: 'POST', url: '/api/projects/pay/catalog/systems', payload: { key: 'other', name: 'Другая', hosts: ['SWITCH.pay.example:11101'] } });
+    const host = await app.inject({ method: 'POST', url: '/api/projects/pay/catalog/systems', payload: { key: 'other', name: 'Другая', hosts: ['SWITCH.pay.example:9191'] } });
     expect([host.statusCode, code(host)]).toEqual([409, 'catalog-host-taken']);
     expect((host.json() as { error: { system: { key: string } } }).error.system.key).toBe('switch');
 
@@ -177,7 +177,7 @@ describe.skipIf(!PG_URL)('API справочника', () => {
   it('подстрока со скрытой частью отклонена у поля, разные только пробелами это повтор', async () => {
     const { app } = await setup();
     const save = (payload: object) => app.inject({ method: 'POST', url: '/api/projects/pay/catalog/errors', payload });
-    for (const text of ['card … not found', 'card 860012******3456 not found']) {
+    for (const text of ['card … not found', 'card 400012******3456 not found']) {
       const bad = await save({ systemId: null, text, title: 'Скрытая часть' });
       expect([bad.statusCode, code(bad)]).toEqual([422, 'catalog-invalid']);
       expect((bad.json() as { error: { fieldKeys: unknown } }).error.fieldKeys).toEqual({ text: { key: 'catalog.textHidden' } });

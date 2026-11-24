@@ -92,11 +92,11 @@ describe('начальный набор Demo Pay', () => {
     }
   });
 
-  it('у /v1/transfer_info путь статуса data.transfer_data.state, у колбэка сети выплат — перевод complete и error', () => {
-    const info = sys('payout').methods!.find((m) => m.path === '/v1/transfer_info')!;
-    expect(info.status).toEqual({ in: 'response', path: 'data.transfer_data.state' });
+  it('у /v1/payout_status путь статуса data.payout_data.state, у колбэка сети выплат — перевод complete и error', () => {
+    const info = sys('payout').methods!.find((m) => m.path === '/v1/payout_status')!;
+    expect(info.status).toEqual({ in: 'response', path: 'data.payout_data.state' });
     const cb = sys('pay').methods!.find((m) => m.path === '/internal/callbacks/payout')!;
-    expect(cb).toMatchObject({ kind: 'callback', op: 'transfer', fields: [{ in: 'request', path: 'ext_transfer_id', type: 'transfer' }] });
+    expect(cb).toMatchObject({ kind: 'callback', op: 'transfer', fields: [{ in: 'request', path: 'remote_transfer_id', type: 'transfer' }] });
     expect((cb.status as { map: Record<string, string> }).map).toEqual({ complete: 'completed', error: 'failed' });
   });
 
@@ -167,7 +167,7 @@ describe('схема JSON и проверка на сервере', () => {
     }
     expect(files.length).toBeGreaterThan(2);
     for (const ok of [
-      base({ systems: [sys({ hosts: ['switch.pay.example:11101', '*.acquirer.example', '[fd00::1]:8080', 'switch_mw:8080'] })] }),
+      base({ systems: [sys({ hosts: ['switch.pay.example:9191', '*.acquirer.example', '[fd00::1]:8080', 'switch_mw:8080'] })] }),
       base({ systems: [sys({ methods: [m({ path: '/' }), m({ path: '/v1/users/{userId}/cards/{cardId}' })] })] }),
       base({ systems: [sys({ errors: [{ code: 200, title: 'x' }] })] }),
       base({ systems: [sys({ outcomes: [{ when: { http: [200, { from: 400, to: 499 }] }, outcome: 'ignore' }] })] }),
@@ -241,7 +241,7 @@ describe('начальный набор Demo Pay на записях', () => {
     const transfer = '5b0e6c3a-2f4d-4a71-9c8e-1d2f3a4b5c6d';
     const rs = [
       ...ex(T0, 'https://payout.pay.example:9443/v3/transfer', { document_id: transfer, amount: 1 }, { status: 'ok', data: { transfer_id: 604217, state: 'created' } }),
-      ...ex(T0 + 1000, 'https://payout.pay.example:9443/v1/transfer_info', { transfer_id: 604217 }, { status: 'ok', data: { transfer_data: { state: 'completed' } } }),
+      ...ex(T0 + 1000, 'https://payout.pay.example:9443/v1/payout_status', { transfer_id: 604217 }, { status: 'ok', data: { payout_data: { state: 'completed' } } }),
     ];
     const v = annotateRecords(markPending(buildView(rs, { withOffsets: true }), OPTS), r);
     const keys = operationKeysOf(v).map((k) => [k.type, k.value]);
@@ -281,9 +281,9 @@ describe('начальный набор Demo Pay на записях', () => {
       ['GET', `${PAYMENT}/${TX}`, 'cancelled', 'error'],
       ['GET', `${PAYMENT}/${TX}`, 'error', 'error'],
       ['GET', `${PAYMENT}/${TX}`, 'created', 'error'],
-      ['GET', `${PAYMENT}/by-partner-transaction-id/${TX}`, 'cancelled', 'error'],
+      ['GET', `${PAYMENT}/by-order-id/${TX}`, 'cancelled', 'error'],
       ['GET', `${PAYMENT}/${TX}`, 'performed', 'success'],
-      ['GET', `${PAYMENT}/${TX}`, 'waiting_cancel', 'success'],
+      ['GET', `${PAYMENT}/${TX}`, 'cancel_queued', 'success'],
     ])('эквайер %s %s status = %s → %s', (http, uri, value, want) => {
       expect(run(http, uri, null, { status: value }).status).toBe(want);
     });
@@ -300,12 +300,12 @@ describe('начальный набор Demo Pay на записях', () => {
     });
 
     it('сеть выплат: state = failed с текстом resolution; processing — не ошибка', () => {
-      const uri = 'https://payout.pay.example:9443/v1/transfer_info';
-      const failed = run('POST', uri, { transfer_id: 1 }, { status: 'ok', data: { transfer_data: { state: 'failed', resolution: 'DECLINED' } } });
+      const uri = 'https://payout.pay.example:9443/v1/payout_status';
+      const failed = run('POST', uri, { transfer_id: 1 }, { status: 'ok', data: { payout_data: { state: 'failed', resolution: 'DECLINED' } } });
       expect(failed.status).toBe('error');
       expect(failed.reasons[0]!.error!.title).toBe('Payout network rejected the payout: DECLINED');
-      expect(run('POST', uri, { transfer_id: 1 }, { status: 'ok', data: { transfer_data: { state: 'processing' } } }).status).toBe('success');
-      expect(run('POST', uri, { transfer_id: 1 }, { status: 'ok', data: { transfer_data: { state: 'completed' } } }).status).toBe('success');
+      expect(run('POST', uri, { transfer_id: 1 }, { status: 'ok', data: { payout_data: { state: 'processing' } } }).status).toBe('success');
+      expect(run('POST', uri, { transfer_id: 1 }, { status: 'ok', data: { payout_data: { state: 'completed' } } }).status).toBe('success');
     });
 
     it('проверка личности: GOOD при HTTP 2xx — успех, другой result_code — отказ, GOOD при HTTP 500 — отказ', () => {
@@ -328,21 +328,21 @@ describe('начальный набор Demo Pay на записях', () => {
     });
 
     it('коммутатор: HTTP 200 без result — ошибка; обрезанное тело как раньше; ошибка с кодом — текст справочника', () => {
-      const uri = 'http://switch.pay.example:11101/v3/cards/info';
+      const uri = 'http://switch.pay.example:9191/v3/cards/info';
       const empty = run('POST', uri, { id: 'r1', params: {} }, { id: 'r1' });
       expect(empty.status).toBe('error');
       expect(empty.reasons[0]!.error!.title).toBe('Switch answered HTTP 200 without a result');
       expect(run('POST', uri, { id: 'r1', params: {} }, { id: 'r1', result: null }).status).toBe('error');
-      expect(run('POST', uri, { id: 'r1', params: {} }, { id: 'r1', result: { listSize: 1 } }).status).toBe('success');
+      expect(run('POST', uri, { id: 'r1', params: {} }, { id: 'r1', result: { itemCount: 1 } }).status).toBe('success');
       // Тело не разобралось: условие «поля нет» выполнилось бы и на хорошем ответе, поэтому в правиле есть id.
-      expect(run('POST', uri, { id: 'r1', params: {} }, '{"id":"r1","result":{"listSize":1,"card"').status).toBe('success');
+      expect(run('POST', uri, { id: 'r1', params: {} }, '{"id":"r1","result":{"itemCount":1,"card"').status).toBe('success');
       const coded = run('POST', uri, { id: 'r1', params: {} }, { id: 'r1', error: { code: 200, message: 'Card not found' } });
       expect(coded.reasons[0]!.error).toMatchObject({ title: 'Card not found in the switch', partnerCode: '176' });
     });
 
     it('платёжное ядро: закрытый операционный день — не ошибка, платформа повторит', () => {
-      const uri = 'http://ledger.pay.example:8080/v1/operday/1';
-      expect(run('GET', uri, null, { result: 'success', data: { isOpened: false }, error: null }).status).toBe('success');
+      const uri = 'http://ledger.pay.example:8080/v1/workday/1';
+      expect(run('GET', uri, null, { result: 'success', data: { isOpen: false }, error: null }).status).toBe('success');
       expect(run('GET', uri, null, { result: 'error', error: { code: 99, message: 'x' } }).status).toBe('error');
     });
   });
@@ -359,7 +359,7 @@ describe('начальный набор Demo Pay на записях', () => {
       expect(name('POST', 'https://processor-balance.pay.example:8443/', 'getBalance')).toEqual(['processor-balance', 'Card balance']);
       expect(name('POST', 'http://fraud.pay.example:9090/', 'risk.check')).toEqual(['fraud', 'Risk assessment']);
       expect(name('POST', 'http://esb.pay.example:8280/soap-proxy/FeeService', 'checkFee')).toEqual(['esb', 'Fee check via the bus']);
-      expect(name('POST', 'http://192.0.2.41:11101/v3/cards/info')).toEqual(['switch', 'Card details in the switch']);
+      expect(name('POST', 'http://192.0.2.41:9191/v3/cards/info')).toEqual(['switch', 'Card details in the switch']);
       const s = run('POST', 'http://fraud.pay.example:9090/', { jsonrpc: '2.0', method: 'risk.check', id: 1 }, { jsonrpc: '2.0', id: 1, error: { code: -200, message: 'x' } });
       expect(s.reasons[0]!.error!.partnerCode).toBe('176');
     });
@@ -376,7 +376,7 @@ describe('начальный набор Demo Pay на записях', () => {
       expect(resolver.entry('POST', `/v1/users/${TX}/payments/${TX}/confirm`).method?.name).toBe('Payment confirmation');
       expect(resolver.entry('POST', '/internal/callbacks/payout').method?.name).toBe('Payout network callback');
       expect(name('POST', 'http://ledger.pay.example:8080/v1/payments/hold')).toEqual(['ledger', 'Payment hold']);
-      expect(name('GET', 'http://ledger.pay.example:8080/v1/operday/1')).toEqual(['ledger', 'Operating day status']);
+      expect(name('GET', 'http://ledger.pay.example:8080/v1/workday/1')).toEqual(['ledger', 'Operating day status']);
       expect(resolver.entry('GET', '/api/payments/details').method).toBeNull();
       for (const s of file.systems) for (const m of s.methods ?? []) if (!m.hidden) expect(String(m.name).startsWith('/'), `${s.key} ${String(m.path)}`).toBe(false);
     });
@@ -399,7 +399,7 @@ describe('начальный набор Demo Pay на записях', () => {
     });
 
     it('сеть выплат: код 55 опроса даёт текст справочника', () => {
-      const s = run('POST', 'https://payout.pay.example:9443/v1/transfer_info', { transfer_id: 1 }, { status: 'error', error: { code: 55, message: 'Temporarily unavailable' } }, 500);
+      const s = run('POST', 'https://payout.pay.example:9443/v1/payout_status', { transfer_id: 1 }, { status: 'error', error: { code: 55, message: 'Temporarily unavailable' } }, 500);
       expect(s.reasons[0]!.error!.title).toBe('Payout network temporarily unavailable');
     });
   });

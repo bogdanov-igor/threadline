@@ -57,7 +57,7 @@ export const MOCK_BINS = { visa: '411111', mastercard: '555555', maestro: '67671
 const HOSTS = {
   processor: 'https://processor.pay.example:8443',
   balance: 'https://processor-balance.pay.example:8443',
-  switch: 'http://switch.pay.example:11101',
+  switch: 'http://switch.pay.example:9191',
   ledger: 'http://ledger.pay.example:8080',
   acquirer: 'https://api.acquirer.example',
   fraud: 'http://fraud.pay.example:9090',
@@ -224,9 +224,9 @@ class Builder {
       this.push(at, 'cards', ns, rec('processor call', {
         request_id: cid,
         action: 'getCard',
-        payload: [{ bankCode: '01', groupCode: '02', sessionId: sid }, { CARD: token }],
+        payload: [{ issuerCode: '01', groupCode: '02', sessionId: sid }, { CARD: token }],
       }, at, cid));
-      const reqBody = soap('getCard', `<Session><bankCode>01</bankCode><groupCode>02</groupCode><sessionId>${sid}</sessionId></Session><Parameters><CARD>${token}</CARD></Parameters>`);
+      const reqBody = soap('getCard', `<Session><issuerCode>01</issuerCode><groupCode>02</groupCode><sessionId>${sid}</sessionId></Session><Parameters><CARD>${token}</CARD></Parameters>`);
       at += r.int(1, 4);
       this.push(at, 'cards', ns, rec('http request sending', { request_id: cid, ...send('POST', url, processorHeaders(reqBody.length), reqBody) }, at, cid));
       at += r.int(40, 400);
@@ -243,7 +243,7 @@ class Builder {
       request_id: cid,
       action: 'getCardholder',
       payload: [
-        { bankCode: '01', groupCode: '02', sessionId: r.uuid7(at) },
+        { issuerCode: '01', groupCode: '02', sessionId: r.uuid7(at) },
         { lookup: 'cardholder', by: 'pan', value: pans[0] },
       ],
     }, at, cid));
@@ -270,7 +270,7 @@ class Builder {
     const amount = r.int(0, 25_000_000);
     this.push(at, 'cards', ns, rec('http response received', {
       request_id: cid,
-      ...answer('POST', HOSTS.balance, 200, bal.replace('</primaryAccountNumber>', `</primaryAccountNumber><availableAmount>${amount}</availableAmount><bankAccountId>2020${r.digits(16)}</bankAccountId>`)),
+      ...answer('POST', HOSTS.balance, 200, bal.replace('</primaryAccountNumber>', `</primaryAccountNumber><availableAmount>${amount}</availableAmount><bankAccountId>1050${r.digits(16)}</bankAccountId>`)),
     }, at, cid));
   }
 
@@ -305,20 +305,20 @@ class Builder {
       ...answer('POST', url, 200, JSON.stringify({
         id,
         result: {
-          listSize: 1,
+          itemCount: 1,
           card: {
-            institutionId: 'DEMOBANK', primaryAccountNumber: pan, expiry: `${r.int(27, 31)}0${r.int(1, 9)}`, cardholderId: r.digits(8),
-            nameOnCard: name, cardholderPassword: r.pick(CODE_WORDS), additionalInfo: `BRD008${r.digits(8)}IDN002AACBS001${r.int(1, 9)}`,
+            issuerId: 'DEMO', primaryAccountNumber: pan, expiry: `${r.int(27, 31)}0${r.int(1, 9)}`, cardholderId: r.digits(8),
+            nameOnCard: name, cardholderPassword: r.pick(CODE_WORDS), additionalInfo: `ADD001${r.digits(8)}AAA002AABBB001${r.int(1, 9)}`,
             statuses: { item: [
               { type: 'card', actionCode: '000', actionDescription: 'Approved' },
               { type: 'card2', actionCode: '118', actionDescription: 'Decline, no card record' },
               { type: 'hot', actionCode: '000', actionDescription: 'Approved' },
             ] },
           },
-          account: [{ accountId: r.digits(8), bankAccountId: `3501${r.digits(12)}`, currency: '978', availableAmount: amount, status: 'Active' }],
+          account: [{ accountId: r.digits(8), bankAccountId: `7001${r.digits(12)}`, currency: '978', availableAmount: amount, status: 'Active' }],
           balance: { currency: '978', availableAmount: amount, lockedAmount: 0 },
           // Только 07700 900000–900999, их Ofcom держит для вымышленных номеров. Цифр берётся семь, как на целый номер: остальной набор не сдвигается.
-          mb: { state: 'on', phone: `+447700900${r.digits(7).slice(-3)}` },
+          sms: { state: 'on', phone: `+447700900${r.digits(7).slice(-3)}` },
         },
       })),
     }, at, cid));
@@ -363,7 +363,7 @@ class Builder {
     at += r.int(5, 20);
     this.push(at, 'api', 'pay', rec('http request sending', {
       request_id: rid,
-      ...send('POST', url, { Authorization: [`Bearer ${r.hex(40)}`], 'X-Request-Id': [r.uuid7(at)], 'Idempotency-Key': [r.uuid4()], 'Content-Type': ['application/vnd.acquirer.payment+json'] }, JSON.stringify({ partnerTransactionId: r.uuid7(at), amount: r.int(1000, 500_000) * 100 })),
+      ...send('POST', url, { Authorization: [`Bearer ${r.hex(40)}`], 'X-Request-Id': [r.uuid7(at)], 'Idempotency-Key': [r.uuid4()], 'Content-Type': ['application/vnd.acquirer.payment+json'] }, JSON.stringify({ merchantOrderId: r.uuid7(at), amount: r.int(1000, 500_000) * 100 })),
     }, at, cid));
     at += r.int(300, 2500);
     this.push(at, 'api', 'pay', rec('http response received', {
@@ -475,7 +475,7 @@ class Builder {
     this.gateway(at, 'pay', 'GET', `/v1/users/${user}/cards/${card}/balance`, cid, rid);
     at += r.int(5, 20);
     const sid = r.uuid7(at);
-    const body = soap('queryCardInfo', `<Session><bankCode>01</bankCode><groupCode>02</groupCode><sessionId>${sid}</sessionId></Session><Parameters><CARD_ID>${card}</CARD_ID></Parameters>`);
+    const body = soap('queryCardInfo', `<Session><issuerCode>01</issuerCode><groupCode>02</groupCode><sessionId>${sid}</sessionId></Session><Parameters><CARD_ID>${card}</CARD_ID></Parameters>`);
     this.push(at, 'api', 'pay', rec('http request sending', { request_id: rid, ...send('POST', `${HOSTS.processor}/soap/issuing`, processorHeaders(body.length), body) }, at, cid));
   }
 
@@ -506,7 +506,7 @@ class Builder {
       ...send('POST', uri, { 'Content-Type': ['application/json'], Authorization: [`Bearer ${jwt(rid)}`] }, JSON.stringify({ service: 'FeeService', operation: 'checkFee', envelope })),
     }, at, cid));
     at += r.int(80, 600);
-    const details = JSON.stringify({ fee: { amount: r.int(100, 5000) * 100, currency: '978' }, check_iss_acq_fees: 'confirmed', paymentID: r.digits(12) });
+    const details = JSON.stringify({ fee: { amount: r.int(100, 5000) * 100, currency: '978' }, check_fees: 'confirmed', paymentID: r.digits(12) });
     this.push(at, 'api', 'pay', rec('http response received', {
       request_id: rid,
       ...answer('POST', uri, 200,
@@ -610,12 +610,12 @@ export const MOCK_PERSONAL = {
   fullName: 'Testerson Tess Quinn',
   holder: 'TESS TESTERSON',
   expiry: '3101',
-  additionalInfo: 'BRD00800000101',
+  additionalInfo: 'ADD00100000101',
   pan: '5555550001470101',
   password: 'synthetic-pass-0101',
-  account: '20208000900123456101',
+  account: '10500000900123456101',
   accountId: '36999101',
-  bankAccountId: '3501112344650101',
+  bankAccountId: '7001112344650101',
   cardToken: '400000SYNTHA0101',
   firstName: 'Tess',
   middleName: 'Quinn',
@@ -685,7 +685,7 @@ class FlowBuilder extends Builder {
     this.json(t + 15, 'api', 'pay', create, rid, `${HOSTS.ledger}/v1/transfers/hold`, hold, { ms: 210, status: 422, body: { result: 'error', data: null, error: { code: 12, message: 'Insufficient funds on account' } } });
     const wrapper = worker();
     this.json(t + 30_000, 'worker', 'pay', wrapper, wrapper, `${HOSTS.ledger}/v1/transfers/hold`, hold, { ms: 120, status: 500, body: { result: 'error', data: null, error: { code: 99, message: 'Transfer processing failed' } } });
-    this.cardsIn(t + 60_000, 'POST', '/internal/callbacks/payout', worker(), { ext_transfer_id: tr, state: 'error' });
+    this.cardsIn(t + 60_000, 'POST', '/internal/callbacks/payout', worker(), { remote_transfer_id: tr, state: 'error' });
 
     const p = MOCK_FLOW.undescribedPayment;
     const u = ago(18, 40);
@@ -694,15 +694,15 @@ class FlowBuilder extends Builder {
     this.gateway(u, 'pay', 'POST', `/v1/users/${r.uuid7(u - 30 * DAY)}/payments`, pay, payRid, JSON.stringify({ service_id: 512, amount: 700_000 }));
     this.json(u + 12, 'api', 'pay', pay, payRid, `${HOSTS.ledger}/v1/payments/hold`, { request_id: p, amount: 700_000 }, { ms: 190, status: 500, body: { result: 'error', data: null, error: { code: 77, message: `Gateway refused client ${MOCK_SUMMARY_PHONE}` } } });
 
-    const info = `${PAYOUT_HOST}/v1/transfer_info`;
+    const info = `${PAYOUT_HOST}/v1/payout_status`;
     const v = ago(19, 10);
     const first = worker();
     const second = worker();
     this.json(v, 'worker', 'pay', first, first, info, { transfer_id: Number(MOCK_FLOW.retriedPayout) }, { ms: 90, status: 500, body: { status: 'error', error: { code: 55, message: 'Temporarily unavailable' } } });
-    this.json(v + 60_000, 'worker', 'pay', second, second, info, { transfer_id: Number(MOCK_FLOW.retriedPayout) }, { ms: 90, status: 200, body: { status: 'ok', data: { transfer_data: { state: 'completed' } } } });
+    this.json(v + 60_000, 'worker', 'pay', second, second, info, { transfer_id: Number(MOCK_FLOW.retriedPayout) }, { ms: 90, status: 200, body: { status: 'ok', data: { payout_data: { state: 'completed' } } } });
 
     const ok = worker();
-    this.json(ago(19, 40), 'worker', 'pay', ok, ok, info, { transfer_id: Number(MOCK_FLOW.plainPayout) }, { ms: 90, status: 200, body: { status: 'ok', data: { transfer_data: { state: 'completed' } } } });
+    this.json(ago(19, 40), 'worker', 'pay', ok, ok, info, { transfer_id: Number(MOCK_FLOW.plainPayout) }, { ms: 90, status: 200, body: { status: 'ok', data: { payout_data: { state: 'completed' } } } });
   }
 
   /** Вызовы, на которые шлюз ответил страницей HTML: строка JSON со страницей, тело целиком, большая страница, запись приложения со страницей в сообщении. */
@@ -768,7 +768,7 @@ class FlowBuilder extends Builder {
     }, v.cid);
     this.app(t + 50, 'cards', ns, `Customer +${v.phone} not found, passport ${v.passport}, national id ${v.nationalId}`, { ctx: { full_name: v.fullName, passport: v.passport } }, v.cid, { level: 400 });
     // Идентификатор запроса постоянный: последовательность случайных значений других сценариев не сдвигается.
-    this.json(t + 60, 'cards', ns, v.cid, v.accountRequestId, `${core}/v1/accounts/${v.account}/00444`, {
+    this.json(t + 60, 'cards', ns, v.cid, v.accountRequestId, `${core}/v1/accounts/${v.account}/00001`, {
       accountId: v.accountId,
       bankAccountId: v.bankAccountId,
       card_tokens: [v.cardToken],
@@ -785,7 +785,7 @@ class FlowBuilder extends Builder {
     const pan = this.pan('visa');
     this.cardsIn(t, 'POST', '/v1/cards/lookup', cid, { card_tokens: [this.token(pan)] });
     const sid = r.uuid7(t);
-    const processor = soap('getCard', `<Session><bankCode>01</bankCode><sessionId>${sid}</sessionId></Session><Parameters><CARD>${this.token(pan)}</CARD></Parameters>`);
+    const processor = soap('getCard', `<Session><issuerCode>01</issuerCode><sessionId>${sid}</sessionId></Session><Parameters><CARD>${this.token(pan)}</CARD></Parameters>`);
     const issuing = `${HOSTS.processor}/soap/issuing`;
     const card = `${HOSTS.switch}/v3/cards/info`;
     this.app(t + 4, 'cards', 'pay', 'http request sending', { request_id: cid, ...send('POST', issuing, processorHeaders(processor.length), processor) }, cid);
@@ -848,7 +848,7 @@ class FlowBuilder extends Builder {
 
   /**
    * Выплата из четырёх потоков: создание (api через шлюз), фоновая отправка в сеть выплат с опросами
-   * transfer_info (worker), опросы партнёра (сервис карт, id только во входящем GET), колбэк (сервис карт).
+   * payout_status (worker), опросы партнёра (сервис карт, id только во входящем GET), колбэк (сервис карт).
    * Колбэк приходит на 300 мс раньше ответа сети выплат на /v3/transfer.
    */
   payoutTransfer(t: number) {
@@ -869,13 +869,13 @@ class FlowBuilder extends Builder {
     const states = ['processing', 'processing', 'processing', 'processing', 'failed'];
     states.forEach((state, i) => {
       const at = sent + 3_000 + i * 1_000;
-      this.json(at, 'worker', 'pay', w, w, `${PAYOUT_HOST}/v1/transfer_info`, { transfer_id: payout }, { ms: 90, status: 200, body: { status: 'ok', data: { transfer_data: state === 'failed' ? { state, resolution: 'Recipient card is blocked' } : { state } } } });
+      this.json(at, 'worker', 'pay', w, w, `${PAYOUT_HOST}/v1/payout_status`, { transfer_id: payout }, { ms: 90, status: 200, body: { status: 'ok', data: { payout_data: state === 'failed' ? { state, resolution: 'Recipient card is blocked' } : { state } } } });
     });
 
     // Колбэк сети выплат в сервис карт: на 300 мс раньше ответа на /v3/transfer.
     const cb = String(r.int(6_700_000_000_000, 6_799_999_999_999));
-    this.cardsIn(sent + 1_700, 'POST', '/internal/callbacks/payout', cb, { ext_transfer_id: tr, state: 'error' });
-    this.app(sent + 1_720, 'cards', 'pay', 'callback accepted', { ctx: { ext_transfer_id: tr } }, cb);
+    this.cardsIn(sent + 1_700, 'POST', '/internal/callbacks/payout', cb, { remote_transfer_id: tr, state: 'error' });
+    this.app(sent + 1_720, 'cards', 'pay', 'callback accepted', { ctx: { remote_transfer_id: tr } }, cb);
 
     // Опросы партнёра: id только во входящем GET, статус в лог не пишется.
     for (let i = 0; i < 6; i++) {

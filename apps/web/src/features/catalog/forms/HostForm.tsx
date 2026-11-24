@@ -10,7 +10,7 @@ import { Field, SelectField, useErrorText } from '../ui.tsx';
 import { systemDraft, systemModel, type Errors } from '../validate.ts';
 import { SystemForm } from './SystemForm.tsx';
 
-/** Ключ новой системы по хосту: «switch.pay.example:11101» → «switch». */
+/** Ключ новой системы по хосту: «switch.pay.example:9191» → «switch». */
 export function keyFromHost(host: string): string {
   return systemLabel(host)
     .toLowerCase()

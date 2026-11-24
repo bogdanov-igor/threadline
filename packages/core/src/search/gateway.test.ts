@@ -53,7 +53,7 @@ function gatewayLog(msg: string, level = 'debug', extra: Record<string, unknown>
 
 /** Записи api того же запроса: отправка в коммутатор с JWT и ответ. request_id — X-Request-Id шлюза. */
 function apiLines(): LogLine[] {
-  const url = 'http://switch.pay.example:11101/v3/cards/info';
+  const url = 'http://switch.pay.example:9191/v3/cards/info';
   return [
     record(
       app(
@@ -64,7 +64,7 @@ function apiLines(): LogLine[] {
             method: 'POST',
             url,
             headers: { 'Content-Type': ['application/json'], Authorization: [`Bearer ${JWT}`] },
-            body: JSON.stringify({ params: { primaryAccountNumber: PAN_LIKE, mb_flag: 1 } }),
+            body: JSON.stringify({ params: { primaryAccountNumber: PAN_LIKE, lang_flag: 1 } }),
           },
         },
         '2026-11-01T10:11:12.359832',

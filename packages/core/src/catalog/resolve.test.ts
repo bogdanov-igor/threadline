@@ -26,7 +26,7 @@ describe('три источника', () => {
   });
 
   it('ошибка внешней системы — у шага обмена', () => {
-    const records = [incoming(T0, 'POST', '/v1/users'), ...exchange(T0 + 10, 'http://switch.pay.example:11101/v3/cards/info', { resp: { id: 1, error: { code: 200, message: 'Card not found' } } })];
+    const records = [incoming(T0, 'POST', '/v1/users'), ...exchange(T0 + 10, 'http://switch.pay.example:9191/v3/cards/info', { resp: { id: 1, error: { code: 200, message: 'Card not found' } } })];
     const s = final(records);
     expect(s.reasons).toHaveLength(1);
     expect(s.reasons[0]).toMatchObject({ kind: 'business', name: { source: 'external', system: { name: 'Коммутатор' } }, error: { source: 'external', title: 'Карта не найдена', partnerCode: '176' } });
@@ -59,13 +59,13 @@ describe('метод проекта', () => {
   });
 
   it('фоновый запрос: метода проекта нет', () => {
-    expect(final(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: { result: {} } })).entry).toBeNull();
+    expect(final(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: { result: {} } })).entry).toBeNull();
   });
 });
 
 describe('система обмена', () => {
   it('по IP с портом и по домену', () => {
-    expect(ex('http://switch.pay.example:11101/v3/cards/info').method?.name).toBe('Данные карты в коммутаторе');
+    expect(ex('http://switch.pay.example:9191/v3/cards/info').method?.name).toBe('Данные карты в коммутаторе');
     expect(ex('https://gw.merchant.acquirer.example/api/payments/abc', null, 'GET').system?.key).toBe('acquirer');
   });
 
@@ -131,12 +131,12 @@ describe('сопоставление ошибки', () => {
 
   it('правило метода сильнее правила системы', () => {
     const body = { error: { code: 200, message: 'Card not found' } };
-    expect(final(exchange(T0, 'http://switch.pay.example:11101/v3/cards/token', { resp: body })).reasons[0]!.error?.title).toBe('Карта не найдена или закрыта');
-    expect(final(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: body })).reasons[0]!.error?.title).toBe('Карта не найдена');
+    expect(final(exchange(T0, 'http://switch.pay.example:9191/v3/cards/token', { resp: body })).reasons[0]!.error?.title).toBe('Карта не найдена или закрыта');
+    expect(final(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: body })).reasons[0]!.error?.title).toBe('Карта не найдена');
   });
 
   it('ничего не найдено: источник unknown, код и текст в raw', () => {
-    const s = final(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: { error: { code: 999, message: 'Odd' } } }));
+    const s = final(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: { error: { code: 999, message: 'Odd' } } }));
     expect(s.reasons[0]!.error).toMatchObject({ source: 'unknown', rule: null, raw: { code: '999', text: 'Odd' } });
   });
 
@@ -157,7 +157,7 @@ describe('«не ошибка»', () => {
     const records = [
       incoming(T0, 'POST', '/v1/users'),
       ...exchange(T0 + 1, 'http://fraud.local/', { req: { jsonrpc: '2.0', method: 'risk.check', id: 1 }, resp: { jsonrpc: '2.0', error: { code: '00', message: 'ok' } } }),
-      ...exchange(T0 + 100, 'http://switch.pay.example:11101/v3/cards/info', { resp: { error: { code: 200, message: 'Card not found' } } }),
+      ...exchange(T0 + 100, 'http://switch.pay.example:9191/v3/cards/info', { resp: { error: { code: 200, message: 'Card not found' } } }),
     ];
     const s = final(records);
     expect(s.status).toBe('error');
@@ -178,7 +178,7 @@ describe('«не ошибка»', () => {
 
   it('обрезка до 5 после справочника: шесть причин, одна «не ошибка»', () => {
     const records = [incoming(T0, 'POST', '/v1/users')];
-    for (let i = 0; i < 5; i++) records.push(...exchange(T0 + 100 * (i + 1), 'http://switch.pay.example:11101/v3/cards/info', { resp: { error: { code: 999 + i, message: 'x' } } }));
+    for (let i = 0; i < 5; i++) records.push(...exchange(T0 + 100 * (i + 1), 'http://switch.pay.example:9191/v3/cards/info', { resp: { error: { code: 999 + i, message: 'x' } } }));
     records.push(...exchange(T0 + 50, 'http://fraud.local/', { req: { jsonrpc: '2.0', method: 'risk.check', id: 1 }, resp: { jsonrpc: '2.0', error: { code: '00', message: 'ok' } } }));
     const base = summarize('cid-1', records, OPTS);
     expect(base.reasons[0]!.text).toContain('error 00');
@@ -210,12 +210,12 @@ describe('вид метода', () => {
   it('статус операции у входа и колбэк', () => {
     const v = view([incoming(T0, 'GET', `/v1/users/${U1}/transfers/${U2}`)]);
     expect(v[0]!.catalog?.name?.method).toMatchObject({ kind: 'status', opType: { key: 'transfer', name: 'Перевод' } });
-    const cb = view([incoming(T0, 'POST', '/internal/callbacks/payout', { ext_transfer_id: U2, state: 'complete' })]);
+    const cb = view([incoming(T0, 'POST', '/internal/callbacks/payout', { remote_transfer_id: U2, state: 'complete' })]);
     expect(cb[0]!.catalog?.name?.method).toMatchObject({ name: 'Колбэк сети выплат', kind: 'callback' });
   });
 
   it('асинхронная отправка и статус у внешней системы одним типом', () => {
-    const v = view([...exchange(T0, 'http://payout.local/v3/transfer', { req: {} }), ...exchange(T0 + 100, 'http://payout.local/v1/transfer_info', { req: {} })]);
+    const v = view([...exchange(T0, 'http://payout.local/v3/transfer', { req: {} }), ...exchange(T0 + 100, 'http://payout.local/v1/payout_status', { req: {} })]);
     expect(v.filter((r) => r.kind === 'send').map((r) => [r.catalog?.name?.method?.kind, r.catalog?.name?.method?.opType?.key])).toEqual([
       ['start', 'payout'],
       ['status', 'payout'],

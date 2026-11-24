@@ -550,12 +550,12 @@ describe('порядок маскирования', () => {
   it('номер счёта и токен карты: значений нет в файле, ни в поле, ни в адресе', async () => {
     const a = new Scripted();
     a.values = { container: ['worker-a'] };
-    const account = '20208000900123456777';
+    const account = '10500000900123456777';
     const token = '400000ABCDEF1234';
-    const body = { accountId: '36999719', bankAccountId: '3501112344650819', card_tokens: [token], first_name: 'Testname', middle_name: 'Testovich' };
-    a.answer = () => [appLine({ cid: uuid(1), fields: { upstream: { method: 'POST', url: `http://h.example/v1/accounts/${account}/00444/${token}`, body: JSON.stringify(body) } } })];
+    const body = { accountId: '36999719', bankAccountId: '7001112344650819', card_tokens: [token], first_name: 'Testname', middle_name: 'Testovich' };
+    a.answer = () => [appLine({ cid: uuid(1), fields: { upstream: { method: 'POST', url: `http://h.example/v1/accounts/${account}/00001/${token}`, body: JSON.stringify(body) } } })];
     const r = await run(b, ['--env', 'demo', '--kind', 'background'], { createAdapter: () => a });
-    for (const v of [account, token, '36999719', '3501112344650819', 'Testname', 'Testovich']) expect(r.text).not.toContain(v);
+    for (const v of [account, token, '36999719', '7001112344650819', 'Testname', 'Testovich']) expect(r.text).not.toContain(v);
   });
 
   it('команда не обращается к настройке маскирования: выключить вид негде', async () => {

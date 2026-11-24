@@ -15,7 +15,7 @@ const API_CID = '7d1e2f30-4a5b-4c6d-8e7f-90a1b2c3d4e5';
 const API_RID = 'c0ffee00-1111-4222-8333-944455566677';
 const USER = '0193b0c1-d2e3-7f40-8a51-6b7c8d9e0f1a';
 const CARD = '0193b1c2-d3e4-7f50-9a61-7b8c9d0e1f2a';
-const SWITCH_URI = 'http://switch.pay.example:11101/v3/cards/info';
+const SWITCH_URI = 'http://switch.pay.example:9191/v3/cards/info';
 
 /** Запись шлюза с сырым HTTP-запросом партнёра. */
 function gatewayLine(local: string): LogLine {
@@ -35,7 +35,7 @@ function apiViaGateway(): LogLine[] {
   return [
     gatewayLine('2026-11-02T15:24:52.100000'),
     record(app('db query', { step: 'db', duration_ms: 4, ctx: { host: 'db.pay.example' } }, '2026-11-02T15:24:52.110000', API_CID), API_LABELS),
-    record(app('http request sending', { request_id: API_RID, upstream: { method: 'POST', url: SWITCH_URI, body: '{"id":"1","params":{"mb_flag":1}}' } }, '2026-11-02T15:24:52.118000', API_CID), API_LABELS),
+    record(app('http request sending', { request_id: API_RID, upstream: { method: 'POST', url: SWITCH_URI, body: '{"id":"1","params":{"lang_flag":1}}' } }, '2026-11-02T15:24:52.118000', API_CID), API_LABELS),
     record(app('http response received', { request_id: API_RID, upstream: { method: 'POST', url: SWITCH_URI, status: 200, body: '{"id":"1","result":{}}' } }, '2026-11-02T15:24:52.131000', API_CID), API_LABELS),
     record(app('card info returned', { ctx: { ok: true } }, '2026-11-02T15:24:52.133000', API_CID), API_LABELS),
   ];
@@ -212,13 +212,13 @@ describe('buildTrace: логи и края', () => {
   });
 
   it('хост и путь адреса', () => {
-    expect(hostOf('http://192.0.2.41:11101/v3/cards/info')).toBe('192.0.2.41');
+    expect(hostOf('http://192.0.2.41:9191/v3/cards/info')).toBe('192.0.2.41');
     expect(hostOf('https://user:pw@processor.pay.example:8443')).toBe('processor.pay.example');
     expect(hostOf('https://[::1]:8443/x')).toBe('[::1]');
     expect(hostOf('fraud.pay.example:9090/')).toBe('fraud.pay.example');
     expect(hostOf('/relative/path')).toBeNull();
     expect(hostOf(null)).toBeNull();
-    expect(pathOf('http://switch.pay.example:11101/v3/cards/info?x=1')).toBe('/v3/cards/info');
+    expect(pathOf('http://switch.pay.example:9191/v3/cards/info?x=1')).toBe('/v3/cards/info');
     expect(pathOf('https://processor-balance.pay.example:8443')).toBe('/');
     expect(pathOf('/v1/x')).toBe('/v1/x');
   });

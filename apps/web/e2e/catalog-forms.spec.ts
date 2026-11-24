@@ -182,7 +182,7 @@ test.describe('форма метода', () => {
 
   test('сервер отклоняет поле id с неизвестным типом и объясняет почему', async ({ request, system }) => {
     const res = await request.post(`${API}/methods`, {
-      data: { systemId: system.id, http: 'POST', path: '/forms/unknown-type', name: 'Метод', fields: [{ in: 'request', path: 'ext_transfer_id', type: 'no_such_type' }] },
+      data: { systemId: system.id, http: 'POST', path: '/forms/unknown-type', name: 'Метод', fields: [{ in: 'request', path: 'remote_transfer_id', type: 'no_such_type' }] },
     });
     expect(res.status()).toBe(422);
     const body = (await res.json()) as { error: { code: string; fields: Record<string, string> } };
@@ -306,7 +306,7 @@ test.describe('форма ошибки', () => {
   });
 
   test('«Добавить ошибку метода» из строки метода: система и метод уже выбраны, ошибка считается у метода', async ({ page, request, system }) => {
-    await post(request, 'methods', { systemId: system.id, http: 'GET', path: '/forms/real-pan', name: 'Настоящий номер' });
+    await post(request, 'methods', { systemId: system.id, http: 'GET', path: '/forms/card-number', name: 'Настоящий номер' });
     await page.goto(system.section);
     await rowMenu(page, 'method-row', 'Настоящий номер', 'Добавить ошибку метода');
     await expect(form(page).getByRole('combobox', { name: /^Где действует/ })).toContainText(system.name!);

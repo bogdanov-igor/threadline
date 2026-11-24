@@ -8,7 +8,7 @@ import { BASE_MS, FlowFixture, name, opId, status, sys } from './test-flow.ts';
 // Синтетические потоки типичных форм, значения выдуманы.
 
 const PROCESSOR = 'https://processor.pay.example:8443/soap/issuing';
-const SWITCH = 'http://switch.pay.example:11101/v3/cards/info';
+const SWITCH = 'http://switch.pay.example:9191/v3/cards/info';
 const FRAUD = 'https://fraud.pay.example/api/v2/risk/check';
 const LEDGER = 'https://ledger.pay.example:8443/api/v1/hold';
 const soap = (action: string) => `<soapenv:Envelope><soapenv:Body><ws:${action}><ws:card>1</ws:card></ws:${action}></soapenv:Body></soapenv:Envelope>`;
@@ -477,7 +477,7 @@ describe('buildFlowGraph: асинхронная операция', () => {
     for (let i = 0; i < polls; i++) {
       const st = i === polls - 1 ? last : status('payout', 'processing', 'В обработке', 'pending');
       f.exchange(1000 + i * 1000, 1100 + i * 1000, {
-        uri: 'https://payout.pay.example/v1/transfer_info',
+        uri: 'https://payout.pay.example/v1/payout_status',
         catalog: { name: name(payout, { id: 2, name: 'Статус выплаты', kind: 'status', op: 'payout' }), ids: [opId('payout', '604821')] },
         respCatalog: { name: name(payout, { id: 2, name: 'Статус выплаты', kind: 'status', op: 'payout' }), ids: [opId('payout', '604821')], status: st },
       });
@@ -505,8 +505,8 @@ describe('buildFlowGraph: асинхронная операция', () => {
   });
 
   it('статус вне словаря — значение как есть', () => {
-    const g = payoutTransfer(2, status('payout', 'waiting_cancel', null, null)).graph();
-    expect(markText(rootNodes(g)[2]!.mark!)).toBe('опрос ×2 · waiting_cancel');
+    const g = payoutTransfer(2, status('payout', 'cancel_queued', null, null)).graph();
+    expect(markText(rootNodes(g)[2]!.mark!)).toBe('опрос ×2 · cancel_queued');
   });
 
   it('справочник выключен — обычные узлы и повторы, без начала операции', () => {

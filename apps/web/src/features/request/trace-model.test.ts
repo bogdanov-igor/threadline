@@ -44,7 +44,7 @@ function rec(kind: ViewRecord['kind'], offsetMs: number, over: Partial<ViewRecor
 
 const http = (over: Partial<NonNullable<ViewRecord['http']>> = {}): NonNullable<ViewRecord['http']> => ({
   method: 'POST',
-  uri: 'http://switch.pay.example:11101/v3/cards/info',
+  uri: 'http://switch.pay.example:9191/v3/cards/info',
   status: null,
   durationMs: null,
   pairId: null,

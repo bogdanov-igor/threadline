@@ -4,7 +4,7 @@ import { HostIndex, hostLabel, hostOf, normalizeHostPattern, parseHostPattern, u
 describe('части адреса', () => {
   it('схема, учётные данные, регистр, порт, строка запроса', () => {
     expect(uriParts('https://user:pw@GW.Merchant.Acquirer.example:8443/api/payments?x=1')).toMatchObject({ scheme: 'https', host: 'gw.merchant.acquirer.example', port: '8443', path: '/api/payments' });
-    expect(hostLabel(uriParts('http://192.0.2.5:11101/v3/cards/info'))).toBe('192.0.2.5:11101');
+    expect(hostLabel(uriParts('http://192.0.2.5:9191/v3/cards/info'))).toBe('192.0.2.5:9191');
   });
 
   it('IPv6 без скобок в хосте, со скобками в подписи; адрес без пути — «/»', () => {
@@ -20,7 +20,7 @@ describe('части адреса', () => {
 
 describe('шаблон хоста', () => {
   it('host, host:port, [ipv6]:port, *.domain; неверный — null', () => {
-    expect(parseHostPattern('192.0.2.5:11101')).toEqual({ kind: 'exact', host: '192.0.2.5', port: '11101' });
+    expect(parseHostPattern('192.0.2.5:9191')).toEqual({ kind: 'exact', host: '192.0.2.5', port: '9191' });
     expect(parseHostPattern('*.acquirer.example')).toMatchObject({ kind: 'suffix' });
     expect(parseHostPattern('[fd00::1]:8080')).toEqual({ kind: 'exact', host: 'fd00::1', port: '8080' });
     expect(parseHostPattern('http://x/y')).toBeNull();
@@ -46,7 +46,7 @@ describe('шаблон хоста', () => {
 
 describe('hostOf: хост для подписи', () => {
   it('без схемы, учётных данных и порта, IPv6 в скобках, регистр как в записи', () => {
-    expect(hostOf('http://192.0.2.41:11101/v3/cards/info')).toBe('192.0.2.41');
+    expect(hostOf('http://192.0.2.41:9191/v3/cards/info')).toBe('192.0.2.41');
     expect(hostOf('https://user:pw@Processor.pay.example:8443')).toBe('Processor.pay.example');
     expect(hostOf('https://[::1]:8443/x')).toBe('[::1]');
     expect(hostOf('/relative/path')).toBeNull();

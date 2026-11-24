@@ -18,12 +18,12 @@ const V = {
   fullName: 'Testerson Tess Quinn',
   holder: 'TESS TESTERSON',
   expiry: '3101',
-  additionalInfo: 'BRD00800000101',
+  additionalInfo: 'ADD00100000101',
   pan: '5555550001470101',
   password: 'synthetic-pass-0101',
-  account: '20208000900123456101',
+  account: '10500000900123456101',
   accountId: '36999101',
-  bankAccountId: '3501112344650101',
+  bankAccountId: '7001112344650101',
   cardToken: '400000SYNTHA0101',
 };
 const PHONE_MASK = '********0101';

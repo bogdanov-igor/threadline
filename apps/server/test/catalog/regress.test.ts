@@ -86,7 +86,7 @@ const codeOf = (r: { json: () => unknown }) => (r.json() as { error: { code: str
 describe.skipIf(!PG_URL)('«Неизвестное» в таблице без значений', () => {
   it('строки читаются прямо из таблицы: путь, код, действие и хост маскированы', async () => {
     const { svc, collector } = await setup();
-    const uri = (p: string) => `http://switch.pay.example:11101${p}`;
+    const uri = (p: string) => `http://switch.pay.example:9191${p}`;
     collector.observe('pay', 'demo', false, 'c1', exchange(uri(`/v1/card/4111-1112-3455-7893/info`), 200, {}));
     collector.observe('pay', 'demo', false, 'c2', exchange(uri(`/v1/card/${PAN}.json`), 200, {}));
     collector.observe('pay', 'demo', false, 'c3', exchange(uri(`/v1/card/pan_${PAN}/info`), 200, {}));
@@ -108,7 +108,7 @@ describe.skipIf(!PG_URL)('«Неизвестное» в таблице без з
 
   it('стенд примера сохраняется и уходит в ответ API', async () => {
     const { app, collector } = await setup();
-    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:11101/v9/new', 200, {}), '92');
+    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:9191/v9/new', 200, {}), '92');
     await collector.flush();
     const page = (await app.inject('/api/projects/pay/catalog/unknown')).json() as UnknownPage;
     expect(page.items[0]).toMatchObject({ stand: '92', exampleCid: 'c1' });
@@ -256,7 +256,7 @@ describe.skipIf(!PG_URL)('инварианты справочника', () => {
 describe.skipIf(!PG_URL)('правило ошибки с HTTP ниже 400', () => {
   it('строка «Неизвестного» с HTTP 200 → правило из формы → строка ушла', async () => {
     const { app, collector } = await setup();
-    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:11101/v9/new', 200, { error: { code: 12, message: 'Boom' } }));
+    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:9191/v9/new', 200, { error: { code: 12, message: 'Boom' } }));
     await collector.flush();
     const page = (await app.inject('/api/projects/pay/catalog/unknown?kind=error')).json() as UnknownPage;
     const row = page.items[0]!;
@@ -272,16 +272,16 @@ describe.skipIf(!PG_URL)('база недоступна', () => {
   it('«Неизвестное» копится при stale и пишется после восстановления', async () => {
     const { svc, url } = await setup();
     const collector = new UnknownCollector(svc);
-    collector.observe('pay', 'demo', false, 'c0', exchange('http://switch.pay.example:11101/v9/a', 200, {}));
+    collector.observe('pay', 'demo', false, 'c0', exchange('http://switch.pay.example:9191/v9/a', 200, {}));
     const down = svc.readDb()!;
     const real = down.query.bind(down);
     const spy = vi.spyOn(down, 'query').mockRejectedValue(new DbError('terminating connection', '57P01'));
     await svc.pollNow();
     expect(svc.state().state).toBe('stale');
     const before = collector.pending;
-    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:11101/v9/b', 200, {}));
-    collector.observe('pay', 'demo', false, 'c2', exchange('http://switch.pay.example:11101/v9/c', 200, {}));
-    collector.observe('pay', 'demo', false, 'c3', exchange('http://switch.pay.example:11101/v9/d', 200, {}));
+    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:9191/v9/b', 200, {}));
+    collector.observe('pay', 'demo', false, 'c2', exchange('http://switch.pay.example:9191/v9/c', 200, {}));
+    collector.observe('pay', 'demo', false, 'c3', exchange('http://switch.pay.example:9191/v9/d', 200, {}));
     expect(collector.pending).toBe(before + 3);
     await collector.flush();
     expect(collector.pending).toBe(before + 3);
@@ -401,7 +401,7 @@ describe('какая ошибка считается ошибкой соедин
 describe.skipIf(!PG_URL)('уборка «Неизвестного»', () => {
   it('импорт командой: опрос версии уже убирает покрытую строку', async () => {
     const { app, svc, collector, url } = await setup();
-    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:11101/v9/new', 200, {}));
+    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:9191/v9/new', 200, {}));
     await collector.flush();
     expect(((await app.inject('/api/projects/pay/catalog/unknown')).json() as UnknownPage).total).toBe(1);
     const other = await openDb(url);
@@ -416,7 +416,7 @@ describe.skipIf(!PG_URL)('уборка «Неизвестного»', () => {
 
   it('набор при старте убирает покрытую строку', async () => {
     const { dir, svc, url, collector } = await setup();
-    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:11101/v9/new', 200, {}));
+    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:9191/v9/new', 200, {}));
     await collector.flush();
     await svc.close();
     const f = parse(CATALOG_YAML) as { systems: { key: string; methods?: unknown[] }[] };
@@ -528,8 +528,8 @@ describe.skipIf(!PG_URL)('команда threadline:catalog', () => {
 describe.skipIf(!PG_URL)('правило итога покрывает строку «Неизвестного»', () => {
   it('условие по HTTP-статусу — строка уходит; условие по полю тела — остаётся до следующего ответа', async () => {
     const { app, collector } = await setup();
-    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:11101/v9/new', 200, { error: { code: 12, message: 'Boom' } }));
-    collector.observe('pay', 'demo', false, 'c2', exchange('http://switch.pay.example:11101/v9/other', 500, { error: { code: 13, message: 'Bang' } }));
+    collector.observe('pay', 'demo', false, 'c1', exchange('http://switch.pay.example:9191/v9/new', 200, { error: { code: 12, message: 'Boom' } }));
+    collector.observe('pay', 'demo', false, 'c2', exchange('http://switch.pay.example:9191/v9/other', 500, { error: { code: 13, message: 'Bang' } }));
     await collector.flush();
     const page = (await app.inject('/api/projects/pay/catalog/unknown?kind=error')).json() as UnknownPage;
     expect(page.items).toHaveLength(2);

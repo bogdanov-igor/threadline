@@ -153,7 +153,7 @@ export function stepOutcome(step: TraceStep, byId: ReadonlyMap<string, ViewRecor
   return { ...base, tone: 'neutral', label: null };
 }
 
-/** Операция обмена: имя вызова, внутри которого он идёт (getRealCard); без вызова — null. */
+/** Операция обмена: имя вызова, внутри которого он идёт (getCardNumber); без вызова — null. */
 export function operationOf(step: TraceStep, trace: Trace): string | null {
   if (step.kind !== 'exchange' || !step.parentId) return null;
   const parent = trace.steps.find((s) => s.id === step.parentId);

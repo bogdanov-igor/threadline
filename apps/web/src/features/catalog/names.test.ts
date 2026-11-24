@@ -13,7 +13,7 @@ const SWITCH: CatalogName = {
   source: 'external',
   system: { key: 'switch', name: 'Коммутатор', type: 'service' },
   method: { id: 3, name: 'Данные карты в коммутаторе', domain: null, kind: 'call', opType: null },
-  host: '192.0.2.17:11101',
+  host: '192.0.2.17:9191',
 };
 const NOT_FOUND: CatalogError = {
   source: 'external',
@@ -49,7 +49,7 @@ function record(id: string, kind: ViewRecord['kind'], catalog?: RecordCatalog | 
 }
 
 function step(patch: Partial<TraceStep>): TraceStep {
-  return { id: 's', parentId: null, depth: 0, kind: 'exchange', title: 'POST http://192.0.2.17:11101/v3/cards/info', system: '192.0.2.17', startMs: 0, endMs: 10, durationMs: 10, status: 200, isError: false, noResponse: false, pending: false, recordIds: ['a', 'b'], ...patch };
+  return { id: 's', parentId: null, depth: 0, kind: 'exchange', title: 'POST http://192.0.2.17:9191/v3/cards/info', system: '192.0.2.17', startMs: 0, endMs: 10, durationMs: 10, status: 200, isError: false, noResponse: false, pending: false, recordIds: ['a', 'b'], ...patch };
 }
 
 const cat = (patch: Partial<RecordCatalog>): RecordCatalog => ({ name: null, error: null, outcome: null, ids: [], status: null, ...patch });
@@ -82,7 +82,7 @@ describe('строка списка и причины', () => {
   });
 
   it('причина «Коммутатор · Карта не найдена»', () => {
-    const r: ErrorReason = { kind: 'business', text: 'response_code 200: Card not found · POST 192.0.2.17:11101/v3/cards/info', name: SWITCH, error: NOT_FOUND };
+    const r: ErrorReason = { kind: 'business', text: 'response_code 200: Card not found · POST 192.0.2.17:9191/v3/cards/info', name: SWITCH, error: NOT_FOUND };
     const v = catalogReasonView(r);
     expect(v).toMatchObject({ named: true, system: 'Коммутатор', message: 'Карта не найдена', source: 'external', call: 'Данные карты в коммутаторе' });
   });
@@ -209,21 +209,21 @@ describe('причина в «Кратко»', () => {
   });
 
   it('HTTP 500 — смысл статуса словами', () => {
-    const b = brief({ kind: 'http', text: 'HTTP 500 · POST switch.pay.example:11101/v3' });
+    const b = brief({ kind: 'http', text: 'HTTP 500 · POST switch.pay.example:9191/v3' });
     expect(b.message).not.toContain('500');
     expect(b.message).not.toBe('');
     expect(b.system).toBe('switch');
-    clean(b, ['HTTP', '500', '11101']);
+    clean(b, ['HTTP', '500', '9191']);
   });
 
   it('текст справочника и имена без изменений, метод — только название', () => {
-    const named: ErrorReason = { kind: 'business', text: 'response_code 200: Card not found · POST 192.0.2.17:11101/v3/cards/info', name: SWITCH, error: NOT_FOUND };
+    const named: ErrorReason = { kind: 'business', text: 'response_code 200: Card not found · POST 192.0.2.17:9191/v3/cards/info', name: SWITCH, error: NOT_FOUND };
     const v = catalogReasonView(named);
     expect(v.callNamed).toBe(!!SWITCH.method?.name);
     const b = briefReason(v);
     expect(b.message).toBe(v.message);
     expect(b.system).toBe(SWITCH.system?.name);
-    clean(b, ['192.0.2.17', '11101', 'response_code']);
+    clean(b, ['192.0.2.17', '9191', 'response_code']);
   });
 
   it('операция из трассы важнее названия', () => {

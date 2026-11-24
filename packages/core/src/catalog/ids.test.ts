@@ -18,12 +18,12 @@ const view = (records: ParsedRecord[]) => annotateRecords(markPending(buildView(
 describe('подстановка счёта', () => {
   const types = new Map([['account', { kind: 'entity' as const, name: 'Счёт' }], ['branch', { kind: 'entity' as const, name: 'Филиал' }]]);
   const bodies = { query: null, request: parseBody(null), response: parseBody(null) };
-  const ACCOUNT = '20208000900123456001';
-  const ids = (path: string, strict = compileMasking([]).strict) => stepIds(parseTemplate(path), ['v1', 'accounts', ACCOUNT, '00444'], [], bodies, types, strict);
+  const ACCOUNT = '10500000900123456001';
+  const ids = (path: string, strict = compileMasking([]).strict) => stepIds(parseTemplate(path), ['v1', 'accounts', ACCOUNT, '00001'], [], bodies, types, strict);
 
   it('{account} маской: значение не уходит в разметку и в keep', () => {
-    expect(ids('/v1/accounts/{account}/{branch}').map((i) => [i.type, i.value])).toEqual([['account', '****************6001'], ['branch', '00444']]);
-    expect(ids('/v1/accounts/{account_id}/{branch}').map((i) => i.value)).toEqual(['****************6001', '00444']);
+    expect(ids('/v1/accounts/{account}/{branch}').map((i) => [i.type, i.value])).toEqual([['account', '****************6001'], ['branch', '00001']]);
+    expect(ids('/v1/accounts/{account_id}/{branch}').map((i) => i.value)).toEqual(['****************6001', '00001']);
   });
 
   it('вид скрыт в строгом проходе и при выключенном виде: разметка показывает маску всегда', () => {
@@ -51,8 +51,8 @@ describe('чтение полей', () => {
   });
 
   it('XML: первый элемент по локальному имени, nil, вложенные элементы', () => {
-    const b = parseBody('<a:Env><a:Body><x:ext_transfer_id> 42 </x:ext_transfer_id><x:nil xsi:nil="true"/><x:obj><y>1</y></x:obj><x:e/></a:Body></a:Env>');
-    expect(readField(b, 'ext_transfer_id')).toEqual({ found: true, value: ' 42 ' });
+    const b = parseBody('<a:Env><a:Body><x:remote_transfer_id> 42 </x:remote_transfer_id><x:nil xsi:nil="true"/><x:obj><y>1</y></x:obj><x:e/></a:Body></a:Env>');
+    expect(readField(b, 'remote_transfer_id')).toEqual({ found: true, value: ' 42 ' });
     expect(readField(b, 'nil')).toEqual({ found: true, value: null });
     expect(readField(b, 'data.e')).toEqual({ found: true, value: '' });
     expect(readField(b, 'obj').found && readField(b, 'obj')).toMatchObject({ found: true });
@@ -74,7 +74,7 @@ describe('идентификаторы шага', () => {
   });
 
   it('id в теле колбэка — тот же перевод', () => {
-    const v = view([incoming(T0, 'POST', '/internal/callbacks/payout', { ext_transfer_id: U2, state: 'complete' })]);
+    const v = view([incoming(T0, 'POST', '/internal/callbacks/payout', { remote_transfer_id: U2, state: 'complete' })]);
     expect(v[0]!.catalog?.ids).toEqual([{ type: 'transfer', name: 'Перевод', kind: 'operation', value: U2, at: 'request' }]);
   });
 
@@ -104,15 +104,15 @@ describe('идентификаторы шага', () => {
   });
 
   it('пустое и длинное значение пропускаются, повторы схлопываются', () => {
-    const v = view([incoming(T0, 'POST', '/internal/callbacks/payout', { ext_transfer_id: '   ' })]);
+    const v = view([incoming(T0, 'POST', '/internal/callbacks/payout', { remote_transfer_id: '   ' })]);
     expect(v[0]!.catalog?.ids).toEqual([]);
-    const long = view([incoming(T0, 'POST', '/internal/callbacks/payout', { ext_transfer_id: 'x'.repeat(129) })]);
+    const long = view([incoming(T0, 'POST', '/internal/callbacks/payout', { remote_transfer_id: 'x'.repeat(129) })]);
     expect(long[0]!.catalog?.ids).toEqual([]);
   });
 });
 
 describe('статус операции', () => {
-  const info = (state: string) => view(exchange(T0, 'http://payout.local/v1/transfer_info', { req: { transfer_id: 5 }, resp: { data: { transfer_data: { state } } } }))[1]!.catalog?.status;
+  const info = (state: string) => view(exchange(T0, 'http://payout.local/v1/payout_status', { req: { transfer_id: 5 }, resp: { data: { payout_data: { state } } } }))[1]!.catalog?.status;
 
   it('опрос статуса во внешней системе', () => {
     expect(info('processing')).toEqual({ type: 'payout', value: 'processing', raw: 'processing', name: 'В обработке', outcome: 'pending', order: 2 });
@@ -129,12 +129,12 @@ describe('статус операции', () => {
   });
 
   it('значение вне словаря — как есть', () => {
-    const s = view(exchange(T0, 'https://checkout.acquirer.example/api/payments/abc', { method: 'GET', resp: { status: 'waiting_cancel' } }))[1]!.catalog?.status;
-    expect(s).toEqual({ type: 'merchant_payment', value: 'waiting_cancel', raw: 'waiting_cancel', name: null, outcome: null, order: null });
+    const s = view(exchange(T0, 'https://checkout.acquirer.example/api/payments/abc', { method: 'GET', resp: { status: 'cancel_queued' } }))[1]!.catalog?.status;
+    expect(s).toEqual({ type: 'merchant_payment', value: 'cancel_queued', raw: 'cancel_queued', name: null, outcome: null, order: null });
   });
 
   it('отказ не делает шаг и запрос ошибочными', () => {
-    const records = [incoming(T0, 'GET', '/v1/users'), ...exchange(T0 + 1, 'http://payout.local/v1/transfer_info', { req: {}, resp: { data: { transfer_data: { state: 'failed' } } } })];
+    const records = [incoming(T0, 'GET', '/v1/users'), ...exchange(T0 + 1, 'http://payout.local/v1/payout_status', { req: {}, resp: { data: { payout_data: { state: 'failed' } } } })];
     const v = view(records);
     expect(v[2]!.catalog?.status?.outcome).toBe('failure');
     expect(v[2]!.isError).toBe(false);
@@ -142,7 +142,7 @@ describe('статус операции', () => {
   });
 
   it('перевод значения колбэка: complete → completed', () => {
-    const s = view([incoming(T0, 'POST', '/internal/callbacks/payout', { ext_transfer_id: U2, state: 'Complete' })])[0]!.catalog?.status;
+    const s = view([incoming(T0, 'POST', '/internal/callbacks/payout', { remote_transfer_id: U2, state: 'Complete' })])[0]!.catalog?.status;
     expect(s).toEqual({ type: 'transfer', value: 'completed', raw: 'Complete', name: 'Выполнен', outcome: 'success', order: 2 });
   });
 

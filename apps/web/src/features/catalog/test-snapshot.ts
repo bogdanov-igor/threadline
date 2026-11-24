@@ -12,7 +12,7 @@ const meta = (id: number, extra: Partial<{ hidden: boolean; edited: boolean; see
 
 export const SYSTEMS: SystemRow[] = [
   { ...meta(1), key: 'pay', kind: 'project', type: 'service', name: 'Demo Pay', hosts: [], description: null },
-  { ...meta(2), key: 'switch', kind: 'external', type: 'service', name: 'Коммутатор', hosts: ['switch.pay.example:11101'], description: 'REST JSON' },
+  { ...meta(2), key: 'switch', kind: 'external', type: 'service', name: 'Коммутатор', hosts: ['switch.pay.example:9191'], description: 'REST JSON' },
   { ...meta(3), key: 'payout', kind: 'external', type: 'service', name: 'Сеть выплат', hosts: ['*.payout.example'], description: null },
   { ...meta(4), key: 'db', kind: 'external', type: 'database', name: 'База Demo Pay', hosts: ['192.0.2.9:5432'], description: null },
   { ...meta(5, { hidden: true, seedKey: 'old' }), key: 'old', kind: 'external', type: 'service', name: 'Старая система', hosts: [], description: null },

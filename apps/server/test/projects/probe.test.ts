@@ -103,7 +103,7 @@ describe('проверка подключения', () => {
   });
 
   it('условие вне границы и лишнее поле: ошибка поля без запросов', async () => {
-    const out = await probe({ environment: env('core-banking') });
+    const out = await probe({ environment: env('core-ledger') });
     expect(out.statusCode).toBe(422);
     expect(Object.keys(out.json<{ error: { fields: Record<string, string> } }>().error.fields)).toEqual(['environment.selector.0.value']);
     const extra = await probe({ environment: env('pay', { url: 'https://evil.example' }) });

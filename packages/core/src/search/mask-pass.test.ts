@@ -193,8 +193,8 @@ describe('форматы маски', () => {
     ['address', '10.20.30.40:8080', '10.20.30.40:8080'],
     ['card_data', '3008', '***'],
     ['card_token', '400000ABCDEF1234', '***'],
-    ['account_number', '20208000900123456001', '****************6001'],
-    ['account_number', '3501112344650819', '************0819'],
+    ['account_number', '10500000900123456001', '****************6001'],
+    ['account_number', '7001112344650819', '************0819'],
     ['account_number', '36999719', '****9719'],
     ['account_number', '411111******7893', '************7893'],
     ['account_number', 'нет', '***'],
@@ -232,7 +232,7 @@ describe('форматы маски', () => {
 
 describe('номер счёта', () => {
   it('XML и JSON', () => {
-    expect(P('<bankAccountId>3501112344650819</bankAccountId>')).toBe('<bankAccountId>************0819</bankAccountId>');
+    expect(P('<bankAccountId>7001112344650819</bankAccountId>')).toBe('<bankAccountId>************0819</bankAccountId>');
     expect(P('{"accountId":"36999719"}')).toBe('{"accountId":"****9719"}');
     expect(P(JSON.stringify({ data: '{"accountId":"36999719"}' }))).toBe(JSON.stringify({ data: '{"accountId":"****9719"}' }));
     expect(P('<ns2:account_no><![CDATA[36999719]]></ns2:account_no>')).toBe('<ns2:account_no>****9719</ns2:account_no>');
@@ -242,8 +242,8 @@ describe('номер счёта', () => {
   });
 
   it.each([
-    ['/v1/info/accounts/20208000900123456001/00444', '/v1/info/accounts/****************6001/00444'],
-    ['\\/v1\\/users\\/u\\/accounts\\/3501112344650819', '\\/v1\\/users\\/u\\/accounts\\/************0819'],
+    ['/v1/accounts/10500000900123456001/00001', '/v1/accounts/****************6001/00001'],
+    ['\\/v1\\/users\\/u\\/accounts\\/7001112344650819', '\\/v1\\/users\\/u\\/accounts\\/************0819'],
     ['/v1/account/36999719?x=1', '/v1/account/****9719?x=1'],
     ['%2Fv1%2Faccounts%2F36999719', '%2Fv1%2Faccounts%2F****9719'],
     ['/v1/accounts/411111******7893/x', '/v1/accounts/************7893/x'],
@@ -261,13 +261,13 @@ describe('номер счёта', () => {
     '/v1/accounts/1234567',
     '/v1/accounts/123456789012345678901234567890123456',
     '/v1/accounts/36999719abc',
-    'счёт 3501112344650819 в тексте',
-    '2020 8000 9001 2345 6001',
-    '202080009001234560011',
+    'счёт 7001112344650819 в тексте',
+    '1050 0000 9001 2345 6001',
+    '105000009001234560011',
     '{"account":"36999719","account_name":"Текущий"}',
     // Серия из 20 цифр — счёт только по образцу раздела regional.
-    'счёт 20208000900123456001',
-    '%2220208000900123456001%22',
+    'счёт 10500000900123456001',
+    '%2210500000900123456001%22',
     // IBAN с неверным контрольным числом и внутри кода.
     'DE00370400440532013000',
     'XDE89370400440532013000',
@@ -277,13 +277,13 @@ describe('номер счёта', () => {
   });
 
   it('id из keep открыт, голое account с массивом: скрыт только accountId, сумма на месте', () => {
-    expect(P('/v1/accounts/20208000900123456001', new Set(['20208000900123456001']))).toBe('/v1/accounts/20208000900123456001');
+    expect(P('/v1/accounts/10500000900123456001', new Set(['10500000900123456001']))).toBe('/v1/accounts/10500000900123456001');
     expect(P('IBAN DE89370400440532013000', new Set(['DE89370400440532013000']))).toBe('IBAN DE89370400440532013000');
     expect(P('{"account":[{"accountId":"36999719","availableAmount":"100"}]}')).toBe('{"account":[{"accountId":"****9719","availableAmount":"100"}]}');
   });
 
   it('поле числом; число от 1e19 до 1e20 без образца счёта не меняется', () => {
-    const rounded = Number('20208000900123456001');
+    const rounded = Number('10500000900123456001');
     expect(maskKindsDeep({ x: rounded }, strict, NONE)).toEqual({ x: rounded });
     expect(maskKindsDeep({ accountId: 36999719 }, strict, NONE)).toEqual({ accountId: '****9719' });
   });
@@ -391,7 +391,7 @@ describe('по имени поля', () => {
     ['full_name', 'Тестов Тест Тестович', 'Т***** Т***** Т*****'],
     ['nameOnCard', 'TEST TESTOV', 'T***** T*****'],
     ['document', 'not-a-passport', '***'],
-    ['additionalInfo', 'BRD00800000000', '***'],
+    ['additionalInfo', 'ADD00100000000', '***'],
     ['expiry', '3008', '***'],
     ['sender_expiry', '3008', '***'],
     ['expiration_date', '3008', '***'],
@@ -547,8 +547,8 @@ describe('по виду значения: пример Узбекистана и
     ['%22AA0000001%22', '%22AA*****01%22'],
     ['Паспорт:\\nAA0000001', 'Паспорт:\\nAA*****01'],
     ['ПИНФЛ 31201990000011.', 'ПИНФЛ **********0011.'],
-    ['счёт 20208000900123456001', 'счёт ****************6001'],
-    ['%2220208000900123456001%22', '%22****************6001%22'],
+    ['счёт 10500000900123456001', 'счёт ****************6001'],
+    ['%2210500000900123456001%22', '%22****************6001%22'],
     // Номер другой страны — по международным правилам.
     ['+447700900001', '+********0001'],
   ])('%s', (s, want) => {
@@ -573,7 +573,7 @@ describe('по виду значения: пример Узбекистана и
   it('значения из keep образец не трогает; имена полей проекта — полями вида', () => {
     expect(P('id 31201990000011', new Set(['31201990000011']))).toBe('id 31201990000011');
     expect(P('x 998900000001', new Set(['998900000001']))).toBe('x 998900000001');
-    expect(P('id 20208000900123456001', new Set(['20208000900123456001']))).toBe('id 20208000900123456001');
+    expect(P('id 10500000900123456001', new Set(['10500000900123456001']))).toBe('id 10500000900123456001');
     const bank = compileMasking([{ type: 'national_id', enabled: true, keys: ['pinfl', 'national_id_number'] }]).strict;
     expect(maskKindsText('{"pinfl":"31201990000011","national_id_number":"31201990000011"}', bank, NONE)).toBe('{"pinfl":"**********0011","national_id_number":"**********0011"}');
   });
@@ -585,7 +585,7 @@ describe('по виду значения: пример Узбекистана и
 
   it('голое число и ключ из цифр с кодом страны — телефон; 20 цифр числом — счёт', () => {
     expect(maskKindsDeep({ '998900000001': { state: 'on' }, x: 998900000001 }, strict, NONE)).toEqual({ '********0001': { state: 'on' }, x: '********0001' });
-    const rounded = Number('20208000900123456001');
+    const rounded = Number('10500000900123456001');
     expect(maskKindsDeep({ x: rounded, y: 1e20, z: 9e18 }, strict, NONE)).toEqual({ x: '***', y: 1e20, z: 9e18 });
     const off = compileMasking([{ type: 'account_number', enabled: false, keys: [] }]);
     expect(maskKindsDeep({ x: rounded }, off.shown, NONE)).toEqual({ x: rounded });

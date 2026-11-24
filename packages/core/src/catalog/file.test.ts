@@ -174,8 +174,8 @@ describe('проверка файла', () => {
       version: 1,
       project: 'pay',
       systems: [
-        { key: 'a', name: 'A', hosts: ['192.0.2.5:11101'] },
-        { key: 'b', name: 'B', hosts: ['192.0.2.5:11101'] },
+        { key: 'a', name: 'A', hosts: ['192.0.2.5:9191'] },
+        { key: 'b', name: 'B', hosts: ['192.0.2.5:9191'] },
         { key: 'pay', kind: 'project', name: 'Demo Pay' },
         { key: 'pay2', kind: 'project', name: 'Demo Pay 2' },
       ],

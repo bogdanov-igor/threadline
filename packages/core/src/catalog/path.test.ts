@@ -52,7 +52,7 @@ describe('шаблон пути', () => {
 
 describe('хост', () => {
   it('части адреса: порт, IPv6, регистр, без хоста', () => {
-    expect(uriParts('http://switch.pay.example:11101/v3/cards/info?x=1')).toMatchObject({ host: 'switch.pay.example', port: '11101', path: '/v3/cards/info', query: 'x=1' });
+    expect(uriParts('http://switch.pay.example:9191/v3/cards/info?x=1')).toMatchObject({ host: 'switch.pay.example', port: '9191', path: '/v3/cards/info', query: 'x=1' });
     expect(uriParts('https://User:p@GW.Merchant.Acquirer.EXAMPLE/api')).toMatchObject({ scheme: 'https', host: 'gw.merchant.acquirer.example', port: null });
     expect(uriParts('http://[fe80::1]:8443/x')).toMatchObject({ host: 'fe80::1', port: '8443' });
     expect(uriParts('/v1/users')).toMatchObject({ host: null, path: '/v1/users' });
@@ -61,12 +61,12 @@ describe('хост', () => {
 
   it('шаблоны: порт сильнее, точный сильнее домена, длинный домен сильнее', () => {
     const idx = new HostIndex<string>();
-    idx.add('switch.pay.example:11101', 'switch-port');
+    idx.add('switch.pay.example:9191', 'switch-port');
     idx.add('switch.pay.example', 'switch-host');
     idx.add('*.acquirer.example', 'acquirer');
     idx.add('*.merchant.acquirer.example', 'acquirer-merchant');
     idx.add('API.Example.org', 'example');
-    expect(idx.find(uriParts('http://switch.pay.example:11101/a'))).toBe('switch-port');
+    expect(idx.find(uriParts('http://switch.pay.example:9191/a'))).toBe('switch-port');
     expect(idx.find(uriParts('http://switch.pay.example:11102/a'))).toBe('switch-host');
     expect(idx.find(uriParts('https://gw.merchant.acquirer.example/api/payments'))).toBe('acquirer-merchant');
     expect(idx.find(uriParts('https://checkout.acquirer.example/'))).toBe('acquirer');
@@ -76,7 +76,7 @@ describe('хост', () => {
 
   it('тот же хост на другом порту не узнан', () => {
     const idx = new HostIndex<string>();
-    idx.add('switch.pay.example:11101', 'switch');
+    idx.add('switch.pay.example:9191', 'switch');
     expect(idx.find(uriParts('http://switch.pay.example:11102/v3/cards/info'))).toBeUndefined();
   });
 
@@ -130,7 +130,7 @@ describe('читаемый путь с маской', () => {
     expect(pathTemplate('/v1/doc/ZZ*****01').template).toBe('/v1/doc/{doc}');
     expect(pathTemplate('/v1/doc/*******89').template).toBe('/v1/doc/{doc}');
     expect(pathTemplate('/v1/star/***').template).toBe('/v1/star/{star}');
-    expect(pathTemplate('/v1/accounts/****************6001/00444').template).toBe('/v1/accounts/{account}/00444');
+    expect(pathTemplate('/v1/accounts/****************6001/00001').template).toBe('/v1/accounts/{account}/00001');
     expect(pathTemplate('/v1/x/***/y').template).toBe('/v1/x/{x}/y');
   });
 });

@@ -29,7 +29,7 @@ function gateway(over: Record<string, unknown> = {}, opts: { eol?: string; label
 
 /** Обмен api с коммутатором по тому же запросу. */
 function apiExchange(): LogLine[] {
-  const url = 'http://switch.pay.example:11101/v3/cards/info';
+  const url = 'http://switch.pay.example:9191/v3/cards/info';
   return [
     record(app('http request sending', { request_id: RID, upstream: { method: 'POST', url, body: '{"id":"1"}' } }, '2026-11-01T10:11:12.359832', CID), API_LABELS),
     record(app('http response received', { request_id: RID, upstream: { method: 'POST', url, status: 200, body: '{"id":"1","result":{}}' } }, '2026-11-01T10:11:12.373242', CID), API_LABELS),

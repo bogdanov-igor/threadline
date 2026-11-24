@@ -104,7 +104,7 @@ describe('проект с формы: правила ввода', () => {
   it('оператор !~ принят рядом с равенством, но границы и равенства не даёт', () => {
     const scoped = [{ label: 'namespace', op: '=', value: 'acme' }, { label: 'container', op: '!~', value: 'debug-.*|"x\\d' }];
     expect(pathsOf(project({ environments: [env({ selector: scoped })] }))).toEqual([]);
-    for (const value of ['core-banking', 'acme|acme-test']) {
+    for (const value of ['core-ledger', 'acme|acme-test']) {
       const only = [{ label: 'namespace', op: '!~', value }];
       expect(environmentWithinScope({ backend: 'grafana', kind: 'single', selector: only }, SCOPE), value).toBe(false);
       expect(messageAt(project({ environments: [env({ selector: only })] }), 'environments.0.selector'), value).toContain('равенства');
@@ -298,12 +298,12 @@ describe('граница хранилища', () => {
   it('точное значение и значение с *', () => {
     expect(environmentWithinScope(single('acme'), SCOPE)).toBe(true);
     expect(environmentWithinScope(single('acme-test'), SCOPE)).toBe(true);
-    expect(environmentWithinScope(single('core-banking'), SCOPE)).toBe(false);
+    expect(environmentWithinScope(single('core-ledger'), SCOPE)).toBe(false);
     expect(environmentWithinScope(single('acmeX'), SCOPE)).toBe(false);
   });
 
   it('* пропускает любое значение, кроме пустого', () => {
-    expect(environmentWithinScope(single('core-banking'), { label: 'namespace', values: ['*'] })).toBe(true);
+    expect(environmentWithinScope(single('core-ledger'), { label: 'namespace', values: ['*'] })).toBe(true);
     expect(environmentWithinScope(single(''), { label: 'namespace', values: ['*'] })).toBe(false);
   });
 
@@ -343,13 +343,13 @@ describe('граница хранилища', () => {
   });
 
   it('вне границы: ошибка у условия называет разрешённое и путь к полю', () => {
-    const message = messageAt(project({ environments: [env({ selector: [{ label: 'namespace', op: '=', value: 'core-banking' }] })] }), 'environments.0.selector.0.value');
+    const message = messageAt(project({ environments: [env({ selector: [{ label: 'namespace', op: '=', value: 'core-ledger' }] })] }), 'environments.0.selector.0.value');
     expect(message).toContain('acme, acme-*');
     expect(message).toContain('backends.grafana.formScope');
   });
 
   it('вне границы: ключ и параметры рядом с русским текстом', () => {
-    const r = validateProjectInput(project({ environments: [env({ selector: [{ label: 'namespace', op: '=', value: 'core-banking' }] })] }), ctx());
+    const r = validateProjectInput(project({ environments: [env({ selector: [{ label: 'namespace', op: '=', value: 'core-ledger' }] })] }), ctx());
     expect(r.ok ? [] : r.issues).toEqual([
       {
         path: 'environments.0.selector.0.value',

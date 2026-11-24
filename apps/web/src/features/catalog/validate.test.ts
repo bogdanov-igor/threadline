@@ -49,7 +49,7 @@ describe('метод', () => {
   });
 
   it('поле id с неизвестным типом', () => {
-    const r = methodDraft(methodModel({ ...base, path: '/v1/x', fields: [{ in: 'request', path: 'ext_transfer_id', type: 'payout' }] }), SNAPSHOT);
+    const r = methodDraft(methodModel({ ...base, path: '/v1/x', fields: [{ in: 'request', path: 'remote_transfer_id', type: 'payout' }] }), SNAPSHOT);
     expect(r.errors['fields.0.type']).toEqual({ key: 'unknownType' });
   });
 
@@ -91,7 +91,7 @@ describe('ошибка', () => {
   });
 
   it('скрытая часть в подстроке отклонена, одна звёздочка нет', () => {
-    for (const text of ['card … not found', 'card 860012******3456 not found', 'name И***** bad']) expect(errorDraft(errorModel({ systemId: 2, title: 'x', text })).errors.text, text).toEqual({ key: 'textHidden' });
+    for (const text of ['card … not found', 'card 400012******3456 not found', 'name И***** bad']) expect(errorDraft(errorModel({ systemId: 2, title: 'x', text })).errors.text, text).toEqual({ key: 'textHidden' });
     expect(errorDraft(errorModel({ systemId: 2, title: 'x', text: 'select * from cards' })).errors.text).toBeUndefined();
   });
 
@@ -164,7 +164,7 @@ describe('условия новой ошибки из шага и «Неизве
 
 describe('система', () => {
   it('хост уже у коммутатора', () => {
-    const r = systemDraft({ ...systemModel(), key: 'acquirer', name: 'Эквайер', hosts: 'switch.pay.example:11101' }, SNAPSHOT);
+    const r = systemDraft({ ...systemModel(), key: 'acquirer', name: 'Эквайер', hosts: 'switch.pay.example:9191' }, SNAPSHOT);
     expect(r.errors.hosts).toMatchObject({ key: 'hostTaken', name: 'Коммутатор' });
   });
 
@@ -256,7 +256,7 @@ describe('ошибки сервера на полях', () => {
 
 describe('хосты как на сервере', () => {
   it('подчёркивание в имени контейнера, порт, ipv6, домен', () => {
-    for (const h of ['card_switch:8080', 'db', 'switch.pay.example:11101', '[fd00::1]:8080', '*.acquirer.example']) expect(hostValid(h)).toBe(true);
+    for (const h of ['card_switch:8080', 'db', 'switch.pay.example:9191', '[fd00::1]:8080', '*.acquirer.example']) expect(hostValid(h)).toBe(true);
     for (const h of ['http://x/y', 'a b', 'host:99999', '*.example']) expect(hostValid(h)).toBe(false);
   });
 

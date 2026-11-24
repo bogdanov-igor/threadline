@@ -213,7 +213,7 @@ describe('buildView', () => {
     expect(call!.http).toBeNull();
     expect(call!.sections.payload).toEqual([
       {
-        bankCode: '01',
+        issuerCode: '01',
         groupCode: '02',
         sessionId: '019a2b3c-4d5e-7f60-8a71-b2c3d4e5f607',
       },

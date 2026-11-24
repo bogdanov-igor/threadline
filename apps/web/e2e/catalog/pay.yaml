@@ -32,7 +32,7 @@ systems:
     methods:
       - { http: POST, path: /v1/cards/sync, name: Card sync, domain: Cards }
       - { http: POST, path: /internal/callbacks/payout, name: Payout network callback, kind: callback, op: transfer,
-          fields: [{ in: request, path: ext_transfer_id, type: transfer }],
+          fields: [{ in: request, path: remote_transfer_id, type: transfer }],
           status: { in: request, path: state, map: { complete: completed, error: failed } } }
   - key: ledger
     name: Payment core
@@ -51,9 +51,9 @@ systems:
     methods:
       - { http: POST, path: /v3/transfer, name: Card payout, kind: start, op: card_payout,
           fields: [{ in: request, path: document_id, type: transfer }, { in: response, path: data.transfer_id, type: card_payout }] }
-      - { http: POST, path: /v1/transfer_info, name: Payout status, kind: status, op: card_payout,
+      - { http: POST, path: /v1/payout_status, name: Payout status, kind: status, op: card_payout,
           fields: [{ in: request, path: transfer_id, type: card_payout }],
-          status: { in: response, path: data.transfer_data.state } }
+          status: { in: response, path: data.payout_data.state } }
 general:
   errors:
     - { http: 504, title: System did not respond in time }

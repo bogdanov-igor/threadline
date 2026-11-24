@@ -51,7 +51,7 @@ systems:
       - { text: PRC-ERR-0027, title: Карта не найдена в процессинге, action: Проверить токен карты }
   - key: switch
     name: Коммутатор-тест
-    hosts: ['switch.pay.example:11101']
+    hosts: ['switch.pay.example:9191']
     outcomes:
       - when: { http: 200, fields: [{ path: status, equals: error }] }
         outcome: error

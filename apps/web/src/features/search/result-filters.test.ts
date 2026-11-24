@@ -23,7 +23,7 @@ const reason = (system: string): ErrorReason => ({ kind: 'business', text: `Ош
 
 const ROWS = [
   row('a', { entry: entry('Списание', 'Demo Pay'), component: 'api' }),
-  row('b', { entry: entry('Списание', 'Demo Pay'), component: 'worker', status: 'error', reasons: [reason('switch.pay.example:11101')] }),
+  row('b', { entry: entry('Списание', 'Demo Pay'), component: 'worker', status: 'error', reasons: [reason('switch.pay.example:9191')] }),
   row('c', { component: null, incoming: null }),
 ];
 const options = (rows = ROWS, brief = false, hasComponent = true) => filterOptions(rowFacets(rows, brief), hasComponent);

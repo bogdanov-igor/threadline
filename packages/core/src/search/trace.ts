@@ -46,7 +46,7 @@ interface Node {
 
 const round3 = (x: number) => Math.round(x * 1000) / 1000;
 
-/** Путь адреса без хоста и строки запроса: «/v3/iiacs/card», «/» для адреса без пути. */
+/** Путь адреса без хоста и строки запроса: «/v3/cards/info», «/» для адреса без пути. */
 export function pathOf(uri: string | null): string {
   if (!uri) return '';
   const rest = uri.replace(/^[a-zA-Z][a-zA-Z0-9+.-]*:\/\//, '').replace(/^[^/?#@]*@/, '');

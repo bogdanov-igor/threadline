@@ -62,7 +62,7 @@ const fileWith = (value: string, scope?: string | null) =>
 describe('граница при сохранении', () => {
   it('значение вне границы отклонено без обращения к Grafana и называет разрешённое', async () => {
     const { app } = await up(fileWith('pay'));
-    const r = await create(app, body({ environments: [env('core-banking')] }));
+    const r = await create(app, body({ environments: [env('core-ledger')] }));
     expect(r.statusCode).toBe(422);
     const message = fields(r)['environments.0.selector.0.value'];
     expect(message).toContain('acme-*');
@@ -92,7 +92,7 @@ describe('граница при сохранении', () => {
 
   it('* пропускает любое значение', async () => {
     const { app } = await up(configYaml({ url: grafana.url, scope: "{ label: namespace, values: ['*'] }" }));
-    expect((await create(app, body({ environments: [env('core-banking')] }))).statusCode).toBe(201);
+    expect((await create(app, body({ environments: [env('core-ledger')] }))).statusCode).toBe(201);
   });
 
   it('имитация границы не имеет', async () => {
@@ -151,7 +151,7 @@ describe('граница при загрузке из базы', () => {
         selector:
           - { label: namespace, op: '=', value: demo }
 ${extra}` });
-    await up(yaml(projectYaml('old', 'Старый', 'prod', 'grafana', 'core-banking')));
+    await up(yaml(projectYaml('old', 'Старый', 'prod', 'grafana', 'core-ledger')));
     const second = await up(yaml(''));
     const removed = await setting(second.app, 'old');
     expect(removed).toMatchObject({ hidden: 'file', fileState: 'removed' });

@@ -45,7 +45,7 @@ describe('отметка «не ошибка»', () => {
 
 describe('статус операции', () => {
   it('статус «отказ» из колбэка не меняет статус запроса', () => {
-    const records = [incoming(T0, 'POST', '/internal/callbacks/payout', { ext_transfer_id: 'tr-1', state: 'error' })];
+    const records = [incoming(T0, 'POST', '/internal/callbacks/payout', { remote_transfer_id: 'tr-1', state: 'error' })];
     const base = summarize(CID, records, OPTS);
     const final = finalizeSummary(base, records, resolver, OPTS);
     expect(final.status).toBe(base.status);

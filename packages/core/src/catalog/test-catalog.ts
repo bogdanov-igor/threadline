@@ -67,7 +67,7 @@ export const TEST_FILE = {
           name: 'Колбэк сети выплат',
           kind: 'callback',
           op: 'transfer',
-          fields: [{ in: 'request', path: 'ext_transfer_id', type: 'transfer' }],
+          fields: [{ in: 'request', path: 'remote_transfer_id', type: 'transfer' }],
           status: { in: 'request', path: 'state', map: { complete: 'completed', error: 'failed' } },
         },
         { http: '*', path: '/internal/callbacks/crm', name: 'Колбэк CRM, любой метод' },
@@ -82,7 +82,7 @@ export const TEST_FILE = {
     {
       key: 'switch',
       name: 'Коммутатор',
-      hosts: ['switch.pay.example:11101'],
+      hosts: ['switch.pay.example:9191'],
       methods: [
         { http: 'POST', path: '/v3/cards/info', name: 'Данные карты в коммутаторе' },
         { http: 'POST', path: '/v3/cards/token', name: 'Номер по токену' },
@@ -180,7 +180,7 @@ export const TEST_FILE = {
       hosts: ['payout.local'],
       methods: [
         { http: 'POST', path: '/v3/transfer', name: 'Выплата на карту', kind: 'start', op: 'payout', fields: [{ in: 'request', path: 'document_id', type: 'transfer' }, { in: 'response', path: 'data.transfer_id', type: 'payout' }] },
-        { http: '*', path: '/v1/transfer_info', name: 'Статус выплаты', kind: 'status', op: 'payout', fields: [{ in: 'request', path: 'transfer_id', type: 'payout' }], status: { in: 'response', path: 'data.transfer_data.state' } },
+        { http: '*', path: '/v1/payout_status', name: 'Статус выплаты', kind: 'status', op: 'payout', fields: [{ in: 'request', path: 'transfer_id', type: 'payout' }], status: { in: 'response', path: 'data.payout_data.state' } },
       ],
     },
     {

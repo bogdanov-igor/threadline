@@ -406,7 +406,7 @@ describe('граница хранилища formScope', () => {
   });
 
   it('среда файла вне границы принимается: граница ограничивает только форму', () => {
-    expect(validateConfig(withScope({ label: 'namespace', values: ['core-banking'] })).ok).toBe(true);
+    expect(validateConfig(withScope({ label: 'namespace', values: ['core-ledger'] })).ok).toBe(true);
   });
 });
 

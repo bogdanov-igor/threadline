@@ -206,7 +206,7 @@ describe('значения id операции', () => {
     expect(re.test('{\\"transfer_id\\":\\"604217\\"}')).toBe(true);
     expect(re.test('{\\\\\\"transfer_id\\\\\\":604217,')).toBe(true);
     expect(re.test('<ns:transfer_id>604217</ns:transfer_id>')).toBe(true);
-    expect(re.test('{"ext_transfer_id": 604217}')).toBe(false);
+    expect(re.test('{"remote_transfer_id": 604217}')).toBe(false);
     expect(re.test('{"transfer_id": 6042171}')).toBe(false);
     // На наборе: те же цифры в микросекундах времени чужой записи не находятся, ответ /v3/transfer — находится.
     const hits = dataset.records.filter((r) => re.test(r.line));
@@ -304,7 +304,7 @@ describe('поиск операции: выплата из четырёх пот
     // Переход к потоку — из памяти задания.
     const before = calls().length;
     const d = (await app.inject(`/api/searches/${id}/requests/${rows[1]!.cid}`)).json() as RequestDetail;
-    expect(d.records.some((r) => r.http?.uri?.includes('/v1/transfer_info'))).toBe(true);
+    expect(d.records.some((r) => r.http?.uri?.includes('/v1/payout_status'))).toBe(true);
     expect(calls().length).toBe(before);
 
     // Дополнение: одно, только по новым значениям, короткое — с привязкой к полю.

@@ -240,7 +240,7 @@ describe('summarize', () => {
   });
 
   it('коммутатор: card2 118 при card 000 — успех', () => {
-    const url = 'http://192.0.2.41:11101/v3/cards/info';
+    const url = 'http://192.0.2.41:9191/v3/cards/info';
     const lines = [
       incoming('GET', '/v1/users/u/cards/c', '""', '2026-10-30T16:49:14.900000', 'h'),
       sending('r', url, '2026-10-30T16:49:15.000000', 'h', { body: '{}' }),

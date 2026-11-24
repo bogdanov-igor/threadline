@@ -229,7 +229,7 @@ const fieldPath = z
   .string()
   .max(LIMITS.fieldPath, `путь поля не длиннее ${LIMITS.fieldPath} символов`)
   .regex(FIELD_PATH, 'путь поля: имена через точку, например data.status')
-  .meta({ description: 'Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).', examples: ['status', 'data.transfer_data.state', 'response_code'] });
+  .meta({ description: 'Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).', examples: ['status', 'data.payout_data.state', 'response_code'] });
 const scalar = z.union([z.string().max(LIMITS.value, `значение не длиннее ${LIMITS.value} символов`), z.number(), z.boolean()]);
 
 const statusDef = z
@@ -246,7 +246,7 @@ const idField = z
     path: fieldPath,
     type: idTypeKey,
   })
-  .meta({ description: 'Id вне пути: место, путь поля и тип id из idTypes.', examples: [{ in: 'request', path: 'ext_transfer_id', type: 'transfer' }] });
+  .meta({ description: 'Id вне пути: место, путь поля и тип id из idTypes.', examples: [{ in: 'request', path: 'remote_transfer_id', type: 'transfer' }] });
 
 const statusAt = z
   .strictObject({
@@ -257,7 +257,7 @@ const statusAt = z
       .optional()
       .meta({ description: 'Перевод значений из записи в значения словаря типа операции, без учёта регистра.', examples: [{ complete: 'completed', error: 'failed' }] }),
   })
-  .meta({ description: 'Поле статуса операции. Есть только у метода с op.', examples: [{ in: 'response', path: 'data.transfer_data.state' }] });
+  .meta({ description: 'Поле статуса операции. Есть только у метода с op.', examples: [{ in: 'response', path: 'data.payout_data.state' }] });
 
 const httpRange = z
   .strictObject({
@@ -318,10 +318,10 @@ export const systemShape = {
   type: z.enum(SYSTEM_TYPES, { error: 'тип системы: service, database или queue' }).optional().meta({ description: 'service — HTTP, SOAP, JSON-RPC (по умолчанию), database — база данных, queue — шина сообщений. У базы и шины нет методов и не работают правила итога. Отдельных шагов шины в логах нет, проверка предупредит.', examples: ['service'] }),
   name: str(LIMITS.name, 'Название системы.', ['Карточный коммутатор', 'Процессинг карт']),
   hosts: z
-    .array(z.string().trim().min(1).max(255).meta({ description: 'Шаблон хоста.', examples: ['switch.pay.example:11101'] }))
+    .array(z.string().trim().min(1).max(255).meta({ description: 'Шаблон хоста.', examples: ['switch.pay.example:9191'] }))
     .max(LIMITS.hosts)
     .optional()
-    .meta({ description: 'Шаблоны хостов: host, host:port, [ipv6]:port или *.domain. Регистр не важен. Один шаблон — у одной системы.', examples: [['switch.pay.example:11101', '*.acquirer.example']] }),
+    .meta({ description: 'Шаблоны хостов: host, host:port, [ipv6]:port или *.domain. Регистр не важен. Один шаблон — у одной системы.', examples: [['switch.pay.example:9191', '*.acquirer.example']] }),
   description: opt(str(LIMITS.long, 'Описание системы.', ['REST JSON. Успех: HTTP 200 и непустой result'])),
   hidden,
 };

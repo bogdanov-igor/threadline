@@ -4,7 +4,7 @@ import { bareHost, systemLabel } from './systems.ts';
 describe('systemLabel', () => {
   it('хост без порта и домена организации', () => {
     expect(systemLabel('processor.pay.example:8443')).toBe('processor');
-    expect(systemLabel('https://switch.pay.example:11101/v3/cards/info')).toBe('switch');
+    expect(systemLabel('https://switch.pay.example:9191/v3/cards/info')).toBe('switch');
     expect(systemLabel('esb.pay.example')).toBe('esb');
   });
 

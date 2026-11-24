@@ -1,6 +1,6 @@
 {
   "name": "threadline",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Request-tracing log viewer: enter any identifier and see each request as a flow of steps across services, stitched from Loki logs, with personal data masked on the server",
   "keywords": [
     "logs",

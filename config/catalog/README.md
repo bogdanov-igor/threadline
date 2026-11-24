@@ -71,7 +71,7 @@ project: pay
 systems:
   - key: switch
     name: Карточный коммутатор
-    hosts: ['switch.pay.example:11101']
+    hosts: ['switch.pay.example:9191']
     description: 'REST JSON. Успех: HTTP 200 и непустой result'
     methods:
       - { http: POST, path: /v3/cards/info, name: Данные карты в коммутаторе }
@@ -111,19 +111,19 @@ systems:
         name: Колбэк сети выплат
         kind: callback
         op: transfer
-        fields: [{ in: request, path: ext_transfer_id, type: transfer }]
+        fields: [{ in: request, path: remote_transfer_id, type: transfer }]
         status: { in: request, path: state, map: { complete: completed, error: failed } }
   - key: payout
     name: Сеть выплат
     methods:
       - { http: POST, path: /v3/transfer, name: Выплата на карту, kind: start, op: payout }
       - http: '*'
-        path: /v1/transfer_info
+        path: /v1/payout_status
         name: Статус выплаты
         kind: status
         op: payout
         fields: [{ in: request, path: transfer_id, type: payout }]
-        status: { in: response, path: data.transfer_data.state }
+        status: { in: response, path: data.payout_data.state }
 ```
 
 ### Три правила итога: HTTP-код ничего не гарантирует

@@ -56,8 +56,8 @@ describe('detectTerm: вид значения', () => {
   });
 
   it('19 цифр — номер, 20 цифр — текст, в том числе с пробелами и дефисами', () => {
-    expect(term('2020 8000 9001 2345 6001')).toMatchObject({ kind: 'text', value: '20208000900123456001' });
-    expect(term('2020-8000-9001-2345-6001')).toMatchObject({ kind: 'text', filter: { kind: 'contains', value: '20208000900123456001' } });
+    expect(term('1050 0000 9001 2345 6001')).toMatchObject({ kind: 'text', value: '10500000900123456001' });
+    expect(term('1050-0000-9001-2345-6001')).toMatchObject({ kind: 'text', filter: { kind: 'contains', value: '10500000900123456001' } });
     expect(term('4111111234567890123').kind).toMatch(/^(pan|number)$/);
     expect(term('41111112345678901234')).toMatchObject({
       kind: 'text',
@@ -397,11 +397,11 @@ describe('linkFilter: какие значения идут в ссылку на 
   });
 
   it('счёт из 20 цифр: в адрес только последние 4 цифры, тем же шаблоном при любой записи', () => {
-    const a = link('20208000900123456001')!;
+    const a = link('10500000900123456001')!;
     expect(a).toEqual({ filter: { kind: 'regex', pattern: '\\b\\d{16}6001\\b' }, wider: true, typed: false });
-    expect(link('2020 8000 9001 2345 6001')).toEqual(a);
-    expect(link('2020-8000-9001-2345-6001')).toEqual(a);
-    expect(JSON.stringify(a)).not.toContain('2020800090012345');
+    expect(link('1050 0000 9001 2345 6001')).toEqual(a);
+    expect(link('1050-0000-9001-2345-6001')).toEqual(a);
+    expect(JSON.stringify(a)).not.toContain('1050000090012345');
   });
 
   it('токен карты закрывает ссылку; e-mail закрывает, только если вид включён в настройке проекта', () => {

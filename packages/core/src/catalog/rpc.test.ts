@@ -3,14 +3,14 @@ import { rpcAction } from './rpc.ts';
 
 describe('действие SOAP и JSON-RPC', () => {
   it('SOAP с префиксами и без', () => {
-    expect(rpcAction('<soapenv:Envelope><soapenv:Body><is:getRealCard><CARD/></is:getRealCard></soapenv:Body></soapenv:Envelope>')).toBe('getRealCard');
-    expect(rpcAction('<?xml version="1.0"?><Envelope><Body>\n  <retrieveData/></Body></Envelope>')).toBe('retrieveData');
+    expect(rpcAction('<soapenv:Envelope><soapenv:Body><is:getCardNumber><CARD/></is:getCardNumber></soapenv:Body></soapenv:Envelope>')).toBe('getCardNumber');
+    expect(rpcAction('<?xml version="1.0"?><Envelope><Body>\n  <readItems/></Body></Envelope>')).toBe('readItems');
   });
 
   it('ответ без отправки: окончание Response отбрасывается', () => {
-    const body = '<S:Envelope><S:Body><ns:getRealCardResponse/></S:Body></S:Envelope>';
-    expect(rpcAction(body, { response: true })).toBe('getRealCard');
-    expect(rpcAction(body)).toBe('getRealCardResponse');
+    const body = '<S:Envelope><S:Body><ns:getCardNumberResponse/></S:Body></S:Envelope>';
+    expect(rpcAction(body, { response: true })).toBe('getCardNumber');
+    expect(rpcAction(body)).toBe('getCardNumberResponse');
   });
 
   it('JSON-RPC — поле method; без jsonrpc — не действие', () => {

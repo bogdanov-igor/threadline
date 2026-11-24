@@ -506,13 +506,13 @@ test.describe('подсветка найденного значения', () => 
   });
 
   test('вложенное тело раскрыто совпадением', async ({ page }) => {
-    await find(page, ['check_iss_acq_fees']);
+    await find(page, ['check_fees']);
     await open(page, rows(page).first());
     await viewTab(page, 'Записи').click();
     const response = page.locator('li[data-kind=response]').first();
     await expand(response);
     const nested = response.getByRole('group', { name: 'Вложенные тела' }).locator('[data-block=nested]');
-    await expect(marks(nested).first()).toHaveText('check_iss_acq_fees');
+    await expect(marks(nested).first()).toHaveText('check_fees');
     await expect(marks(nested).first()).toBeVisible();
   });
 

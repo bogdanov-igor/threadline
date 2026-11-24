@@ -6,12 +6,12 @@ const join = (ts: Token[]) => ts.map((t) => t.text).join('');
 const of = (ts: Token[], kind: TokenKind) => ts.filter((t) => t.kind === kind).map((t) => t.text.trim());
 
 describe('highlight: JSON', () => {
-  const src = '{\n  "id": "2cc1",\n  "listSize": 1,\n  "rate": -1.5e3,\n  "ok": true,\n  "error": null,\n  "off": false,\n  "items": ["a", 2]\n}';
+  const src = '{\n  "id": "2cc1",\n  "itemCount": 1,\n  "rate": -1.5e3,\n  "ok": true,\n  "error": null,\n  "off": false,\n  "items": ["a", 2]\n}';
 
   it('ключи, строки, числа, true/false/null и пунктуация — разные токены', () => {
     const ts = highlight(src, 'json');
     expect(join(ts)).toBe(src);
-    expect(of(ts, 'key')).toEqual(['"id"', '"listSize"', '"rate"', '"ok"', '"error"', '"off"', '"items"']);
+    expect(of(ts, 'key')).toEqual(['"id"', '"itemCount"', '"rate"', '"ok"', '"error"', '"off"', '"items"']);
     expect(of(ts, 'string')).toEqual(['"2cc1"', '"a"']);
     expect(of(ts, 'number')).toEqual(['1', '-1.5e3', '2']);
     expect(of(ts, 'literal')).toEqual(['true', 'null', 'false']);

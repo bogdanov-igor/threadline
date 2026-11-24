@@ -18,7 +18,7 @@ const NAME: CatalogName = {
   source: 'external',
   system: { key: 'switch', name: 'Коммутатор', type: 'service' },
   method: { id: 7, name: 'Карта по токену', domain: 'Карты', kind: 'call', opType: null },
-  host: '192.0.2.17:11101',
+  host: '192.0.2.17:9191',
 };
 
 const rec = (over: Partial<ViewRecord> & Pick<ViewRecord, 'id' | 'kind'>): ViewRecord => ({
@@ -55,7 +55,7 @@ const errorOf = (over: Partial<CatalogError> = {}): CatalogError => ({
 
 describe('записи запроса', () => {
   it('новое поле записи не уходит: список полей явный', () => {
-    const r = rec({ id: 'a', kind: 'send', http: http('https://192.0.2.17:11101/x') }) as ViewRecord & { fresh: string };
+    const r = rec({ id: 'a', kind: 'send', http: http('https://192.0.2.17:9191/x') }) as ViewRecord & { fresh: string };
     r.fresh = 'новое значение';
     (r.http as unknown as { extra: string }).extra = 'значение http';
     (r.sections as unknown as { extra: string }).extra = 'значение блока';
@@ -187,14 +187,14 @@ describe('граф и шкала на сокращённых записях', ()
   });
 
   it('система по IP без справочника: хоста нет и в графе', () => {
-    const uri = 'http://192.0.2.17:8443/issuingws';
+    const uri = 'http://192.0.2.17:8443/ws';
     const out = businessRecords([send('s', 'p', 0, uri), resp('p', 's', 5, uri)]);
     expect(JSON.stringify(buildFlowGraph(buildTrace(out), out, opts))).not.toContain('192.0.2.17');
     expect(buildTrace(out).chain).toEqual([]);
   });
 
   it('повторы и параллельные ветки обменов с названием те же, что у других ролей', () => {
-    const uri = 'https://192.0.2.17:11101/pay/charge';
+    const uri = 'https://192.0.2.17:9191/pay/charge';
     const named = (r: ViewRecord): ViewRecord => ({ ...r, catalog: { name: NAME, error: null, outcome: null, ids: [], status: null } });
     const view = [send('a', 'a2', 0, uri), resp('a2', 'a', 5, uri, true), send('b', 'b2', 10, uri), resp('b2', 'b', 15, uri, true), send('c', 'c2', 20, uri), resp('c2', 'c', 25, uri)].map(named);
     const shape = (rs: ViewRecord[]) => {
@@ -240,7 +240,7 @@ describe('строгий шаблон пути', () => {
 describe('имя системы без адреса', () => {
   it.each([
     ['https://processor.pay.example:8443/x', 'processor'],
-    ['http://switch-mw:11101/x', 'switch-mw'],
+    ['http://switch-mw:9191/x', 'switch-mw'],
     ['https://gw.merchant.acquirer.example/x', 'acquirer'],
     ['https://acquirer.example/x', 'acquirer'],
     ['http://192.0.2.17:8443/x', null],

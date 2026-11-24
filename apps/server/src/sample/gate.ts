@@ -48,7 +48,7 @@ const S = {
   jwt: 'eyJhbGciOiJub25lIn0.eyJzdWIiOiJzZWxmY2hlY2sifQ.c2VsZmNoZWNr',
   secret: 'selfcheck-secret-value',
   token: 'selfcheck-bearer-token-value',
-  account: '20208000900123456777',
+  account: '10500000900123456777',
   accountId: '36999777',
   cardToken: '400000SELFCH0777',
   firstName: 'Selfchecker',

@@ -852,7 +852,7 @@
             "description": "Шаблоны хостов: host, host:port, [ipv6]:port или *.domain. Регистр не важен. Один шаблон — у одной системы.",
             "examples": [
               [
-                "switch.pay.example:11101",
+                "switch.pay.example:9191",
                 "*.acquirer.example"
               ]
             ],
@@ -864,7 +864,7 @@
               "maxLength": 255,
               "description": "Шаблон хоста.",
               "examples": [
-                "switch.pay.example:11101"
+                "switch.pay.example:9191"
               ],
               "pattern": "^\\s*(?:\\*\\.[A-Za-z0-9_-]+(?:\\.[A-Za-z0-9_-]+)+|\\[[0-9A-Fa-f:.]+\\](?::[0-9]{1,5})?|[A-Za-z0-9_](?:[A-Za-z0-9_-]*[A-Za-z0-9_])?(?:\\.[A-Za-z0-9_](?:[A-Za-z0-9_-]*[A-Za-z0-9_])?)*(?::[0-9]{1,5})?)\\s*$"
             }
@@ -1062,7 +1062,7 @@
                         "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
                         "examples": [
                           "status",
-                          "data.transfer_data.state",
+                          "data.payout_data.state",
                           "response_code"
                         ]
                       },
@@ -1088,7 +1088,7 @@
                     "examples": [
                       {
                         "in": "request",
-                        "path": "ext_transfer_id",
+                        "path": "remote_transfer_id",
                         "type": "transfer"
                       }
                     ]
@@ -1099,7 +1099,7 @@
                   "examples": [
                     {
                       "in": "response",
-                      "path": "data.transfer_data.state"
+                      "path": "data.payout_data.state"
                     }
                   ],
                   "anyOf": [
@@ -1124,7 +1124,7 @@
                           "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
                           "examples": [
                             "status",
-                            "data.transfer_data.state",
+                            "data.payout_data.state",
                             "response_code"
                           ]
                         },
@@ -1158,7 +1158,7 @@
                       "examples": [
                         {
                           "in": "response",
-                          "path": "data.transfer_data.state"
+                          "path": "data.payout_data.state"
                         }
                       ]
                     },
@@ -1682,7 +1682,7 @@
                             "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
                             "examples": [
                               "status",
-                              "data.transfer_data.state",
+                              "data.payout_data.state",
                               "response_code"
                             ]
                           },
@@ -1920,7 +1920,7 @@
             "key": "switch",
             "name": "Карточный коммутатор",
             "hosts": [
-              "switch.pay.example:11101"
+              "switch.pay.example:9191"
             ]
           }
         ],
@@ -2330,7 +2330,7 @@
                           "description": "Путь поля. JSON — имена через точку по объектам, без массивов. XML — локальное имя элемента (берётся первый элемент с таким именем; у пути с точками — последнее имя).",
                           "examples": [
                             "status",
-                            "data.transfer_data.state",
+                            "data.payout_data.state",
                             "response_code"
                           ]
                         },

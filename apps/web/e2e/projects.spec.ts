@@ -590,7 +590,7 @@ test.describe('форма: хранилища', () => {
     await openEnvs(page, p.id);
     await choose(page, envCard(page).getByRole('combobox', { name: 'Хранилище' }), /^grafana/);
     await expect(envCard(page).getByTestId('store-hint')).toContainText('THREADLINE_E2E_TOKEN_NOT_SET');
-    await envCard(page).getByTestId('matcher-value').fill('core-banking');
+    await envCard(page).getByTestId('matcher-value').fill('core-ledger');
     await save(page).click();
     await expect(envCard(page).getByTestId('field-error')).toContainText('pay');
     await expect(envCard(page).getByTestId('field-error')).toContainText('backends.grafana.formScope');
@@ -735,7 +735,7 @@ test.describe('проверка подключения', () => {
     const p = await createProject(request);
     await openEnvs(page, p.id);
     await choose(page, envCard(page).getByRole('combobox', { name: 'Хранилище' }), /^grafana/);
-    await envCard(page).getByTestId('matcher-value').fill('core-banking');
+    await envCard(page).getByTestId('matcher-value').fill('core-ledger');
     await envCard(page).getByTestId('probe-button').click();
     await expect(envCard(page).getByTestId('probe-result')).toHaveAttribute('data-status', 'invalid');
     await expect(envCard(page).getByTestId('probe-result')).toContainText('вне границы');

@@ -244,8 +244,8 @@ describe('«Неизвестное»: только маскированные з
   const all = (items: unknown) => JSON.stringify(items);
 
   it('путь, код, действие и хост без значений; ключ от маскированных значений', () => {
-    const a = unknownItems(exchange(T0, `http://switch.pay.example:11101/v9/card-${PAN}/x`, { req: { jsonrpc: '2.0', method: `card.get ${PAN}` }, resp: { error: { code: PAN, message: `card ${PAN}` } } }), resolver);
-    const b = unknownItems(exchange(T0, 'http://switch.pay.example:11101/v9/card-4111111234550003/x', { req: { jsonrpc: '2.0', method: 'card.get 4111111234550003' }, resp: { error: { code: '4111111234550003', message: 'card 4111111234550003' } } }), resolver);
+    const a = unknownItems(exchange(T0, `http://switch.pay.example:9191/v9/card-${PAN}/x`, { req: { jsonrpc: '2.0', method: `card.get ${PAN}` }, resp: { error: { code: PAN, message: `card ${PAN}` } } }), resolver);
+    const b = unknownItems(exchange(T0, 'http://switch.pay.example:9191/v9/card-4111111234550003/x', { req: { jsonrpc: '2.0', method: 'card.get 4111111234550003' }, resp: { error: { code: '4111111234550003', message: 'card 4111111234550003' } } }), resolver);
     expect(all(a)).not.toContain(PAN);
     expect(a.map((i) => i.path)).toEqual(['/v9/{id}/x', '/v9/{id}/x']);
     expect(a.find((i) => i.kind === 'method')!.rpc).toBe('card.get 411111******7893');
@@ -254,7 +254,7 @@ describe('«Неизвестное»: только маскированные з
   });
 
   it('объектный код не сохраняется, пароль и номер из него не попадают в строку', () => {
-    const items = unknownItems(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: { error: { code: { password: SECRET, pan: PAN }, message: 'boom' } } }), resolver);
+    const items = unknownItems(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: { error: { code: { password: SECRET, pan: PAN }, message: 'boom' } } }), resolver);
     const err = items.find((i) => i.kind === 'error')!;
     expect(err.code).toBeNull();
     expect(all(items)).not.toContain(SECRET);
@@ -279,7 +279,7 @@ describe('«Неизвестное»: только маскированные з
   });
 
   it('текст: секрет на границе 200 символов не попадает в пример', () => {
-    const items = unknownItems(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { status: 500, resp: `{"pad":"${'x'.repeat(170)}","client_secret":"${SECRET}"}` }), resolver);
+    const items = unknownItems(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { status: 500, resp: `{"pad":"${'x'.repeat(170)}","client_secret":"${SECRET}"}` }), resolver);
     expect(all(items)).not.toContain(SECRET.slice(0, 5));
   });
 });
@@ -301,7 +301,7 @@ describe('учётные данные в адресе', () => {
     file.systems.find((s) => s.key === 'switch')!.errors!.push({ http: 200, code: '12', title: 'Код 12 при HTTP 200' });
     const resolver = compileCatalog(snapshotFromFile(file));
     const sw = resolver.systemByKey('switch')!;
-    const records = exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: { error: { code: 12, message: 'boom' } } });
+    const records = exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: { error: { code: 12, message: 'boom' } } });
     expect(unknownItems(records, resolver).filter((i) => i.kind === 'error')).toEqual([]);
     const final = finalizeSummary(summarize(CID, records, OPTS), records, resolver, OPTS);
     expect(final.reasons[0]!.error).toMatchObject({ source: 'external', title: 'Код 12 при HTTP 200' });
@@ -315,7 +315,7 @@ describe('учётные данные в адресе', () => {
 describe('маска для вывода', () => {
   it('ответ после maskDeep не содержит значения', () => {
     const resolver = compileCatalog(snapshotFromFile(TEST_FILE));
-    const records = exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { status: 500, resp: `<password>${SECRET}</password>` });
+    const records = exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { status: 500, resp: `<password>${SECRET}</password>` });
     const view = annotateRecords(markPending(buildView(records, { withOffsets: true }), OPTS), resolver);
     expect(JSON.stringify(maskDeep(view, NOKEEP))).not.toContain(SECRET);
   });

@@ -33,7 +33,7 @@ describe('нормализация текста', () => {
 
 describe('страница HTML в тексте ошибки', () => {
   const PAGE = '<html>\r\n<head><title>502 Bad Gateway</title></head>\r\n<body><center><h1>502 Bad Gateway</h1></center></body>\r\n</html>\r\n';
-  const URL = 'http://switch.pay.example:11101/v9/new';
+  const URL = 'http://switch.pay.example:9191/v9/new';
   const errorOf = (items: ReturnType<typeof unknownItems>) => items.find((i) => i.kind === 'error')!;
 
   it('в примере заголовок страницы, ключ тот же, что считался от текста со страницей', () => {
@@ -79,7 +79,7 @@ describe('сбор', () => {
   });
 
   it('метод узнанной системы и ошибка без правила', () => {
-    const items = unknownItems(exchange(T0, 'http://switch.pay.example:11101/v9/new', { resp: { error: { code: 999, message: `card 4111111234557893 user ${U1}` } } }), resolver);
+    const items = unknownItems(exchange(T0, 'http://switch.pay.example:9191/v9/new', { resp: { error: { code: 999, message: `card 4111111234557893 user ${U1}` } } }), resolver);
     expect(items.map((i) => i.kind).sort()).toEqual(['error', 'method']);
     const err = items.find((i) => i.kind === 'error')!;
     expect(err).toMatchObject({ code: '999', systemId: resolver.systemByKey('switch')!.id });
@@ -87,7 +87,7 @@ describe('сбор', () => {
   });
 
   it('фоновый запрос и узнанный метод ничего не дают', () => {
-    expect(unknownItems(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: { result: {} } }), resolver)).toEqual([]);
+    expect(unknownItems(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: { result: {} } }), resolver)).toEqual([]);
   });
 
   it('ошибка по правилу итога с текстом не собирается; без текста и правила — собирается', () => {
@@ -103,7 +103,7 @@ describe('сбор', () => {
 });
 
 describe('значения, которые база не примет', () => {
-  const URL = 'http://switch.pay.example:11101/v9/new';
+  const URL = 'http://switch.pay.example:9191/v9/new';
   const errorOf = (resp: unknown, status = 200) => unknownItems(exchange(T0, URL, { status, resp }), resolver).find((i) => i.kind === 'error')!;
 
   it('символ 0 в тексте и коде убран: поле партнёра фиксированной длины', () => {
@@ -138,7 +138,7 @@ describe('уборка', () => {
     const file = structuredClone(TEST_FILE);
     file.systems.push({ key: 'new', name: 'Новая', hosts: ['unknown-system.pay.example:8443'] } as never);
     expect(isCovered(items[0]!, compileCatalog(snapshotFromFile(file)))).toBe(true);
-    const errs = unknownItems(exchange(T0, 'http://switch.pay.example:11101/v3/cards/info', { resp: { error: { code: 999, message: 'x' } } }), resolver);
+    const errs = unknownItems(exchange(T0, 'http://switch.pay.example:9191/v3/cards/info', { resp: { error: { code: 999, message: 'x' } } }), resolver);
     const file2 = structuredClone(TEST_FILE);
     (file2.systems[1] as { errors: unknown[] }).errors.push({ code: '999', title: 'Новая ошибка' });
     expect(isCovered(errs[0]!, compileCatalog(snapshotFromFile(file2)))).toBe(true);
@@ -206,7 +206,7 @@ describe('подстрока правила и пробелы в тексте', 
 });
 
 describe('строка собрана раньше, чем описан метод', () => {
-  const URL = 'http://switch.pay.example:11101/v9/new/4f1a';
+  const URL = 'http://switch.pay.example:9191/v9/new/4f1a';
   const file = () => structuredClone(TEST_FILE) as unknown as { systems: { key: string; methods?: unknown[]; errors?: unknown[] }[]; general: unknown };
   const row = () => unknownItems(exchange(T0, URL, { resp: { error: { code: 999, message: 'x' } } }), resolver).find((i) => i.kind === 'error')!;
 
@@ -222,7 +222,7 @@ describe('строка собрана раньше, чем описан мето
 
   it('метод с действием находится по действию строки', () => {
     const soap = (rpc: string) => `<soap:Envelope><soap:Body><${rpc}/></soap:Body></soap:Envelope>`;
-    const records = exchange(T0, 'http://switch.pay.example:11101/ws', { req: soap('getThing'), resp: { error: { code: 999, message: 'x' } } });
+    const records = exchange(T0, 'http://switch.pay.example:9191/ws', { req: soap('getThing'), resp: { error: { code: 999, message: 'x' } } });
     const item = unknownItems(records, resolver).find((i) => i.kind === 'error')!;
     expect(item.rpc).toBe('getThing');
     const f = file();

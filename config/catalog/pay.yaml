@@ -100,7 +100,7 @@ idTypes:
       - value: performed
         name: Completed
         outcome: success
-      - value: waiting_cancel
+      - value: cancel_queued
         name: Queued for cancellation
         outcome: pending
       - value: cancelled
@@ -243,7 +243,7 @@ systems:
         op: transfer
         fields:
           - in: request
-            path: ext_transfer_id
+            path: remote_transfer_id
             type: transfer
         status:
           in: request
@@ -313,8 +313,8 @@ systems:
   - key: switch
     name: Card switch
     hosts:
-      - switch.pay.example:11101
-      - 192.0.2.41:11101
+      - switch.pay.example:9191
+      - 192.0.2.41:9191
     description: "JSON. Success: HTTP 200 and a non-empty result. Card status is in result.card.statuses.item with type = card, success is actionCode = 000"
     methods:
       - http: POST
@@ -412,7 +412,7 @@ systems:
         path: /v1/cards/limits
         name: Card limits
       - http: GET
-        path: /v1/operday/{branch}
+        path: /v1/workday/{branch}
         name: Operating day status
     errors:
       - code: "12"
@@ -435,10 +435,10 @@ systems:
         outcome: error
       - method:
           http: GET
-          path: /v1/operday/{branch}
+          path: /v1/workday/{branch}
         when:
           fields:
-            - path: data.isOpened
+            - path: data.isOpen
               equals: false
         outcome: pending
         text: Operating day is closed
@@ -471,7 +471,7 @@ systems:
           in: response
           path: status
       - http: GET
-        path: /api/payments/by-partner-transaction-id/{merchant_payment_id}
+        path: /api/payments/by-order-id/{merchant_payment_id}
         name: Payment by our id
         kind: status
         op: acquirer_payment
@@ -521,7 +521,7 @@ systems:
         outcome: error
       - method:
           http: GET
-          path: /api/payments/by-partner-transaction-id/{merchant_payment_id}
+          path: /api/payments/by-order-id/{merchant_payment_id}
         when:
           fields:
             - path: status
@@ -601,7 +601,7 @@ systems:
     name: Payout network
     hosts:
       - payout.pay.example:9443
-    description: "Success: status = ok. Payout state in transfer_info: completed is success, failed is a decline, created and processing mean keep waiting"
+    description: "Success: status = ok. Payout state in payout_status: completed is success, failed is a decline, created and processing mean keep waiting"
     methods:
       - http: POST
         path: /v3/transfer
@@ -616,7 +616,7 @@ systems:
             path: data.transfer_id
             type: payout
       - http: POST
-        path: /v1/transfer_info
+        path: /v1/payout_status
         name: Payout status
         kind: status
         op: payout
@@ -626,7 +626,7 @@ systems:
             type: payout
         status:
           in: response
-          path: data.transfer_data.state
+          path: data.payout_data.state
       - http: POST
         path: /v3/quote
         name: Payout fee and rate
@@ -641,19 +641,19 @@ systems:
     outcomes:
       - method:
           http: POST
-          path: /v1/transfer_info
+          path: /v1/payout_status
         when:
           fields:
-            - path: data.transfer_data.state
+            - path: data.payout_data.state
               equals: failed
         outcome: error
-        text: "Payout network rejected the payout: {data.transfer_data.resolution}"
+        text: "Payout network rejected the payout: {data.payout_data.resolution}"
       - method:
           http: POST
-          path: /v1/transfer_info
+          path: /v1/payout_status
         when:
           fields:
-            - path: data.transfer_data.state
+            - path: data.payout_data.state
               oneOf:
                 - created
                 - processing

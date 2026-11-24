@@ -73,7 +73,7 @@ const fileSystem = z
     errors: z.array(fileError).optional().meta({ description: 'Правила ошибок системы и её методов.' }),
     outcomes: z.array(fileOutcome).optional().meta({ description: 'Правила итога системы и её методов. У базы данных и шины не работают: у их записей нет ответа.' }),
   })
-  .meta({ description: 'Система: система-автор проекта (kind: project) или внешняя система.', examples: [{ key: 'switch', name: 'Карточный коммутатор', hosts: ['switch.pay.example:11101'] }] });
+  .meta({ description: 'Система: система-автор проекта (kind: project) или внешняя система.', examples: [{ key: 'switch', name: 'Карточный коммутатор', hosts: ['switch.pay.example:9191'] }] });
 const fileGeneral = z
   .strictObject({
     errors: z.array(errorInput.meta({ description: 'Общее правило ошибки проекта. Одного HTTP-статуса мало: проверка предупредит, нужны ещё код или подстрока.' })).optional().meta({ description: 'Общие правила ошибок проекта.' }),

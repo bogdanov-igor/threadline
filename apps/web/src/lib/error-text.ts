@@ -80,7 +80,7 @@ export interface ReasonView {
   system: string | null;
   /** Хост с нестандартным портом — для подсказки. */
   host: string | null;
-  /** «POST /issuingws/services/Issuing» — по нему причина связывается с шагом трассы. */
+  /** «POST /ws/services/Cards» — по нему причина связывается с шагом трассы. */
   call: string | null;
   /** Обмен целиком, как в записи: «POST host:port/path». */
   target: string | null;

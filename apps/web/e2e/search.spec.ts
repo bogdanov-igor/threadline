@@ -522,7 +522,7 @@ test.describe('поиск: результаты', () => {
     const firstId = new URL(page.url()).searchParams.get('search')!;
     const del = page.waitForRequest((r) => r.method() === 'DELETE' && r.url().endsWith(`/api/searches/${firstId}`));
     await page.getByRole('button', { name: `Убрать значение ${value}` }).click();
-    await search(page, ['retrieveData'], '1 ч');
+    await search(page, ['readItems'], '1 ч');
     await del;
     await expect(page).not.toHaveURL(new RegExp(firstId));
   });
@@ -810,7 +810,7 @@ test.describe('запрос api через шлюз и вложенные тел
     await response.locator('button[aria-expanded]').first().click();
     const responseNested = response.getByRole('group', { name: 'Вложенные тела' });
     await expect(responseNested.locator('[data-block=nested] button[aria-expanded] span')).toHaveText(['Envelope.Body.checkFeeResponse.details · JSON']);
-    await expect(responseNested.locator('pre')).toContainText('"check_iss_acq_fees": "confirmed"');
+    await expect(responseNested.locator('pre')).toContainText('"check_fees": "confirmed"');
 
     for (const b of await page.locator('li[data-record-id] > div > button[aria-expanded=false]').all()) await b.click();
     expect(fullPans(await page.locator('body').innerText())).toEqual([]);

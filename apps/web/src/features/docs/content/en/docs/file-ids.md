@@ -40,7 +40,7 @@ systems:
         kind: callback
         op: transfer
         fields:
-          - { in: request, path: ext_transfer_id, type: transfer }
+          - { in: request, path: remote_transfer_id, type: transfer }
         status:
           in: request
           path: state

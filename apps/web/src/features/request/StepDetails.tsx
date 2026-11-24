@@ -296,7 +296,7 @@ function StepView({ step, trace, summary, byId, timeZone, logs, groups, stepNumb
           )}
           {onCollapse && <CollapsePanel onCollapse={onCollapse} />}
         </div>
-        {/* Обмен внутри вызова называется операцией (getRealCard); общий адрес SOAP — второй строкой. */}
+        {/* Обмен внутри вызова называется операцией (getCardNumber); общий адрес SOAP — второй строкой. */}
         <h2 className="mt-0.5 line-clamp-2 min-w-0 text-[15.5px] leading-[22px] font-semibold tracking-[-0.008em] [overflow-wrap:anywhere] text-heading" title={name ?? undefined} data-testid="step-title">
           {name === null ? <PathTitle title={step.title} wrap /> : wrapName(name)}
         </h2>

@@ -3,7 +3,7 @@
 </p>
 
 <p align="center">
-  <img src="docs/assets/badges/version.svg" alt="версия 0.2.0">
+  <img src="docs/assets/badges/version.svg" alt="версия 0.2.1">
   <img src="docs/assets/badges/license.svg" alt="лицензия PolyForm Noncommercial">
   <img src="docs/assets/badges/logs.ru.svg" alt="логи из Loki напрямую или через Grafana">
   <img src="docs/assets/badges/ui.ru.svg" alt="интерфейс на русском и английском">

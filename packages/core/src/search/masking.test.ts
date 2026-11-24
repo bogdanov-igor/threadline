@@ -94,8 +94,8 @@ describe('PAN по образцу', () => {
   });
 
   it('номер счёта без проверки Луна виден', () => {
-    expect(luhnValid('3501112344650819')).toBe(false);
-    expect(mask('"bankAccountId":"3501112344650819"')).toBe('"bankAccountId":"3501112344650819"');
+    expect(luhnValid('7001112344650819')).toBe(false);
+    expect(mask('"bankAccountId":"7001112344650819"')).toBe('"bankAccountId":"7001112344650819"');
   });
 
   it('13-значный correlation_id сервиса карт виден', () => {
@@ -136,14 +136,14 @@ describe('PAN по имени поля', () => {
     expect(mask(`"primaryAccountNumber":"${SWITCH_PAN}"`)).toBe(`"primaryAccountNumber":"${SWITCH_MASKED}"`);
     const body = mask(switchCardBody());
     expect(body).toContain(`"primaryAccountNumber":"${SWITCH_MASKED}"`);
-    expect(body).toContain('"bankAccountId":"3501112344650819"');
+    expect(body).toContain('"bankAccountId":"7001112344650819"');
   });
 
   it('строка ответа целиком: тело — строка JSON внутри записи', () => {
     const out = mask(switchResponseLine().line);
     expect(out).not.toContain(SWITCH_PAN);
     expect(out).toContain(`\\"primaryAccountNumber\\":\\"${SWITCH_MASKED}\\"`);
-    expect(out).toContain('3501112344650819');
+    expect(out).toContain('7001112344650819');
     expect(out).toContain('+447700900528');
   });
 
@@ -167,7 +167,7 @@ describe('PAN по имени поля', () => {
   });
 
   it('FilterCondition.Value без проверки Луна', () => {
-    const payload = `[{"QueryName":"CARDHOLDER_BY_PAN","QueryVariant":40,"FilterCondition":[{"Key":"PAN","Value":"${NON_LUHN_PROCESSOR}","MatchingRule":0}]}]`;
+    const payload = `[{"QueryName":"CARDS_BY_NUMBER","Variant":40,"FilterCondition":[{"Key":"PAN","Value":"${NON_LUHN_PROCESSOR}","MatchingRule":0}]}]`;
     expect(mask(payload)).toContain(`"Value":"${maskPan(NON_LUHN_PROCESSOR)}"`);
     const line = envelope(app('processor call', { request_id: CARDS_CID, action: 'getCardholder', payload: JSON.parse(payload) }, '2026-10-28T16:20:29.952467', CARDS_CID));
     expect(mask(line)).not.toContain(NON_LUHN_PROCESSOR);
@@ -413,7 +413,7 @@ describe('устойчивость', () => {
     const rows: string[] = [];
     for (let i = 0, size = 0; size < 2_100_000; i++) {
       const pan = withLuhnCheckDigit(`411111${String(i).padStart(9, '0')}`);
-      const row = `<Row><RCARD>${pan}</RCARD><nameOnCard>ALEX JOHNSON</nameOnCard><Value>${pan}</Value><PIN>1234</PIN><bankAccountId>2020800012345678${i % 10}</bankAccountId></Row>`;
+      const row = `<Row><RCARD>${pan}</RCARD><nameOnCard>ALEX JOHNSON</nameOnCard><Value>${pan}</Value><PIN>1234</PIN><bankAccountId>1050000012345678${i % 10}</bankAccountId></Row>`;
       rows.push(row);
       size += row.length;
     }
@@ -596,7 +596,7 @@ describe('Value в FilterCondition', () => {
   it('в SOAP и в сырой строке с тройным экранированием', () => {
     const xml = `<ns1:FilterCondition><ns1:Key>PAN</ns1:Key><ns1:Value>${NON_LUHN_PROCESSOR}</ns1:Value></ns1:FilterCondition>`;
     expect(mask(xml)).toBe(xml.replace(NON_LUHN_PROCESSOR, maskPan(NON_LUHN_PROCESSOR)));
-    const out = mask(rawLineWithBody(soap('retrieveData', xml)));
+    const out = mask(rawLineWithBody(soap('readItems', xml)));
     expect(out).not.toContain(NON_LUHN_PROCESSOR);
     expect(out).toContain(`<ns1:Value>${maskPan(NON_LUHN_PROCESSOR)}</ns1:Value>`);
   });
@@ -701,7 +701,7 @@ describe('номер карты числом выше 2^53', () => {
     expect(String(Number(pan))).not.toBe(pan);
     expect(maskDeep({ card: Number(pan) }, NONE).card).toMatch(/^910012\*{6}\d{4}$/);
     // Безопасное целое без проверки Луна остаётся числом.
-    expect(maskDeep({ id: 3501112344650819 }, NONE).id).toBe(3501112344650819);
+    expect(maskDeep({ id: 7001112344650819 }, NONE).id).toBe(7001112344650819);
   });
 });
 
@@ -946,7 +946,7 @@ describe('номер карты с пробелами и дефисами', () =
     const grouped = PAN.replace(/(\d{4})(?=\d)/g, '$1 ');
     expect(mask(`card ${grouped} declined`)).toBe('card 4111 11** **** 7893 declined');
     expect(mask(`card ${PAN.replace(/(\d{4})(?=\d)/g, '$1-')}-12 x`)).toBe('card 4111-11**-****-7893-12 x');
-    expect(mask('acc 3501 1123 4465 0819')).toBe('acc 3501 1123 4465 0819');
+    expect(mask('acc 7001 1123 4465 0819')).toBe('acc 7001 1123 4465 0819');
     expect(mask(`card ${grouped}`, new Set([PAN]))).toBe(`card ${grouped}`);
   });
 });
@@ -1201,7 +1201,7 @@ describe('служебные имена и числа в содержимом л
   it('отрицательное и дробное число с номером', () => {
     expect(maskDeep({ amount: -Number(PAN), x: Number(PAN) + 0.5 }, NONE)).toEqual({ amount: PAN_MASKED, x: PAN_MASKED });
     expect(maskDeep({ pan: -Number(NON_LUHN_PROCESSOR) }, NONE)).toEqual({ pan: maskPan(NON_LUHN_PROCESSOR) });
-    expect(maskDeep({ amount: -1234.5, y: 3501112344650819 }, NONE)).toEqual({ amount: -1234.5, y: 3501112344650819 });
+    expect(maskDeep({ amount: -1234.5, y: 7001112344650819 }, NONE)).toEqual({ amount: -1234.5, y: 7001112344650819 });
     expect(mask(`{"pan":-${NON_LUHN_PROCESSOR}}`)).toBe(`{"pan":"${maskPan(NON_LUHN_PROCESSOR)}"}`);
     expect(mask(`{"pan":${NON_LUHN_PROCESSOR}.5}`)).toBe(`{"pan":"${maskPan(NON_LUHN_PROCESSOR)}"}`);
     expect(leakedPans(mask(`{"amount":-${PAN},"b":${PAN}.5}`))).toEqual([]);
