@@ -1,4 +1,4 @@
-// Файлы открытого репозитория: лицензия MIT в LICENSE и во всех package.json, ссылки README и соседних файлов ведут на файлы,
+// Файлы открытого репозитория: лицензия PolyForm Noncommercial в LICENSE и во всех package.json, ссылки README и соседних файлов ведут на файлы,
 // которые есть в репозитории.
 import { existsSync, readdirSync, readFileSync } from 'node:fs';
 import { dirname, join, relative } from 'node:path';
@@ -23,18 +23,20 @@ function packageFiles(): string[] {
 }
 
 describe('лицензия', () => {
-  it('LICENSE: MIT с авторами', () => {
+  it('LICENSE: PolyForm Noncommercial с авторами', () => {
     const text = read('LICENSE');
-    expect(text.split('\n')[0]).toBe('MIT License');
-    expect(text).toContain('Copyright (c) 2026 Igor Bogdanov, Aleksandr Ivanov');
-    expect(text).toContain('THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND');
+    expect(text.split('\n')[0]).toBe(
+      'Required Notice: Copyright (c) 2026 Igor Bogdanov, Aleksandr Ivanov (https://github.com/bogdanov-igor/threadline)',
+    );
+    expect(text).toContain('# PolyForm Noncommercial License 1.0.0');
+    expect(text).toContain('Any noncommercial purpose is a permitted purpose.');
   });
 
-  it('каждый package.json: license MIT', () => {
+  it('каждый package.json: та же лицензия', () => {
     const files = packageFiles();
     expect(files.length).toBeGreaterThanOrEqual(4);
     for (const file of files)
-      expect((JSON.parse(read(file)) as { license?: string }).license, file).toBe('MIT');
+      expect((JSON.parse(read(file)) as { license?: string }).license, file).toBe('PolyForm-Noncommercial-1.0.0');
   });
 
   it('корневой package.json называет авторов и адрес репозитория', () => {

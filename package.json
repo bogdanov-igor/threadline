@@ -1,6 +1,6 @@
 {
   "name": "threadline",
-  "version": "0.1.0",
+  "version": "0.2.0",
   "description": "Request-tracing log viewer: enter any identifier and see each request as a flow of steps across services, stitched from Loki logs, with personal data masked on the server",
   "keywords": [
     "logs",
@@ -23,7 +23,7 @@
     "type": "git",
     "url": "git+https://github.com/bogdanov-igor/threadline.git"
   },
-  "license": "MIT",
+  "license": "PolyForm-Noncommercial-1.0.0",
   "author": "Igor Bogdanov",
   "contributors": [
     "Aleksandr Ivanov"

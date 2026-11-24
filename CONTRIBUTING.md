@@ -54,6 +54,6 @@ Search: a phone number with brackets is found in every spelling
 - Keep a pull request to one topic and fill in the template.
 - Describe what changes for the user; add a screenshot for interface changes.
 - All the checks above must pass. A reviewer may ask for tests or documentation before merging.
-- By submitting a pull request you agree that your contribution is licensed under the [MIT License](LICENSE).
+- By submitting a pull request you agree that your contribution is licensed under the [PolyForm Noncommercial License 1.0.0](LICENSE), and that Igor Bogdanov and Aleksandr Ivanov may also license it to others on commercial terms. You keep the copyright to your work.
 
 Security problems are not reported in issues: see [SECURITY.md](SECURITY.md).
